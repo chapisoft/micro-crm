@@ -22,8 +22,8 @@ namespace MicroCrm.WebUI.Data
         
       }
 
-      var administrator = new ApplicationUser { UserName = "Admin", GivenName="系统管理员",  Email = "new163@163.com", EmailConfirmed = true, AvatarUrl = $"Admin.png" };
-      var demo = new ApplicationUser { UserName = "Demo", GivenName = "演示账号",Email = "neozhu@126.com", EmailConfirmed = true, AvatarUrl = $"Demo.png" };
+      var administrator = new ApplicationUser { UserName = "Admin", GivenName="System Management",  Email = "new163@163.com", EmailConfirmed = true, AvatarUrl = $"Admin.png" };
+      var demo = new ApplicationUser { UserName = "Demo", GivenName = "Demo",Email = "neozhu@126.com", EmailConfirmed = true, AvatarUrl = $"Demo.png" };
 
       if (userManager.Users.All(u => u.UserName != administrator.UserName))
       {
@@ -41,8 +41,8 @@ namespace MicroCrm.WebUI.Data
         await userManager.AddClaimAsync(administrator, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.MobilePhone, administrator.PhoneNumber ?? ""));
         await userManager.AddClaimAsync(administrator, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.HomePhone, administrator.PhoneNumber ?? ""));
         await userManager.AddClaimAsync(administrator, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.OtherPhone, administrator.PhoneNumber ?? ""));
-        await userManager.AddClaimAsync(administrator, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Locality, "zh-cn"));
-        await userManager.AddClaimAsync(administrator, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Country, "china"));
+        await userManager.AddClaimAsync(administrator, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Locality, "en-en"));
+        await userManager.AddClaimAsync(administrator, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Country, "vietnam"));
 
         await userManager.AddClaimAsync(demo, new System.Security.Claims.Claim("http://schemas.microsoft.com/identity/claims/tenantid", demo.TenantId.ToString()));
         await userManager.AddClaimAsync(demo, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, demo.UserName));
@@ -54,8 +54,8 @@ namespace MicroCrm.WebUI.Data
         await userManager.AddClaimAsync(demo, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.MobilePhone, demo.PhoneNumber ?? ""));
         await userManager.AddClaimAsync(demo, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.HomePhone, demo.PhoneNumber ?? ""));
         await userManager.AddClaimAsync(demo, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.OtherPhone, demo.PhoneNumber ?? ""));
-        await userManager.AddClaimAsync(demo, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Locality, "zh-cn"));
-        await userManager.AddClaimAsync(demo, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Country, "china"));
+        await userManager.AddClaimAsync(demo, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Locality, "en-en"));
+        await userManager.AddClaimAsync(demo, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Country, "vietnam"));
 
       }
 

@@ -109,7 +109,7 @@ namespace MicroCrm.WebUI.Controllers
       }
     }
 
-      //删除当前记录
+      //Delete当前记录
       //GET: Customers/Delete/:id
       [HttpGet]
     public async Task<JsonResult> Delete(int id)
@@ -126,7 +126,7 @@ namespace MicroCrm.WebUI.Controllers
         return Json(new { success = false, err = e.GetBaseException().Message });
       }
     }
-    //删除选中的记录
+    //Delete选中的记录
     [HttpPost]
     //public async Task<JsonResult> DeleteChecked(int[] id)
     public async Task<JsonResult> DeleteChecked(DeleteCustomerCommand request)
@@ -156,7 +156,7 @@ namespace MicroCrm.WebUI.Controllers
         return Json(new { success = false, err = e.GetBaseException().Message });
       }
     }
-    //保存datagrid编辑的数据
+    //AcceptdatagridEdit的数据
     [HttpPost]
     public async Task<JsonResult> AcceptChanges(Customer[] customers)
     {
@@ -184,7 +184,7 @@ namespace MicroCrm.WebUI.Controllers
       }
 
     }
-    //导出Excel
+    //ExportExcel
     [HttpPost]
     public async Task<ActionResult> ExportExcel(string filterRules = "", string sort = "Id", string order = "asc")
     {
@@ -193,7 +193,7 @@ namespace MicroCrm.WebUI.Controllers
       var stream = await this.customerService.Export(filters, sort, order);
       return File(stream, "application/vnd.ms-excel", fileName);
     }
-    //上传导入Excel
+    //UploadImportExcel
     [HttpPost]
     public async Task<JsonResult> ImportExcel(List<IFormFile> uploadfiles) {
       try
@@ -216,7 +216,7 @@ namespace MicroCrm.WebUI.Controllers
         }
 
         watch.Stop();
-        //获取当前实例测量得出的总运行时间（以毫秒为单位）
+        //获取当前实例测量得出的总运行Logged（以毫秒为单位）
         var elapsedTime = watch.ElapsedMilliseconds.ToString();
         return Json(new { success = true, total, elapsedTime });
       }
@@ -225,7 +225,7 @@ namespace MicroCrm.WebUI.Controllers
         return Json(new { success = false, err=e.GetBaseException().Message });
       }
     }
-    //下载模板
+    //Download the template
     public async Task<IActionResult> Download(string file)
     {
 

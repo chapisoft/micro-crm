@@ -3,7 +3,7 @@
   <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">导入数据</h4>
+        <h4 class="modal-title">Import数据</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
       </div>
@@ -21,11 +21,11 @@
 </div>
 <script type="text/javascript">
     var importExcel = {
-      //上传导入附件
+      //UploadImport附件
       upload: function () {
         $('#uploadmodal').modal('toggle');
       },
-      //下载Excel导入模板
+      //下载ExcelImport模板
       downloadtemplate: function () {
         const url = '@(Model.url)/Download?file=ExcelTemplate\\@(Model.tpl)';
         $.fileDownload(url)
@@ -36,7 +36,7 @@
             bootbox.alert(
           {
                 title: "Error",
-                message: `没有找到导入模板['@Model.tpl'].`,
+                message: `没有找到Import模板['@Model.tpl'].`,
             size: 'small',
             centerVertical: false,
             callback: function (result) {
@@ -86,8 +86,8 @@
                 var result = JSON.parse(response);
                 bootbox.alert(
                   {
-                    title: "提示",
-                    message: `导入成功,耗时:${result.elapsedTime}`,
+                    title: "Success",
+                    message: `Import成功,耗时:${result.elapsedTime}`,
                     size: 'small',
                     centerVertical: false,
                     callback: function (result) {

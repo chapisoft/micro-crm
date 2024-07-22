@@ -48,7 +48,7 @@
           <span class="invalid-feedback" asp-validation-for="Input.UserName">Please enter a valid username.</span>
         </div>
         <div class="col-6 pl-1">
-          <label class="col-xl-12 form-label">昵称</label>
+          <label class="col-xl-12 form-label">Nick name</label>
           <input type="text" asp-for="Input.GivenName" class="form-control" placeholder="Name displayed after login" />
           <span class="invalid-feedback" asp-validation-for="Input.GivenName">Please enter a valid nickname.</span>
         </div>
@@ -57,35 +57,35 @@
         <div class="col-6 pr-1">
           <label class="form-label" asp-for="Input.Email">Email</label>
           <input type="email" asp-for="Input.Email" class="form-control" placeholder="Email" value="" required="required" />
-          <span class="invalid-feedback" asp-validation-for="Input.Email">请输入有效的Email.</span>
+          <span class="invalid-feedback" asp-validation-for="Input.Email">Please enter 有效的Email.</span>
           <div class="help-block">你常用的Email</div>
         </div>
         <div class="col-6 pl-1">
           <label class="col-xl-12 form-label">手机号码</label>
           <input type="text" asp-for="Input.PhoneNumber" class="form-control" placeholder="手机号码" />
-          <span class="invalid-feedback" asp-validation-for="Input.PhoneNumber">请输入正确的手机号码.</span>
+          <span class="invalid-feedback" asp-validation-for="Input.PhoneNumber">Please enter 正确的手机号码.</span>
           <div class="help-block">你的手机号码</div>
         </div>
 
       </div>
       <div class="form-group row">
         <div class="col-6 pr-1">
-          <label class="form-label" asp-for="Input.TenantId">租户</label>
-          <select asp-for="Input.TenantId" asp-items="@(new SelectList(Model.Tenants, "Id", "Name"))" class="form-control" placeholder="选择默认租户" value="" required="required"></select>
-          <span class="invalid-feedback" asp-validation-for="Input.TenantId">请选择租户.</span>
+          <label class="form-label" asp-for="Input.TenantId">Tenant</label>
+          <select asp-for="Input.TenantId" asp-items="@(new SelectList(Model.Tenants, "Id", "Name"))" class="form-control" placeholder="选择默认Tenant" value="" required="required"></select>
+          <span class="invalid-feedback" asp-validation-for="Input.TenantId">请选择Tenant.</span>
 
         </div>
       </div>
       <div class="form-group">
         <label class="form-label" asp-for="Input.Password">密码</label>
         <input type="password" asp-for="Input.Password" class="form-control" placeholder="密码(至少6位)" value="" required="required" />
-        <span class="invalid-feedback" asp-validation-for="Input.Password">请输入有效的密码.</span>
+        <span class="invalid-feedback" asp-validation-for="Input.Password">Please enter 有效的密码.</span>
         <div class="help-block">密码必须在6-20位之间.</div>
       </div>
       <div class="form-group">
         <label class="form-label" asp-for="Input.ConfirmPassword">Confirm密码</label>
         <input type="password" asp-for="Input.ConfirmPassword" class="form-control" placeholder="再输入一次密码" value="" required="required" />
-        <span class="invalid-feedback" asp-validation-for="Input.ConfirmPassword">请输入有效的密码.</span>
+        <span class="invalid-feedback" asp-validation-for="Input.ConfirmPassword">Please enter 有效的密码.</span>
       </div>
 
       <div class="form-group demo">
@@ -98,7 +98,7 @@
       </div>
       <div class="row no-gutters">
         <div class="col-md-6 ml-auto text-right">
-          <button id="js-login-btn" type="submit" class="btn btn-block btn-danger btn-lg mt-3"> 注册 </button>
+          <button id="js-login-btn" type="submit" class="btn btn-block btn-danger btn-lg mt-3"> Register </button>
         </div>
       </div>
     </form>

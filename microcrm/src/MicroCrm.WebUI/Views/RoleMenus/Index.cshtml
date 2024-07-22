@@ -1,9 +1,9 @@
 ﻿@model MicroCrm.Domain.Models.RoleMenu
 @{
-  ViewData["Title"] = "角色授权";
+  ViewData["Title"] = "Role Authorization";
   ViewData["PageName"] = "rolemenus_index";
-  ViewData["Heading"] = "<i class='fal fa-users text-primary'></i>  角色授权";
-  ViewData["Category1"] = "系统管理";
+  ViewData["Heading"] = "<i class='fal fa-users text-primary'></i>  Role Authorization";
+  ViewData["Category1"] = "System Management";
   ViewData["PageDescription"] = "";
 }
 @section HeadBlock {
@@ -15,7 +15,7 @@
     <div class="card border  m-auto m-lg-0">
       <div class="card-header bg-trans-gradient py-2 pr-2 d-flex align-items-center flex-wrap">
         <!-- we wrap header title inside a span tag with utility padding -->
-        <div class="card-title text-white">角色</div>
+        <div class="card-title text-white">Role</div>
 
       </div>
       <ul class="list-group list-group-flush ">
@@ -33,11 +33,11 @@
     <div class="card border  m-auto m-lg-0">
       <div class="card-header bg-trans-gradient py-2 pr-2 d-flex align-items-center flex-wrap">
         <!-- we wrap header title inside a span tag with utility padding -->
-        <div class="card-title text-white">角色</div>
+        <div class="card-title text-white">Role</div>
         <button id="savebutton" 
                 class="btn btn-sm btn-primary ml-auto waves-effect waves-themed">
           <span class="fal fa-save mr-1"></span>
-          保存
+          Accept
         </button>
       </div>
       <div class="card-body enable-loader">
@@ -56,10 +56,10 @@
 @section ScriptsBlock {
   <script src="~/js/dependency/moment/moment.js" asp-append-version="true"></script>
   <script src="~/js/easyui/jquery.easyui.min.js" asp-append-version="true"></script>
-  <script src="~/js/easyui/locale/easyui-lang-zh_CN.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/locale/easyui-lang-en.js" asp-append-version="true"></script>
   <script src="~/js/plugin/jquery.serializejson/jquery.serializejson.js" asp-append-version="true"></script>
   <script type="text/javascript">
-    //上传导入参数设定
+    //UploadImport参数设定
     var selectedrole = {};
     function formatcreatecheckbox(val, row) {
       var disabled = row.Url == "#" ? 'disabled ' : '';
@@ -229,7 +229,7 @@
             {
               field: 'Title',
               width: 180,
-              title: '菜单名称'
+              title: 'Menu Name'
             },
             {
               field: 'Code',
@@ -245,52 +245,52 @@
             {
               field: 'Create',
               width: 70,
-              title: '新增',
+              title: 'Added',
               formatter: formatcreatecheckbox
 
             },
             {
               field: 'Edit',
               width: 70,
-              title: '编辑',
+              title: 'Edit',
               formatter: formateditcheckbox
             },
             {
               field: 'Delete',
               width: 70,
-              title: '删除',
+              title: 'Delete',
               formatter: formatdeletecheckbox
             }
             ,
             {
               field: 'Import',
               width: 70,
-              title: '导入',
+              title: 'Import',
               formatter: formatimportcheckbox
             }
             ,
             {
               field: 'Export',
               width: 70,
-              title: '导出',
+              title: 'Export',
               formatter: formatexportcheckbox
             },
             {
               field: 'FunctionPoint1',
               width: 70,
-              title: '功能点1',
+              title: 'FunctionPoints1',
               formatter: formatpoint1checkbox
             },
             {
               field: 'FunctionPoint2',
               width: 70,
-              title: '功能点2',
+              title: 'FunctionPoints2',
               formatter: formatpoint2checkbox
             },
             {
               field: 'FunctionPoint3',
               width: 70,
-              title: '功能点3',
+              title: 'FunctionPoints3',
               formatter: formatpoint3checkbox
             }
           ]]
@@ -357,17 +357,17 @@
         //console.log(list);
         if (selectedrole.length > 0 && list.length > 0) {
           $.messager.progress({
-            title: '请等待',
-            msg: '正在保存数据...'
+            title: 'Please wait',
+            msg: 'Accepting data...'
           });
           $.post('/RoleMenus/Submit', { selectmenus: list }, function (data, status, q) {
             $.messager.progress('close');
-            $.messager.alert('提示', 'Saved successfully', 'info', function () {
+            $.messager.alert('Success', 'Saved successfully', 'info', function () {
               location.reload();
             });
           });
         } else {
-          $.messager.alert('提示', '请选择需要授权的角色');
+          $.messager.alert('Success', 'Please select the role you need to authorize');
         }
       }
 

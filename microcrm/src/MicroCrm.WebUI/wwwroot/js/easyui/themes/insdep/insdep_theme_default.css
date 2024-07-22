@@ -6,7 +6,7 @@
 
     项目地址：http://git.oschina.net/weavors/JQuery-EasyUI-1.5.x-Of-Insdep-Theme
 
-    QQ交流群：184075694 （优先发布更新主题及内测包）
+    QQ交流群：184075694 （优先发布Save主题及内测包）
 */
 
 /*初始化部分开始*/
@@ -52,7 +52,7 @@ h1 small,h2 small,h3 small,h4 small,h5 small,h6 small{color: #777;font-size: 65%
     padding: .2em;
     background: #ff0;
 }
-s, strike, del {/*删除线*/
+s, strike, del {/*Delete线*/
     text-decoration: line-through;
 }
 u, ins {/*下划线*/
@@ -143,7 +143,7 @@ i, cite, em, var, address, dfn {/*斜体*/
 	.theme-navigate .l-btn:hover,.theme-navigate .m-btn-plain-active{ background:#2d2d2d;}
 	/*头部菜单按钮全局样式,根据需要删减*/
 
-	/*头部用户信息,根据需要删减*/
+	/*头部用户Message,根据需要删减*/
 	.theme-navigate-user-button.l-btn-plain,.theme-navigate-user-button.l-btn-plain:hover{ padding:3px 10px; background:#1b8cf2; margin-right:15px;}
 	.theme-navigate-user-button.l-btn-plain:hover,.theme-navigate-user-button.m-btn-plain-active{background:#339cfb;}
 	.theme-navigate-user-button .l-btn-text{margin-right:40px !important;color:#FFF;}
@@ -170,7 +170,7 @@ i, cite, em, var, address, dfn {/*斜体*/
 	.theme-navigate-user-panel dl dt a{ display:block; float:left; background:#fdfdfd; border:1px solid #e3e3e3; padding:5px 15px;}
 	.theme-navigate-user-panel dl dt .theme-navigate-user-modify{ float:left;}
 	.theme-navigate-user-panel dl dt .theme-navigate-user-logout{ float:right;}
-	/*头部用户信息,根据需要删减*/
+	/*头部用户Message,根据需要删减*/
 
 	/*头部更多菜单,根据需要删减*/
 	.theme-navigate-more-button .l-btn-text{ background:url(images/navigate_more.png) center center no-repeat;}
@@ -408,7 +408,7 @@ border-radius:65px;
 .preview-file{ display:none;}
 
 
-/*百度编辑器修复easyui修复样式*/
+/*百度Edit器修复easyui修复样式*/
 .edui-default{ line-height:normal !important;}
 .edui-default .edui-editor{
 	border: 1px solid #cccccc !important;
@@ -472,4 +472,4 @@ border-radius:0 0 3px 3px !important;
 .edui-default .edui-dialog-buttons .edui-okbutton .edui-state-hover .edui-button-body{ background-position: 0 -300px !important;}
 
 .edui-default .edui-toolbar .edui-combox-body .edui-button-body{line-height: 20px !important;}
-/*百度编辑器修复easyui修复样式结束
+/*百度Edit器修复easyui修复样式结束

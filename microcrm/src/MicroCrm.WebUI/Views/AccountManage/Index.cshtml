@@ -1,10 +1,10 @@
 ﻿@model MicroCrm.WebUI.Data.Models.ApplicationUser
 @{
   /**/
-  ViewData["Title"] = "登录账号";
+  ViewData["Title"] = "Login Account";
   ViewData["PageName"] = "accountmanage_index";
-  ViewData["Heading"] = "<i class='fal fa-users text-primary'></i>  登录账号";
-  ViewData["Category1"] = "系统管理";
+  ViewData["Heading"] = "<i class='fal fa-users text-primary'></i>  Login Account";
+  ViewData["Category1"] = "System Management";
   ViewData["PageDescription"] = "";
 }
 @section HeadBlock {
@@ -63,7 +63,7 @@
     <div id="panel-1" class="panel">
       <div class="panel-hdr">
         <h2>
-          登录账号
+          Login Account
         </h2>
         <div class="panel-toolbar">
           <button class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"><i class="fal fa-window-minimize"></i></button>
@@ -79,36 +79,36 @@
             <div class="col">
               <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
               <div class="btn-group btn-group-sm ">
-                <button name="searchbutton" onclick="reloadData()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> 刷新 </button>
+                <button name="searchbutton" onclick="reloadData()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Refresh </button>
               </div>
               <div class="btn-group ">
-                <button name="resetpasswordbutton" onclick="resetpassword()" class="btn btn-sm btn-primary"> <i class="fal fa-key mr-1"></i> 重置密码 </button>
+                <button name="resetpasswordbutton" onclick="resetpassword()" class="btn btn-sm btn-primary"> <i class="fal fa-key mr-1"></i> Reset Password </button>
               </div>
               <div class="btn-group ">
-                <button name="lockoutbutton" onclick="setlockout()" class="btn btn-sm btn-danger"> <i class="fal fa-user-lock mr-1"></i> 禁用账号 </button>
+                <button name="lockoutbutton" onclick="setlockout()" class="btn btn-sm btn-danger"> <i class="fal fa-user-lock mr-1"></i> Disable Account </button>
               </div>
               <div class="btn-group ">
-                <button name="unlockbutton" onclick="setunlockout()" class="btn btn-sm btn-success"> <i class="fal fa-unlock-alt mr-1"></i> 恢复账号 </button>
+                <button name="unlockbutton" onclick="setunlockout()" class="btn btn-sm btn-success"> <i class="fal fa-unlock-alt mr-1"></i> Account recovery </button>
               </div>
               <div class="btn-group btn-group-sm ">
-                <button name="registbutton" onclick="registuser()" class="btn btn-default"> <span class="fal fa-plus mr-1"></span> 注册新账号 </button>
+                <button name="registbutton" onclick="registuser()" class="btn btn-default"> <span class="fal fa-plus mr-1"></span> Register New Account </button>
               </div>
               <div class="btn-group btn-group-sm ">
-                <button name="deletebutton" disabled onclick="removeusers()" class="btn btn-default"> <span class="fal fa-times mr-1"></span> 删除账号 </button>
+                <button name="deletebutton" disabled onclick="removeusers()" class="btn btn-default"> <span class="fal fa-times mr-1"></span> Deleting an account </button>
               </div>
 
 
               <div class="btn-group btn-group-sm hidden-xs ">
-                <button name="importbutton" type="button" onclick="importexcel('ApplicationUser')" class="btn btn-default"><span class="fal fa-cloud-upload mr-1"></span> 导入 </button>
+                <button name="importbutton" type="button" onclick="importexcel('ApplicationUser')" class="btn btn-default"><span class="fal fa-cloud-upload mr-1"></span> Import </button>
                 <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu">
-                  <button name="downloadbutton" class="dropdown-item js-waves-on" href="javascript:downloadtemplate()"><span class="fal fa-download"></span> 下载模板 </button>
+                  <button name="downloadbutton" class="dropdown-item js-waves-on" href="javascript:downloadtemplate()"><span class="fal fa-download"></span> Download the template </button>
                 </div>
               </div>
               <div class="btn-group btn-group-sm ">
-                <button name="exportbutton" onclick="exportexcel()" class="btn btn-default"> <span class="fal fa-file-excel mr-1"></span>  导出 </button>
+                <button name="exportbutton" onclick="exportexcel()" class="btn btn-default"> <span class="fal fa-file-excel mr-1"></span>  Export </button>
               </div>
             </div>
 
@@ -139,7 +139,7 @@
   <script src="~/js/easyui/plugins/datagrid-filter.js" asp-append-version="true"></script>
   <script src="~/js/easyui/plugins/columns-ext.js" asp-append-version="true"></script>
   <script src="~/js/easyui/plugins/columns-reset.js" asp-append-version="true"></script>
-  <script src="~/js/easyui/locale/easyui-lang-zh_CN.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/locale/easyui-lang-en.js" asp-append-version="true"></script>
   <script src="~/js/easyui/jquery.easyui.component.js" asp-append-version="true"></script>
   <script src="~/js/jquery.extend.formatter.js" asp-append-version="true"></script>
   <script src="~/js/jquery.custom.extend.js" asp-append-version="true"></script>
@@ -150,7 +150,7 @@
     document.addEventListener('panel.onfullscreen', () => {
       $dg.treegrid('resize');
     });
-    //禁用账号
+    //Disable Account
     function setlockout() {
       const userid = $dg.datagrid('getChecked').map(x => x.Id);
       if (userid.length > 0) {
@@ -182,14 +182,14 @@
           toastr.success('模板下载完成!');
         })
         .fail(() => {
-          $.messager.alert('下载模板失败', '没有下载到导入模板[Accounts.xlsx]文件!', 'error');
+          $.messager.alert('Download the templateFail', '没有下载到Import模板[Accounts.xlsx]文件!', 'error');
         });
     }
-   //显示帮助信息
+   //Show帮助Message
     function resetpassword() {
         var row = $dg.datagrid('getChecked');
         if (row.length === 0) {
-            $.messager.alert("提示", "请选中需要重置密码的记录!");
+            $.messager.alert("Success", "请选中需要Reset Password的记录!");
         } else {
             //console.log(row);
             showresetform(row[0].Id, row[0].UserName);
@@ -215,12 +215,12 @@
         var id = rows.filter(item => item.Id != null).map(item => {
           return item.Id;
         });
-        $.messager.confirm('Confirm', `你Sure要删除这 <span class='badge badge-icon position-relative'>${id.length}</span> 个账号?`, result => {
+        $.messager.confirm('Confirm', `你Sure要Delete这 <span class='badge badge-icon position-relative'>${id.length}</span> 个Identity?`, result => {
           if (result) {
             $.post('/AccountManage/DeleteCheckedUser', { id: id })
               .done(response => {
                 if (response.success) {
-                  toastr.success('删除成功', 'Confirm', { timeOut: 2000 });
+                  toastr.success('Delete Success', 'Confirm', { timeOut: 2000 });
                   $dg.datagrid('uncheckAll');
                   $dg.datagrid('reload');
                 } else {
@@ -229,12 +229,12 @@
               })
               .fail((jqXHR, textStatus, errorThrown) => {
                 //console.log(errorThrown);
-                $.messager.alert('失败', errorThrown, 'error');
+                $.messager.alert('Fail', errorThrown, 'error');
               });
           }
         });
       } else {
-        $.messager.alert('提示', '请选择要删除的账号');
+        $.messager.alert('Success', '请选择要Delete的Identity');
 
       }
     }
@@ -295,39 +295,39 @@
           { field: 'ck', checkbox: true },
           {
             field: 'status',
-            title: '状态',
+            title: 'Status',
             width: 80,
             align: 'center',
             formatter: function (v, r, i) {
               if (r.LockoutEnd == null) {
-                return '<span class="badge badge-info">正常</span>'
+                return '<span class="badge badge-info">Normal</span>'
               } else {
                 if (moment(r.LockoutEnd) > moment()) {
                   return '<span class="badge badge-danger">锁定</span>'
                 } else {
-                  return '<span class="badge badge-info">正常</span>'
+                  return '<span class="badge badge-info">Normal</span>'
                 }
               }
             }
           },
           {
             field: 'UserName',
-            title: '账号',
+            title: 'Identity',
             width: 140,
             editor: {
               type: 'textbox',
-              options: { prompt: '账号', required: true, validType: 'length[0,128]' }
+              options: { prompt: 'Identity', required: true, validType: 'length[0,128]' }
             },
             sortable: true,
             resizable: true
           },
           {
             field: 'GivenName',
-            title:  '昵称',
+            title:  'Nick name',
             width: 140,
             editor: {
               type: 'textbox',
-              options: { prompt: '昵称', required: true, validType: 'length[0,128]' }
+              options: { prompt: 'Nick name', required: true, validType: 'length[0,128]' }
             },
             sortable: true,
             resizable: true
@@ -345,11 +345,11 @@
           },
           {
             field: 'PhoneNumber',
-            title: '电话号码',
+            title: 'Phone number',
             width: 140,
             editor: {
               type: 'textbox',
-              options: { prompt: '电话号码', required: false, validType: 'length[0,128]' }
+              options: { prompt: 'Phone number', required: false, validType: 'length[0,128]' }
             },
             sortable: true,
             resizable: true
@@ -364,7 +364,7 @@
           },
           {
             field: 'IsOnline',
-            title: '是否在线',
+            title: 'IsOnline',
             width: 90,
             sortable: true,
             resizable: true,

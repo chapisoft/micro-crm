@@ -1224,9 +1224,9 @@ var initApp = (function(app) {
 		
 		/* Add app date to js-get-date */
     if (myapp_config.appDateHook.length) {
-      //汉化 TODO:这里有更新
+      //汉化 TODO:这里有Save
       var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        day = ['星期天', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+        day = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
 				now = new Date(),
 				formatted = day[now.getDay()] + ', ' +  
 							months[now.getMonth()] + ' ' +  
@@ -1322,7 +1322,7 @@ var initApp = (function(app) {
 		if( typeof($.fn.popover) !== 'undefined' && $('[data-toggle="popover"]').length ){
 
     /* BS4 sanatize */
-      //和easyui tooltip 冲突注销了 TODO:这里有更新
+      //和easyui tooltip 冲突注销了 TODO:这里有Save
 			//var myDefaultWhiteList = $.fn.tooltip.Constructor.Default.whiteList
 
 			/* init popover */
@@ -1509,7 +1509,7 @@ var initApp = (function(app) {
 
 						/* return ID of panel */
 						//return selectedPanel.attr('id');
-            //Customize全屏事件 TODO:这里有更新
+            //Customize全屏事件 TODO:这里有Save
             let event = document.createEvent('Event');
             event.initEvent('panel.onfullscreen', true, true);
             // Dispatch the event.

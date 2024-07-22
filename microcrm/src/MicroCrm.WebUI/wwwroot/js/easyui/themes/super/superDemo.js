@@ -3,7 +3,7 @@ $(function() {
 	var initTheme = function(themeName) {
 		if(themeName == null) {
 			themeName = $('#themeCss').attr('href').split('/').pop().split('.css')[0];
-			// 添加勾选状态
+			// 添加勾选Status
 			$(".themeItem ul li").removeClass('themeActive');
 			$('.themeItem ul li .' + themeName).parent().addClass('themeActive');
 			return;
@@ -13,7 +13,7 @@ $(function() {
 		$('#themeCss').after('<link rel="stylesheet" href="' + themeUrl.join('/') + '/' + themeName + '.css" id="themeCss">');
 		$('#themeCss').remove();
 
-		// 添加勾选状态
+		// 添加勾选Status
 		$(".themeItem ul li").removeClass('themeActive');
 		$('.themeItem ul li .' + themeName).parent().addClass('themeActive');
 	}
@@ -25,7 +25,7 @@ $(function() {
 		$(this).siblings().removeClass('super-accordion-selected');
 		$(this).addClass('super-accordion-selected');
 
-		//新增一个选项卡
+		//Added一个选项卡
 		var tabUrl = $(this).data('url');
 		var tabTitle = $(this).text();
 		//tab是否存在
@@ -58,7 +58,7 @@ $(function() {
 			modal: true,
 			title: '主题设置',
 			buttons: [{
-				text: '保存',
+				text: 'Accept',
 				id: 'btn-sure',
 				handler: function() {
 					themeWin.panel('close');
@@ -87,7 +87,7 @@ $(function() {
 
 	// 退出系统
 	$("#logout").on('click', function() {
-		$.messager.confirm('提示', 'Sure退出系统？', function(r) {
+		$.messager.confirm('Success', 'Sure退出系统？', function(r) {
 			if(r) {
 				console.log('Sure退出')
 			}

@@ -85,7 +85,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
           loginUser = await _userManager.FindByNameAsync(Input.UserName);
         }
         if (loginUser == null) {
-          ModelState.AddModelError(string.Empty, "账号或Email不存在.");
+          ModelState.AddModelError(string.Empty, "Identity或Email不存在.");
           return Page();
         }
         // This doesn't count login failures towards account lockout
@@ -102,8 +102,8 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
         }
         if (result.IsLockedOut)
         {
-          _logger.LogInformation($"{loginUser.UserName}:账号被锁定");
-          ModelState.AddModelError(string.Empty, "账号被锁定,15分钟后再试.");
+          _logger.LogInformation($"{loginUser.UserName}:Identity被锁定");
+          ModelState.AddModelError(string.Empty, "Identity被锁定,15分钟后再试.");
           return Page();
         }
         else

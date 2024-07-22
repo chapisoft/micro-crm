@@ -17,7 +17,7 @@ namespace MicroCrm.WebUI.Controllers
 {
   /// <summary>
   /// File: NotificationsController.cs
-  /// Purpose:系统管理/消息推送
+  /// Purpose:System Management/Message Push
   /// Created Date: 9/16/2019 10:51:44 AM
   /// Author: neo.zhu
   /// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
@@ -144,7 +144,7 @@ namespace MicroCrm.WebUI.Controllers
       }
 
     }
-    //删除选中的记录
+    //Delete选中的记录
     [HttpPost]
     public async Task<JsonResult> DeleteChecked(int[] id)
     {
@@ -161,7 +161,7 @@ namespace MicroCrm.WebUI.Controllers
         return this.Json(new { success = false, err = e.GetBaseException().Message } );
       }
     }
-    //导出Excel
+    //ExportExcel
     [HttpPost]
     public async Task< ActionResult> ExportExcel(string filterRules = "", string sort = "Id", string order = "asc")
     {

@@ -22,7 +22,7 @@
               iconCls: 'fal fa-check-square fa-lg'
             });
           } else if (item.iconCls === 'fal fa-save fa-lg') {
-            //保存配置
+            //Accept配置
           }
           let opts = [];
           for (let i = 0; i < fields.length; i++) {
@@ -30,12 +30,12 @@
             const col = $(target).datagrid('getColumnOption', field);
             opts.push(col);
           }
-          //将调整好的属性保存到localstorage中
+          //将调整好的属性Accept到localstorage中
           localStorage.setItem($(target).datagrid('options').id, JSON.stringify(opts));
         }
       });
       state.columnMenu.menu('appendItem', {
-        text: '保存配置',
+        text: 'Accept配置',
         name: 'saveconfigitem',
         iconCls: 'fal fa-save fa-lg'
       });

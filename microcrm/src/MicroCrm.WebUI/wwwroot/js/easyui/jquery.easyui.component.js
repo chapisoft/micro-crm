@@ -41,7 +41,7 @@ $.extend($.fn.validatebox.defaults.rules, {
     validator: function (value) {
       return /^[\u0391-\uFFE5]+$/i.test(value);
     },
-    message: '请输入中文'
+    message: 'Please enter 中文'
   },
   english: {// 验证英语  
     validator: function (value) {
@@ -75,7 +75,7 @@ $.extend($.fn.validatebox.defaults.rules, {
     },
     message: 'The bank card number format is incorrect'
   },
-  tel: {//验证电话号码
+  tel: {//验证Phone number
     validator: function (value, param) {
       this._invalidMessage = 'Phone number input rules:</br>Mobile phone number:13/15/18xxxxxxxxx</br>Phone number:Area code-Phone number-Extension number</br>(Extension number/area code are optional)';
       return /(^(\d{3}-|\d{4}-)?(\d{8}|\d{7})?(-\d{1,6})?$)|(^(?:13\d|14\d|15\d|16\d|17\d|18\d|19\d)-?\d{5}(\d{3}|\*{3})$)/.test(value);
@@ -307,7 +307,7 @@ $.extend($.fn.datagrid.defaults.filters, {
       var input = $('<select class="easyui-combobox" >').appendTo(container);
       var myoptions = {
         panelHeight: "auto",
-        data: [{ value: '', text: 'All' }, { value: 'true', text: '是' }, { value: 'false', text: '否' }],
+        data: [{ value: '', text: 'All' }, { value: 'true', text: 'Yes' }, { value: 'false', text: 'No' }],
         onChange: function () {
           input.trigger('combobox.filter');
         }
@@ -590,7 +590,7 @@ $.extend($.fn.datagrid.defaults.filters, {
         },
         opens: 'right',    // 日期选择框的弹出位置
         separator: '-',
-        showWeekNumbers: false,     // 是否显示No.几周
+        showWeekNumbers: false,     // 是否ShowNo.几周
         format: 'YYYY/MM/DD'
 
       };

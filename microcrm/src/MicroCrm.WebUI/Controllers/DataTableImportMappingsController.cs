@@ -136,7 +136,7 @@ namespace MicroCrm.WebUI.Controllers
       }
       else
       {
-        return Json(new { success = false, message = "没有找到[" + entityname + "]配置信息请,先执行【生成】mapping关系" });
+        return Json(new { success = false, message = "没有找到[" + entityname + "]配置Message请,先执行【生成】mapping关系" });
       }
     }
 
@@ -182,7 +182,7 @@ namespace MicroCrm.WebUI.Controllers
 
       return Content(null);
     }
-    //删除选中的记录
+    //Delete选中的记录
     [HttpPost]
     public async Task<JsonResult> DeleteChecked(int[] id)
     {

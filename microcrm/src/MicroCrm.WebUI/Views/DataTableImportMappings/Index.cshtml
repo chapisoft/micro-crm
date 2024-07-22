@@ -1,14 +1,14 @@
 ﻿@using MicroCrm.Domain.Models
 @model IEnumerable<DataTableImportMapping>
 @{
-  ViewData["Title"] = "导入&导出配置";
+  ViewData["Title"] = "Import & Export Configuration";
   ViewData["PageName"] = "DataTableImportMappings_Index";
-  ViewData["Heading"] = "<i class='fal fa-file-alt text-primary'></i>  导入&导出配置";
-  ViewData["Category1"] = "系统管理";
-  ViewData["PageDescription"] = "执行【生成】配置信息时会先删除已经存在的mapping关系，同时请更新导入模板！";
+  ViewData["Heading"] = "<i class='fal fa-file-alt text-primary'></i>  Import & Export Configuration";
+  ViewData["Category1"] = "System Management";
+  ViewData["PageDescription"] = "When executing [Generate] configuration message, the existing mapping relationship will be deleted first, and please Save import template at the same time!";
 }
 @section HeadBlock{
-  
+
   <link href="~/css/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.css" rel="stylesheet" asp-append-version="true" />
   <link href="~/js/easyui/themes/insdep/easyui.css" rel="stylesheet" asp-append-version="true" />
   <link href="~/js/plugin/filepond/filepond.css" rel="stylesheet" />
@@ -19,7 +19,7 @@
     <div id="panel-1" class="panel">
       <div class="panel-hdr">
         <h2>
-          导入&导出配置
+          Import & Export Configuration
         </h2>
         <div class="panel-toolbar">
           <button class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"><i class="fal fa-window-minimize"></i></button>
@@ -45,31 +45,31 @@
                                         panelHeight:'auto'
                                         ">
               <div class="btn-group">
-                <button name="searchbutton" onclick="reloadData()" class="btn btn-sm btn-default"> <i class="fal fa-search mr-1"></i> 刷新 </button>
+                <button name="searchbutton" onclick="reloadData()" class="btn btn-sm btn-default"> <i class="fal fa-search mr-1"></i> Refresh </button>
               </div>
               <div class="btn-group">
-                <button name="createbutton"  onclick="generate()" class="btn btn-sm btn-primary"> <i class="fal fa-plus mr-1"></i> 生成配置 </button>
-              </div>
-
-              <div class="btn-group">
-                <button name="createtmpbutton" onclick="createexceltemplate()" class="btn btn-sm btn-primary"> <i class="fal fa-file-archive mr-1"></i> 生成模板 </button>
-              </div>
-              <div class="btn-group">
-                <button  name="importbutton" onclick="importconfig()" class="btn btn-sm   btn-primary"> <i class="fal fa-upload mr-1"></i> 导入配置 </button>
-</div>
-              <div class="btn-group">
-                <button name="exporttbutton" onclick="exportexcel()" class="btn btn-sm   btn-info"> <i class="fal fa-download mr-1"></i> 导出配置 </button>
-</div>
-              <div class="btn-group">
-                <button name="deletebutton" disabled onclick="removeData()"  class="btn btn-sm btn-danger"> <i class="fal fa-trash-alt mr-1"></i> 删除 </button>
-</div>
-              <div class="btn-group">
-                <button name="savebutton" disabled onclick="acceptChanges()" class="btn btn-sm btn-default"> <i class="fal fa-save mr-1"></i> 保存 </button>
+                <button name="createbutton" onclick="generate()" class="btn btn-sm btn-primary"> <i class="fal fa-plus mr-1"></i> Generate config </button>
               </div>
 
               <div class="btn-group">
-                <button name="savebutton"  onclick="rejectChanges()" class="btn btn-sm btn-default"> <i class="fal fa-times-circle mr-1"></i> Cancel </button>
-</div>
+                <button name="createtmpbutton" onclick="createexceltemplate()" class="btn btn-sm btn-primary"> <i class="fal fa-file-archive mr-1"></i> Generate Template </button>
+              </div>
+              <div class="btn-group">
+                <button name="importbutton" onclick="importconfig()" class="btn btn-sm   btn-primary"> <i class="fal fa-upload mr-1"></i> Import Config </button>
+              </div>
+              <div class="btn-group">
+                <button name="exporttbutton" onclick="exportexcel()" class="btn btn-sm   btn-info"> <i class="fal fa-download mr-1"></i> Export Config </button>
+              </div>
+              <div class="btn-group">
+                <button name="deletebutton" disabled onclick="removeData()" class="btn btn-sm btn-danger"> <i class="fal fa-trash-alt mr-1"></i> Delete </button>
+              </div>
+              <div class="btn-group">
+                <button name="savebutton" disabled onclick="acceptChanges()" class="btn btn-sm btn-default"> <i class="fal fa-save mr-1"></i> Accept </button>
+              </div>
+
+              <div class="btn-group">
+                <button name="savebutton" onclick="rejectChanges()" class="btn btn-sm btn-default"> <i class="fal fa-times-circle mr-1"></i> Cancel </button>
+              </div>
             </div>
 
           </div>
@@ -93,7 +93,7 @@
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">上传配置</h4>
+        <h4 class="modal-title">Upload Config</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
       </div>
@@ -115,11 +115,11 @@
 
 @section ScriptsBlock {
   <script src="~/js/dependency/moment/moment.js" asp-append-version="true"></script>
-  
+
   <script src="~/js/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.js" asp-append-version="true"></script>
   <script src="~/js/easyui/jquery.easyui.min.js" asp-append-version="true"></script>
   <script src="~/js/easyui/plugins/datagrid-filter.js" asp-append-version="true"></script>
-  <script src="~/js/easyui/locale/easyui-lang-zh_CN.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/locale/easyui-lang-en.js" asp-append-version="true"></script>
   <script src="~/js/easyui/jquery.easyui.component.js" asp-append-version="true"></script>
   <script src="~/js/jquery.extend.formatter.js" asp-append-version="true"></script>
   <script src="~/js/jquery.custom.extend.js" asp-append-version="true"></script>
@@ -134,7 +134,7 @@
     document.addEventListener('panel.onfullscreen', () => {
       $dg.treegrid('resize');
     });
-            //上传导入参数设定
+            //UploadImport参数设定
     const entityname = "DataTableImportMapping";
     function reloadData() {
       $dg.datagrid('reload');
@@ -184,37 +184,37 @@
     function importconfig () {
       $('#importModal').modal('toggle');
     }
-    //导出Excel
+    //ExportExcel
     function exportexcel() {
       const filterRules = JSON.stringify($dg.datagrid('options').filterRules);
       //console.log(filterRules);
-      $.messager.progress({ title: '正在执行导出!' });
+      $.messager.progress({ title: 'Export in progress!' });
       let formData = new FormData();
       formData.append('filterRules', filterRules);
       formData.append('sort', 'Id');
       formData.append('order', 'asc');
       $.postDownload('/DataTableImportMappings/ExportExcel', formData).then(res => {
         $.messager.progress('close');
-        toastr.success('导出成功!');
+        toastr.success('Export successful!');
       }).catch(err => {
         $.messager.progress('close');
-        $.messager.alert('导出失败', err.statusText, 'error');
+        $.messager.alert('Export failed', err.statusText, 'error');
       });
     }
     function generate() {
       var entityname = $('#entities').combobox('getValue');
       if (entityname.length > 0) {
-        $.messager.progress({ title: '正在处理请耐心等待！' });
+        $.messager.progress({ title: 'Processing, please wait patiently!' });
         $.post('/DataTableImportMappings/Generate', { entityname: entityname }, function (data, textStatus, jqXHR) {
           //console.log(data);
           $.messager.progress('close');
-          $.messager.alert("提示", "生成完成！", 'info', function () {
+          $.messager.alert("Success", "生成完成！", 'info', function () {
             $dg.datagrid('reload');
           });
 
         });
       } else {
-        $.messager.alert("提示", "请选中需要生成Mapping关系的实体类！");
+        $.messager.alert("Success", "Please select the entity class for which you need to generate a Mapping relationship!");
         $('#entities').focus();
       }
 
@@ -222,12 +222,12 @@
     function createexceltemplate() {
       var entityname = $('#entities').combobox('getValue');
       if (entityname.length > 0) {
-        $.messager.progress({ title: '正在处理请耐心等待！' });
+        $.messager.progress({ title: 'Processing, please wait patiently!' });
         $.post('/DataTableImportMappings/CreateExcelTemplate', { entityname: entityname }, function (data, textStatus, jqXHR) {
           //console.log(data);
           $.messager.progress('close');
           if (data.success) {
-            $.messager.alert("提示", "创建完成！", 'info', function () {
+            $.messager.alert("Success", "Creation completed！", 'info', function () {
               $dg.datagrid('reload');
             });
           } else {
@@ -235,7 +235,7 @@
           }
         });
       } else {
-        $.messager.alert("提示", "请选中需要生成模板的实体类！");
+        $.messager.alert("Success", "Please select the entity class that needs to Generate Template!");
         $('#entities').focus();
       }
     }
@@ -287,28 +287,28 @@
         return item.Id;
       });;
       if (id.length > 0) {
-        $.messager.confirm('Confirm', `你Sure要删除这 <span class='badge badge-icon position-relative'>${id.length} </span> 行记录?`, result => {
+        $.messager.confirm('Confirm', `You must delete this <span class='badge badge-icon position-relative'>${id.length} </span> line of records ?`, result => {
           if (result) {
             dodeletechecked(id);
           }
         });
       } else {
-        $.messager.alert('提示', '请先选择要删除的记录!', 'question');
+        $.messager.alert('Success', 'Please select the record to be deleted first!', 'question');
       }
     }
-    //执行删除
+    //执行Delete
     function dodeletechecked(id) {
       $.post('/DataTableImportMappings/DeleteChecked', { id: id })
         .done(response => {
           if (response.success) {
-            toastr.error(`成功删除[${id.length}]行记录`);
+            toastr.error(`Successfully Delete[${id.length}] rows of records`);
             reloadData();
           } else {
             $.messager.alert('Error', response.err, 'error');
           }
         })
         .fail((jqXHR, textStatus, errorThrown) => {
-          $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+          $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
         });
     }
 
@@ -334,13 +334,13 @@
           $.post("/DataTableImportMappings/SaveData",  {datatableimportmappings:changed}, function (res) {
             //console.log(res);
             if (res.success) {
-              $.messager.alert("提示", "Saved successfully！");
+              $.messager.alert("Success", "Saved successfully！");
               $dg.datagrid('acceptChanges');
               $dg.datagrid('reload');
               $dg.datagrid('uncheckAll');
             }
           }, "json").fail(function () {
-            $.messager.alert("Error", "提交Error了！", 'error');
+            $.messager.alert("Error", "Submit Error！", 'error');
 
           });
 
@@ -428,7 +428,7 @@
             }
           },
         { field: 'DefaultValue', width: 140, editor: { type: 'textbox', options: { required: false } }, title: '@Html.DisplayNameFor(model => model.DefaultValue)' },
-          
+
         { field: 'SourceFieldName', width: 140, editor: { type: 'textbox', options: { required: false } }, title: '@Html.DisplayNameFor(model => model.SourceFieldName)' },
           {
             field: 'IsEnabled', width: 100, editor: {
@@ -436,7 +436,7 @@
               options: {
                 id:'enabled_checkbox',
                 panelHeight: 'auto',
-                data: [{ value: 'true', text: '是' }, { value: 'false', text: '否' }],
+                data: [{ value: 'true', text: 'Yes' }, { value: 'false', text: 'No' }],
                 required: true
               }
             }, title: '@Html.DisplayNameFor(model => model.IsEnabled)',
@@ -448,7 +448,7 @@
               options: {
                 id: 'exportable_checkbox',
                 panelHeight: 'auto',
-                data: [{ value: 'true', text: '是' }, { value: 'false', text: '否' }],
+                data: [{ value: 'true', text: 'Yes' }, { value: 'false', text: 'No' }],
                 required: true
               }
             },
@@ -488,7 +488,7 @@
           type: 'combobox',
           options: {
             panelHeight: 'auto',
-            data: [{ value: '', text: 'All' }, { value: 'true', text: '是' }, { value: 'false', text: '否' }],
+            data: [{ value: '', text: 'All' }, { value: 'true', text: 'Yes' }, { value: 'false', text: 'No' }],
             onChange: function (value) {
               if (value == '') {
                 $dg.datagrid('removeFilterRule', 'IsRequired');
@@ -508,7 +508,7 @@
           type: 'combobox',
           options: {
             panelHeight: 'auto',
-            data: [{ value: '', text: 'All' }, { value: 'true', text: '是' }, { value: 'false', text: '否' }],
+            data: [{ value: '', text: 'All' }, { value: 'true', text: 'Yes' }, { value: 'false', text: 'No' }],
             onChange: function (value) {
               if (value == '') {
                 $dg.datagrid('removeFilterRule', 'IsEnabled');
@@ -528,7 +528,7 @@
           type: 'combobox',
           options: {
             panelHeight: 'auto',
-            data: [{ value: '', text: 'All' }, { value: 'true', text: '是' }, { value: 'false', text: '否' }],
+            data: [{ value: '', text: 'All' }, { value: 'true', text: 'Yes' }, { value: 'false', text: 'No' }],
             onChange: function (value) {
               if (value == '') {
                 $dg.datagrid('removeFilterRule', 'IgnoredColumn');

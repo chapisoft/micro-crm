@@ -27,10 +27,10 @@ namespace MicroCrm.WebUI.Controllers
      
  
 
-    //租户管理
+    //Tenant Management
     public IActionResult Index() => View();
 
-    //获取租户数据
+    //获取Tenant数据
     public async Task<IActionResult> GetTenantData()
     {
       var data = await this._dbContext.Tenants.ToListAsync();
@@ -38,7 +38,7 @@ namespace MicroCrm.WebUI.Controllers
     }
 
     
-    //保存租户信息
+    //AcceptTenantMessage
     public async Task<JsonResult> SaveData(Tenant[] tenant) {
       if (ModelState.IsValid)
       {
@@ -83,7 +83,7 @@ namespace MicroCrm.WebUI.Controllers
       }
 
     }
-    //删除租户信息
+    //DeleteTenantMessage
     public async Task<JsonResult> DeleteChecked(int[] id) {
       var items = this._dbContext.Tenants.Where(x => id.Contains(x.Id));
       foreach (var item in items)
@@ -94,7 +94,7 @@ namespace MicroCrm.WebUI.Controllers
       return Json(new { success = true });
     }
    
-    //获取租户数据
+    //获取Tenant数据
     [HttpGet]
     public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "desc", string filterRules = "")
     {

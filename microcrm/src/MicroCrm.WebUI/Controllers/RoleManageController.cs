@@ -42,7 +42,7 @@ namespace MicroCrm.WebUI.Controllers
       
       return View();
     }
-    //新增角色
+    //AddedRole
     public async Task<IActionResult> CreateRole(string name) {
       var exist = await _roleManager.RoleExistsAsync(name);
       if (!exist) {
@@ -50,7 +50,7 @@ namespace MicroCrm.WebUI.Controllers
        }
       return Ok();
     }
-    //删除角色
+    //Delete Role
     public async Task<IActionResult> RemoveRole(string name)
     {
       var exist = await _roleManager.FindByNameAsync(name);
@@ -60,7 +60,7 @@ namespace MicroCrm.WebUI.Controllers
       }
       return Ok();
     }
-    //分配角色
+    //Assigning Roles
     public async Task<IActionResult> AddToRoles(string userName, string[] roles) {
       var user = await _userManager.FindByNameAsync(userName);
       var myroles = await _userManager.GetRolesAsync(user);
@@ -68,7 +68,7 @@ namespace MicroCrm.WebUI.Controllers
       var result2= await _userManager.AddToRolesAsync(user, roles);
       return Ok();
     }
-    //移除角色
+    //移除Role
     public async Task<IActionResult> RemoveFromRole(string userName, string role) {
       var user = await _userManager.FindByNameAsync(userName);
       var result1 = await _userManager.RemoveFromRoleAsync(user, role);

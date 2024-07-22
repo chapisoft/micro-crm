@@ -74,8 +74,8 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
         }
         if (result.IsLockedOut)
         {
-          _logger.LogInformation($"{userName}:账号被锁定");
-          ModelState.AddModelError(string.Empty, "账号被锁定,15分钟后再试.");
+          _logger.LogInformation($"{userName}:Identity被锁定");
+          ModelState.AddModelError(string.Empty, "Identity被锁定,15分钟后再试.");
           return Page();
         }
         else

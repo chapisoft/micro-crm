@@ -15,7 +15,7 @@ namespace MicroCrm.WebUI.Controllers
 {
   /// <summary>
   /// File: LogsController.cs
-  /// Purpose:系统管理/系统日志
+  /// Purpose:System Management/System log
   /// Created Date: 9/19/2019 8:51:53 AM
   /// Author: neo.zhu
   /// Tools: SmartCode MVC5 Scaffolder for Visual Studio 2017
@@ -50,7 +50,7 @@ namespace MicroCrm.WebUI.Controllers
 
     //Get :Logs/GetData
     //For Index View datagrid datasource url
-    //更新日志状态
+    //Save日志Status
     [HttpGet]
     public async Task<IActionResult> SetLogState(int id)
     {

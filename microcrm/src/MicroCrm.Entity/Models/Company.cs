@@ -29,7 +29,7 @@ namespace MicroCrm.Domain.Models
         [Display(Name = "PhoneNumber", Description = "PhoneNumber")]
         [MaxLength(20)]
         public virtual string PhoneNumber { get; set; }
-        [Display(Name = "注册日期", Description = "注册日期")]
+        [Display(Name = "Register Date", Description = "Register Date")]
         [DefaultValue("now")]
         public virtual  DateTime RegisterDate { get; set; }
     }

@@ -3,7 +3,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">注册新账号</h4>
+        <h4 class="modal-title" id="myModalLabel">Register New Account</h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
           &times;
         </button>
@@ -38,56 +38,56 @@
               <label class="form-label" for="userName">Username</label>
               <input type="text" class="form-control" id="userName" name="userName" pattern="^[\u4E00-\u9FA5a-zA-Z0-9_]{2,20}$" required>
               <div class="invalid-feedback">
-                请输入有效的Username
+                Please enter a valid Username
               </div>
             </div>
             <div class="col-md-6">
 
-              <label class="form-label" for="givenName">昵称</label>
+              <label class="form-label" for="givenName">Nick name</label>
               <input type="text" class="form-control" id="givenName" name="givenName" pattern="^[\u4E00-\u9FA5a-zA-Z0-9_]{2,20}$" required>
               <div class="invalid-feedback">
-                请输入有效的昵称
+                Please enter a valid nickname
               </div>
 
             </div>
           </div>
           <div class="form-row form-group">
             <div class="col-md-6">
-              <label class="form-label" for="password">新密码</label>
+              <label class="form-label" for="password">New Password</label>
               <input type="password" class="form-control" id="password" name="password" required minlength="4">
               <div class="invalid-feedback">
-                请输入新密码
+                Please enter New Password
               </div>
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="passwordConfirm">再输入新密码</label>
+              <label class="form-label" for="passwordConfirm">Enter New Password</label>
               <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" required minlength="4">
               <div class="invalid-feedback">
-                请输入正确的密码
+                Please enter the correct password
               </div>
             </div>
           </div>
           <div class="form-row form-group">
             <div class="col-md-6">
-              <label class="form-label" for="newemail">邮件地址</label>
+              <label class="form-label" for="newemail">Email Address</label>
               <input type="email" class="form-control" id="newemail" name="newemail" required>
               <div class="invalid-feedback">
-                请输入邮件地址
+                Please enter Email Address
               </div>
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="phonenumber">联系电话</label>
+              <label class="form-label" for="phonenumber">Phone number</label>
               <input type="number" class="form-control" id="phonenumber" name="phonenumber">
             </div>
           </div>
           <div class="form-row form-group">
             <div class="col-md-6">
-              <label class="form-label" for="tenantid">租户</label>
+              <label class="form-label" for="tenantid">Tenant</label>
               @Html.DropDownList("tenantid", (IEnumerable
         <SelectListItem>)ViewBag.tenantid, new { @class = "form-control", required = "required" })
 
               <div class="invalid-feedback">
-                请选择租户
+                请选择Tenant
               </div>
             </div>
           </div>
@@ -105,7 +105,7 @@
               function ConfirmPassword() {
                 txtConfirmPassword.setCustomValidity("");
                 if (txtPassword.value != txtConfirmPassword.value) {
-                  txtConfirmPassword.setCustomValidity("新密码不匹配.");
+                  txtConfirmPassword.setCustomValidity("New Password does not match.");
                 }
               }
             }, false);
@@ -121,7 +121,7 @@
           Cancel
         </button>
         <button type="button" onclick="saveuser()" name="savebutton" class="btn btn-primary">
-          注册
+          Register
         </button>
       </div>
     </div><!-- /.modal-content -->
@@ -233,7 +233,7 @@
     $('#registuser_form #passwordConfirm').prop('readonly', false);
     $('#registuser_form #Id').val('');
     $("#registuser_form #avatar_lg").attr('src', `/img/avatars/avatar-lg.jpg`);
-    $('button[name="savebutton"]').text('注册')
+    $('button[name="savebutton"]').text('Register')
   }
   function showedituserform(user) {
     $('#registermodal').modal('toggle');
@@ -248,13 +248,13 @@
     $('#registuser_form #tenantid').val(user.TenantId);
     $('#registuser_form #phonenumber').val(user.PhoneNumber);
     $("#registuser_form #avatar_lg").attr('src', `/img/avatars/${user.AvatarUrl}`);
-    $('button[name="savebutton"]').text('更新')
+    $('button[name="savebutton"]').text('Save')
 
   }
   function saveuser() {
     var form = document.getElementById("registuser_form");
     if (form.reportValidity()) {
-      if ($('button[name="savebutton"]').text() == '注册') {
+      if ($('button[name="savebutton"]').text() == 'Register') {
         var url = "/AccountManage/ReregisterUser"
 
         $.post(url, {

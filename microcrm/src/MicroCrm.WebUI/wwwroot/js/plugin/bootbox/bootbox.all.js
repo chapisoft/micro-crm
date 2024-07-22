@@ -259,7 +259,7 @@
         CANCEL  : 'Відміна',
         CONFIRM : 'Прийняти'
       },
-      zh_CN : {
+      en_EN : {
         OK      : 'OK',
         CANCEL  : 'Cancel',
         CONFIRM : 'Confirm'

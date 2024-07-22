@@ -86,7 +86,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
         var result = await this._userManager.CreateAsync(user, Input.Password);
         if (result.Succeeded)
         {
-          this._logger.LogInformation($"{Input.UserName}:注册成功");
+          this._logger.LogInformation($"{Input.UserName}:Register成功");
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim("http://schemas.microsoft.com/identity/claims/tenantid", user.TenantId.ToString()));
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, user.UserName));
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.GivenName,user.GivenName??""));
@@ -142,15 +142,15 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
       [RegularExpression(@"^[\u4E00-\u9FA5a-zA-Z0-9_]{2,20}$",ErrorMessage = "Username is illegal (starts with a letter, 2-20 characters are allowed, letters, numbers and underscores are allowed)")]
       public string UserName { get; set; }
 
-      [Display(Name = "昵称", Description = "昵称", Prompt = "Name displayed after login")]
-      [RegularExpression(@"^[\u4E00-\u9FA5a-zA-Z0-9_]{2,20}$",ErrorMessage = "昵称不合法(字母开头，允许2-20位，允许字母数字下划线)")]
+      [Display(Name = "Nick name", Description = "Nick name", Prompt = "Name displayed after login")]
+      [RegularExpression(@"^[\u4E00-\u9FA5a-zA-Z0-9_]{2,20}$",ErrorMessage = "Nick name不合法(字母开头，允许2-20位，允许字母数字下划线)")]
       public string GivenName { get; set; }
 
       [Required]
       [EmailAddress]
-      [Display(Name = "邮件地址")]
+      [Display(Name = "Email Address")]
       public string Email { get; set; }
-      [Display(Name = "租户")]
+      [Display(Name = "Tenant")]
       public int TenantId { get; set; }
       [Display(Name = "移动电话")]
       public string PhoneNumber { get; set; }
@@ -170,7 +170,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
       [Display(Name = "我同意条款及细则")]
       public bool AgreeToTerms { get; set; }
 
-      [Display(Name = "注册")]
+      [Display(Name = "Register")]
       public bool SignUp { get; set; }
 
       public string Avatar { get; set; }

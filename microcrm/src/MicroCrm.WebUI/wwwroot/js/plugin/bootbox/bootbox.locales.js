@@ -329,7 +329,7 @@
   })();
 
   (function () {
-    bootbox.addLocale('zh_CN', {
+    bootbox.addLocale('en_EN', {
       OK: 'OK',
       CANCEL: 'Cancel',
       CONFIRM: 'Confirm'

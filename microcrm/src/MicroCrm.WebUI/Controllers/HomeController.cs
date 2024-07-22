@@ -34,17 +34,17 @@ namespace MicroCrm.WebUI.Controllers
     }
 
     public IActionResult Index() {
-      NLog.LogManager.GetCurrentClassLogger().Trace("访问首页");
-      this.logger.LogTrace("访问首页");
-      this.logger.LogDebug("访问首页");
-      this.logger.LogInformation("访问首页");
+      NLog.LogManager.GetCurrentClassLogger().Trace("Visit Homepage");
+      this.logger.LogTrace("Visit Homepage");
+      this.logger.LogDebug("Visit Homepage");
+      this.logger.LogInformation("Visit Homepage");
       _eventBus.Publish("MicroCrm.eventbus", new SubscribeEventData()
       {
         publisher = typeof(HomeController).Name,
-        content = $"欢迎来到首页 @ {DateTime.Now}",
+        content = $"欢迎来到Homepage @ {DateTime.Now}",
         from = ViewBag.GivenName,
-        group = "操作日志",
-        title = "访问首页",
+        group = "Operate日志",
+        title = "Visit Homepage",
         url = "/Home/Index"
       });
       return View();

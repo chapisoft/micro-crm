@@ -72,7 +72,7 @@ namespace MicroCrm.Service
                            ).ToListAsync();
       if (mapping.Count == 0)
       {
-        throw new  NullReferenceException("没有找到Work对象的Excel导入配置信息，请执行[系统管理/Excel导入配置]");
+        throw new  NullReferenceException("没有找到Work对象的ExcelImport ConfigMessage，请执行[System Management/ExcelImport Config]");
       }
       foreach (DataRow row in datatable.Rows)
       {

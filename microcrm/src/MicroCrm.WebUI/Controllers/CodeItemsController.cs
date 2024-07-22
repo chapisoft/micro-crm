@@ -99,7 +99,7 @@ namespace MicroCrm.WebUI.Controllers
         }
      
     }
-    //导出Excel
+    //ExportExcel
     [HttpPost]
     public async Task<ActionResult> ExportExcel(string filterRules = "", string sort = "Id", string order = "asc")
     {
@@ -108,7 +108,7 @@ namespace MicroCrm.WebUI.Controllers
       return File(stream, "application/vnd.ms-excel", fileName);
 
     }
-    //导入excel
+    //Importexcel
     [HttpPost]
     public async Task<IActionResult> ImportExcel()
     {
@@ -158,11 +158,11 @@ namespace MicroCrm.WebUI.Controllers
       catch (Exception e)
       {
         Response.StatusCode = 500;
-        this._logger.LogError(e, "Excel导入失败");
+        this._logger.LogError(e, "ExcelImportFail");
         return this.Json(new { success = false, err = e.GetBaseException().Message });
       }
     }
-    //下载模板
+    //Download the template
     public async Task<IActionResult> Download(string file)
     {
  

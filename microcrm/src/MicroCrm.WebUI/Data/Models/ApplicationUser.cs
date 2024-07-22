@@ -10,23 +10,23 @@ namespace MicroCrm.WebUI.Data.Models
 {
   public class ApplicationUser : IdentityUser
   {
-    [Display(Name = "昵称")]
+    [Display(Name = "Nick name")]
     [MaxLength(128)]
     public string GivenName { get; set; }
-    [Display(Name = "租户数据库")]
+    [Display(Name = "TenantDb")]
     [MaxLength(128)]
     public string TenantDb { get; set; }
-    [Display(Name = "租户名称")]
+    [Display(Name = "TenantName")]
     [MaxLength(128)]
     public string TenantName { get; set; }
-    [Display(Name = "是否在线")]
+    [Display(Name = "IsOnline")]
     public bool IsOnline { get; set; }
-    [Display(Name = "是否开启聊天功能")]
+    [Display(Name = "EnabledChat")]
     public bool EnabledChat { get; set; }
-    [Display(Name = "头像")]
+    [Display(Name = "AvatarUrl")]
     [MaxLength(256)]
     public string AvatarUrl { get; set; }
-    [Display(Name = "租户")]
+    [Display(Name = "Tenant")]
     public int TenantId { get; set; }
 
   }
@@ -37,14 +37,14 @@ namespace MicroCrm.WebUI.Data.Models
   {
     [Key]
     public int Id { get; set; }
-    [Display(Name = "租户名称", Description = "租户名称")]
+    [Display(Name = "TenantName", Description = "TenantName")]
     [MaxLength(128)]
     [Required]
     public string Name { get; set; }
-    [Display(Name = "数据库连接", Description = "数据库连接")]
+    [Display(Name = "ConnectionStrings", Description = "ConnectionStrings")]
     [MaxLength(128)]
     public string ConnectionStrings { get; set; }
-    [Display(Name = "说明", Description = "说明")]
+    [Display(Name = "Description", Description = "Description")]
     [MaxLength(256)]
     public string Description { get; set; }
     [Display(Name = "IsDisabled", Description = "IsDisabled")]

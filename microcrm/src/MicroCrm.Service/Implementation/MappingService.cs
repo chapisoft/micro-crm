@@ -181,7 +181,7 @@ namespace MicroCrm.Service
       var mapping = await this.Queryable().Where(x => x.EntitySetName == "DataTableImportMapping" && ((x.IsEnabled == true) || (x.IsEnabled == false && !(x.DefaultValue == null || x.DefaultValue.Equals(string.Empty))))).ToListAsync();
       if (mapping == null || mapping.Count == 0)
       {
-        throw new KeyNotFoundException("没有找到DataTableImportMapping对象的Excel导入配置信息，请执行[系统管理/Excel导入配置]");
+        throw new KeyNotFoundException("没有找到DataTableImportMapping对象的ExcelImport ConfigMessage，请执行[System Management/ExcelImport Config]");
       }
       foreach (DataRow row in datatable.Rows)
       {

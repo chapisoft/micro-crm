@@ -1,9 +1,9 @@
 ﻿@model MicroCrm.Domain.Models.Photo
 @{
-    ViewData["Title"] = "照片库";
+    ViewData["Title"] = "Photos";
     ViewData["PageName"] = "photos_index";
-    ViewData["Heading"] = "<i class='fal fa-window text-primary'></i> 照片库";
-    ViewData["Category1"] = "主数据管理";
+    ViewData["Heading"] = "<i class='fal fa-window text-primary'></i> Photos";
+    ViewData["Category1"] = "CRM";
     ViewData["PageDescription"] = "";
 }
 <div class="row">
@@ -12,7 +12,7 @@
             <div class="panel-hdr">
                 <h2>
 
-                    照片库
+                    Photos
                 </h2>
                 <div class="panel-toolbar">
                     <button class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"><i class="fal fa-window-minimize"></i></button>
@@ -28,30 +28,30 @@
                             <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
                             <div class="btn-group btn-group-sm">
                                 <button onclick="appendItem()" class="btn btn-default">
-                                    <span class="fal fa-plus mr-1"></span> 新增
+                                    <span class="fal fa-plus mr-1"></span> Add
                                 </button>
                             </div>
                             <div class="btn-group btn-group-sm">
                                 <button onclick="training()" class="btn btn-default">
-                                    <span class="fal fa-brain mr-1"></span> 添加样本
+                                    <span class="fal fa-brain mr-1"></span> Add
                                 </button>
                             </div>
                             <div class="btn-group btn-group-sm">
                                 <button onclick="opentest()" class="btn btn-default">
-                                    <span class="fal fa-magic mr-1"></span> 测试
+                                    <span class="fal fa-magic mr-1"></span> Test
                                 </button>
                             </div>
                             <div class="btn-group btn-group-sm">
                                 <button name="deletebutton" disabled onclick="deleteChecked()" class="btn btn-default">
-                                    <span class="fal fa-times mr-1"></span> 删除
+                                    <span class="fal fa-times mr-1"></span> Delete
                                 </button>
                             </div>
                             <div class="btn-group btn-group-sm">
-                                <button onclick="reload()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> 刷新 </button>
+                                <button onclick="reload()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Refresh </button>
                             </div>
                             <div class="btn-group btn-group-sm hidden-xs">
                                 <button onclick="exportExcel()" class="btn btn-default">
-                                    <span class="fal fa-file-export mr-1"></span>  导出
+                                    <span class="fal fa-file-export mr-1"></span>  Export
                                 </button>
                             </div>
 
@@ -78,7 +78,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    照片上传
+                    Photo upload
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fal fa-times"></i></span>
@@ -87,19 +87,19 @@
             <div class="modal-body pb-0 pt-0">
                 <div id="slimscroll">
                     <div id="file_empty_div" class="plfile_empty_div">
-                        <span style="color: Dodgerblue;"><i class="fal fa-exclamation-circle"></i></span> 请使用[选择文件]按钮，选择文件。
+                        <span style="color: Dodgerblue;"><i class="fal fa-exclamation-circle"></i></span> Please use the [Select File] button to select the file.
                     </div>
                     <ul id="filelist"></ul>
                 </div>
                 <div id="plupload_max_size_alert" class="alert alert-primary mb-0  fw-300 fs-sm p-2  d-none" role="alert">
-                    <strong>提示</strong> 上传文件大小请控制在20MB以内。
+                    <strong>Success</strong> Please keep the uploaded file size within 20MB.
                 </div>
                 <input id="fileupload" type="file" name="fileupload" multiple style="display: none" />
 
             </div>
             <div class="modal-footer">
-                <button id="selectuploadfilesbtn" type="button" class="btn btn-info">选择文件</button>
-                <button id="postuploadfilesbtn" type="button" class="btn btn-primary">上传</button>
+                <button id="selectuploadfilesbtn" type="button" class="btn btn-info">Select a document</button>
+                <button id="postuploadfilesbtn" type="button" class="btn btn-primary">Upload</button>
             </div>
         </div>
     </div>
@@ -110,7 +110,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    预览照片
+                    Preview photos
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fal fa-times"></i></span>
@@ -142,7 +142,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">
-                    测试
+                    Test
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fal fa-times"></i></span>
@@ -262,7 +262,7 @@
 <script src="~/js/easyui/plugins/datagrid-filter.js" asp-append-version="true"></script>
 <script src="~/js/easyui/plugins/columns-ext.js" asp-append-version="true"></script>
 <script src="~/js/easyui/plugins/columns-reset.js" asp-append-version="true"></script>
-<script src="~/js/easyui/locale/easyui-lang-zh_CN.js" asp-append-version="true"></script>
+<script src="~/js/easyui/locale/easyui-lang-en.js" asp-append-version="true"></script>
 <script src="~/js/easyui/jquery.easyui.component.js" asp-append-version="true"></script>
 <script src="~/js/plugin/filesaver/FileSaver.js" asp-append-version="true"></script>
 <script src="~/js/plugin/jquery.serializejson/jquery.serializejson.js" asp-append-version="true"></script>
@@ -375,7 +375,7 @@
       console.log(res);
       reload();
      }).fail(res=>{
-      $.messager.alert('更新失败', res, 'error');
+      $.messager.alert('SaveFail', res, 'error');
      })
     }
     let knnClassifier =ml5.KNNClassifier();
@@ -430,28 +430,28 @@
         var EDITINLINE = true;
         var product = null;
     var editIndex = undefined;
-    //下载Excel导入模板
+    //下载ExcelImport模板
 
-    //执行导出下载Excel
+    //执行Export下载Excel
     function exportExcel() {
       const filterRules = JSON.stringify($dg.datagrid('options').filterRules);
       console.log(filterRules);
-      $.messager.progress({ title: '请等待', msg: '正在执行导出...' });
+      $.messager.progress({ title: 'Please wait', msg: 'Export in progress...' });
       let formData = new FormData();
       formData.append('filterRules', filterRules);
       formData.append('sort', 'Id');
       formData.append('order', 'asc');
       $.postDownload('/Photos/ExportExcel', formData).then(res => {
         $.messager.progress('close');
-        toastr.success('导出成功!');
+        toastr.success('Export successful!');
       }).catch(err => {
         //console.log(err);
         $.messager.progress('close');
-        $.messager.alert('导出失败', err.statusText, 'error');
+        $.messager.alert('Export failed', err.statusText, 'error');
       });
 
     }
-            //弹出明细信息
+            //弹出明细Message
     function previewphoto(id, index) {
       const photo = $dg.datagrid('getRows')[index];
       console.log(photo)
@@ -461,13 +461,13 @@
       $dg.datagrid('uncheckAll');
       $dg.datagrid('reload');
     }
-            //新增记录
+            //Added记录
     function appendItem() {
       openuploadfilemodal();
     }
 
 
-    //删除选中的行
+    //Delete选中的行
     function deleteChecked() {
       const checked = $dg.datagrid('getChecked').map(item => {
         return item.Id;
@@ -475,24 +475,24 @@
       if (checked.length > 0) {
         deleteRows(checked);
       } else {
-        $.messager.alert('提示', '请先选择要删除的记录!', 'question');
+        $.messager.alert('Success', 'Please select the record to be deleted first!', 'question');
       }
     }
-    //执行删除
+    //执行Delete
     function deleteRows(selected) {
-      $.messager.confirm('Confirm', `你Sure要删除这 <span class='badge badge-icon position-relative'>${selected.length} </span> 行记录?`, result => {
+      $.messager.confirm('Confirm', `Are you sure you want to delete these <span class='badge badge-icon position-relative'>${selected.length} </span> rows?`, result => {
         if (result) {
           $.post('/Photos/DeleteChecked', { id: selected })
             .done(response => {
               if (response.Succeeded) {
-                toastr.error(`成功删除 [${selected.length}] 行记录`);
+                toastr.error(`Successfully delete [${selected.length}] rows of records`);
                 reload();
               } else {
                 $.messager.alert('Error', response.err, 'error');
               }
             })
             .fail((jqXHR, textStatus, errorThrown) => {
-              $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+              $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
             });
         }
       });
@@ -578,14 +578,14 @@
           { field: 'ck', checkbox: true },
           {
             field: 'action',
-            title: '操作',
+            title: 'Operate',
             width: 85,
             sortable: false,
             resizable: true,
             formatter: function showdetailsformatter(value, row, index) {
 
                 return `<div class="btn-group">\
-                         <button onclick="previewphoto('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="预览照片" ><i class="fal fal fa-image"></i> </button>\
+                         <button onclick="previewphoto('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Preview photos" ><i class="fal fal fa-image"></i> </button>\
                       `
             }
           }
@@ -607,7 +607,7 @@
             sortable: true,
             resizable: true
           },
-          {    /*大小*/
+          {    /*size*/
             field: 'Size',
             title: '@Html.DisplayNameFor(model => model.Size)',
             width: 120,
@@ -662,7 +662,7 @@
         url: '/Photos/Upload',
       });
       uploader.init();
-      //验证文件大小
+      //验证文件size
       plupload.addFileFilter('max_file_size', function (maxSize, file, cb) {
         var undef;
         if (file.size !== undef && maxSize && file.size > plupload.parseSize(maxSize)) {
@@ -684,21 +684,21 @@
       uploader.bind('BeforeUpload', function (up) {
         up.settings.multipart_params.tags = '';
       });
-      //单击选择文件
+      //单击Select a document
       uploader.bind('Browse', function () {
         $('#plupload_max_size_alert').addClass('d-none');
       });
-      //分段上传
+      //分段Upload
       uploader.bind('ChunkUploaded', function (up, file, info) {
         console.log(up, file, info)
       });
-      //捕获异常
+      //捕获Error
       uploader.bind('Error', function (up, error) {
         console.log(up, error)
         if (error.code == -600) {
           $('#plupload_max_size_alert').removeClass('d-none')
         } else {
-          bootbox.alert(`异常:${error.message}`);
+          bootbox.alert(`Error:${error.message}`);
         }
       });
       //添加文件
@@ -708,7 +708,7 @@
         plupload.each(files, function (file) {
           html += ` <li id="${file.id}"  >
                             <span class="plupload_filename">${file.name}</span>
-                            <span id="filesize" class="plupload_filesize">(大小:${plupload.formatSize(file.size)})</span>
+                            <span id="filesize" class="plupload_filesize">(size:${plupload.formatSize(file.size)})</span>
                             <span id="plfilesize" class="plupload_d-none">${plupload.formatSize(file.size)}</span>
                             <span id="remove" class="plupload_fileremove">
                                         <a href="javascript:void(0);" class="btn btn-outline-info btn-xs btn-icon waves-effect waves-themed">
@@ -721,7 +721,7 @@
         });
         document.getElementById('filelist').innerHTML += html;
       });
-      //删除队列中的文件
+      //Delete队列中的文件
       $(document).on('click', '#remove', function (e) {
         var li = $(this).closest('li');
         var fileid = li.attr('id');
@@ -731,7 +731,7 @@
           $('#file_empty_div').show();
         }
       });
-      //显示进度
+      //Show进度
       uploader.bind('UploadProgress', function (up, file) {
         $(`li#${file.id} > .plupload_fileprogress`).text(file.percent + " %")
 
@@ -741,7 +741,7 @@
 
       });
 
-      //完成上传
+      //完成Upload
       uploader.bind('UploadComplete', function (up, files) {
         //console.log('UploadComplete', up.files)
         $('#plupload_max_size_alert').addClass('d-none');
@@ -753,7 +753,7 @@
         $('#file_empty_div').show();
         reload()
       });
-      //开始上传
+      //开始Upload
       $('#postuploadfilesbtn').click(function () {
         uploader.start();
       });

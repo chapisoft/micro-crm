@@ -252,7 +252,7 @@
 		'ru':'easyui-lang-ru.js',
 		'sv_SE':'easyui-lang-sv_SE.js',
 		'tr':'easyui-lang-tr.js',
-		'zh_CN':'easyui-lang-zh_CN.js',
+		'en_EN':'easyui-lang-en.js',
 		'zh_TW':'easyui-lang-zh_TW.js'
 	};
 	

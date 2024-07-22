@@ -1,8 +1,8 @@
 ﻿@{
-  ViewData["Title"] = "角色管理";
+  ViewData["Title"] = "Role Management";
   ViewData["PageName"] = "rolemanage_index";
-  ViewData["Heading"] = "<i class='fal fa-users text-primary'></i>  角色管理";
-  ViewData["Category1"] = "系统管理";
+  ViewData["Heading"] = "<i class='fal fa-users text-primary'></i>  Role Management";
+  ViewData["Category1"] = "System Management";
   ViewData["PageDescription"] = "";
 }
 @section HeadBlock{
@@ -24,10 +24,10 @@
     <div class="card border  m-auto m-lg-0">
       <div class="card-header bg-trans-gradient py-2 pr-2 d-flex align-items-center flex-wrap">
         <!-- we wrap header title inside a span tag with utility padding -->
-        <div class="card-title text-white">角色</div>
+        <div class="card-title text-white">Role</div>
         <div class="d-flex position-relative ml-auto">
           <button id="addrolesbutton" type="button" class="btn  btn-info ml-2 waves-effect waves-themed">
-            <i class="fal fa-users"></i> 新增
+            <i class="fal fa-users"></i> Added
           </button>
         </div>
       </div>
@@ -49,7 +49,7 @@
     <div class="card border  m-auto m-lg-0">
       <div class="card-header bg-trans-gradient py-2 pr-2 d-flex align-items-center flex-wrap">
         <!-- we wrap header title inside a span tag with utility padding -->
-        <div class="card-title text-white">分配角色</div>
+        <div class="card-title text-white">Assigning Roles</div>
 
       </div>
       <div class="card-body">
@@ -57,9 +57,9 @@
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>账号</th>
-                <th>所属角色</th>
-                <th>添加角色</th>
+                <th>Identity</th>
+                <th>Role</th>
+                <th>Add roles</th>
               </tr>
             </thead>
             <tbody>
@@ -72,7 +72,7 @@
                     {
                       <span class="badge badge-primary">
                         @role
-                        <a href="javascript:removeFromRole('@user.UserName','@role')"  title="删除角色" class="close" aria-label="Dismiss">
+                        <a href="javascript:removeFromRole('@user.UserName','@role')"  title="Delete Role" class="close" aria-label="Dismiss">
                           <span aria-hidden="true">&times;</span>
                         </a>
                       </span>
@@ -105,13 +105,13 @@
       $('#addrolesbutton').click(() => {
 
         bootbox.prompt({
-          locale:'zh_CN' ,
+          locale:'en_EN' ,
           size: "small",
           maxlength: 30,
           pattern: '^[\u4E00-\u9FA5a-zA-Z0-9_]{2,20}$',
-          placeholder: '新角色(汉字 英文字母 数字 下划线组成，2-20位)',
+          placeholder: 'New character (Chinese characters, English letters, numbers, and underscores, 2-20 characters)',
           required: true,
-          title: "添加新角色",
+          title: "Adding New Roles",
           buttons: {
            cancel: {
             label: "Cancel",
@@ -131,20 +131,20 @@
       })
 
     })
-    //删除角色
+    //Delete Role
     function removeRole(roleName) {
       $.get(`/RoleManage/RemoveRole?name=${roleName}`).done(() => {
         location.reload();
       });
     }
-    //添加角色
+    //Add roles
     function addInRole(userName, roles) {
  
       const value = roles.split(',');
       console.log(value);
       bootbox.prompt({
-        title: "分配角色",
-        locale: 'zh_CN',
+        title: "Assigning Roles",
+        locale: 'en_EN',
         size: "small",
         value: value,
         inputType: 'checkbox',
@@ -175,7 +175,7 @@
         }
       });
     }
-    //移除角色
+    //移除Role
     function removeFromRole(userName, role) {
 
       $.post('/RoleManage/RemoveFromRole', { userName: userName, role: role }).done(() => {

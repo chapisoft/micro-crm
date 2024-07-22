@@ -50,17 +50,17 @@ namespace MicroCrm.WebUI.Controllers
       ViewBag.TenantId = selectlist;
       return View();
       }
-    //租户管理
+    //Tenant Management
     public IActionResult Tenant() => View();
 
-    //获取租户数据
+    //获取Tenant数据
     public async Task<IActionResult> GetTenantData()
     {
       var data = await this._dbContext.Tenants.ToListAsync();
       return Json(data);
     }
 
-    //解锁，加锁账号
+    //解锁，加锁Identity
     public async Task<JsonResult> SetLockout(string[] userid)
     {
       foreach (var id in userid)
@@ -92,7 +92,7 @@ namespace MicroCrm.WebUI.Controllers
         var result = await this._userManager.CreateAsync(user, model.Password);
         if (result.Succeeded)
         {
-          this._logger.LogInformation($"{user.UserName}:注册成功");
+          this._logger.LogInformation($"{user.UserName}:Register成功");
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim("http://schemas.microsoft.com/identity/claims/tenantid", user.TenantId.ToString()));
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, user.UserName));
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.GivenName,  user.GivenName??""));
@@ -130,7 +130,7 @@ namespace MicroCrm.WebUI.Controllers
       }
     }
 
-    //修改账号
+    //修改Identity
     [HttpPost]
     public async Task<JsonResult> UpdateUser(AccountUpdateModel model)
     {
@@ -213,7 +213,7 @@ namespace MicroCrm.WebUI.Controllers
       return Json(new { success = true });
     }
     /// <summary>
-    /// 重置密码
+    /// Reset Password
     /// </summary>
     /// <param name="id"></param>
     /// <param name="newPassword"></param>
@@ -234,7 +234,7 @@ namespace MicroCrm.WebUI.Controllers
       }
 
     }
-    //保存租户信息
+    //AcceptTenantMessage
     public async Task<JsonResult> SaveTenantData(Tenant[] tenant) {
       if (ModelState.IsValid)
       {
@@ -279,7 +279,7 @@ namespace MicroCrm.WebUI.Controllers
       }
 
     }
-    //删除租户信息
+    //DeleteTenantMessage
     public async Task<JsonResult> DeleteCheckedTenant(int[] id) {
       var items = this._dbContext.Tenants.Where(x => id.Contains(x.Id));
       foreach (var item in items)
@@ -319,7 +319,7 @@ namespace MicroCrm.WebUI.Controllers
       var pagelist = new { total = totalCount, rows = datarows };
       return this.Json(pagelist);
     }
-    //获取租户数据
+    //获取Tenant数据
     [HttpGet]
     public async Task<JsonResult> GetTenantData(int page = 1, int rows = 10, string sort = "Id", string order = "desc", string filterRules = "")
     {
@@ -341,7 +341,7 @@ namespace MicroCrm.WebUI.Controllers
       return this.Json(pagelist);
     }
      
-    //删除用户
+    //Delete用户
     [HttpPost]
     public async Task<JsonResult> DeleteCheckedUser(string[] id)
     {

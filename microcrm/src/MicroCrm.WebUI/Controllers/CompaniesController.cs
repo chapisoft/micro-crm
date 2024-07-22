@@ -68,7 +68,7 @@ namespace MicroCrm.WebUI.Controllers
         }
 
     }
-    //编辑 
+    //Edit 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<JsonResult> Edit(Company company)
@@ -125,7 +125,7 @@ namespace MicroCrm.WebUI.Controllers
       }
       //return View(work);
     }
-    //删除当前记录
+    //Delete当前记录
     //GET: Companies/Delete/:id
     [HttpGet]
     public async Task<JsonResult> Delete(int id)
@@ -142,7 +142,7 @@ namespace MicroCrm.WebUI.Controllers
         return Json(new { success = false, err = e.GetBaseException().Message });
       }
     }
-    //删除选中的记录
+    //Delete选中的记录
     [HttpPost]
     public async Task<JsonResult> DeleteChecked(int[] id)
     {
@@ -160,7 +160,7 @@ namespace MicroCrm.WebUI.Controllers
         return Json(new { success = false, err = e.GetBaseException().Message });
       }
     }
-    //保存datagrid编辑的数据
+    //AcceptdatagridEdit的数据
     [HttpPost]
     public async Task<JsonResult> AcceptChanges(Company[] companies)
     {
@@ -187,7 +187,7 @@ namespace MicroCrm.WebUI.Controllers
       }
 
     }
-    //导出Excel
+    //ExportExcel
     [HttpPost]
     public async Task<IActionResult> ExportExcel(string filterRules = "", string sort = "Id", string order = "asc")
     {
@@ -195,7 +195,7 @@ namespace MicroCrm.WebUI.Controllers
       var stream = await this.companyService.ExportExcelAsync(filterRules, sort, order);
       return File(stream, "application/vnd.ms-excel", fileName);
     }
-    //导入excel
+    //Importexcel
     [HttpPost]
     public async Task<IActionResult> ImportExcel()
     {
@@ -243,11 +243,11 @@ namespace MicroCrm.WebUI.Controllers
       }
       catch (Exception e) {
         Response.StatusCode = 500;
-        this._logger.LogError(e, "Excel导入失败");
+        this._logger.LogError(e, "ExcelImportFail");
         return this.Json(new { success = false,  err = e.GetBaseException().Message });
       }
         }
-    //下载模板
+    //Download the template
     public async Task<IActionResult> Download(string file) {
       
       this.Response.Cookies.Append("fileDownload", "true");

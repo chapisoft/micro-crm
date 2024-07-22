@@ -14,38 +14,38 @@ namespace MicroCrm.WebUI.Data.Models
       [Key]
       [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
       public int Id { get; set; }
-      [Display(Name = "主机名", Description = "主机名")]
+      [Display(Name = "MachineName", Description = "MachineName")]
       [MaxLength(128)]
       public string MachineName { get; set; }
-      [Display(Name = "时间", Description = "时间")]
+      [Display(Name = "Logged", Description = "Logged")]
       public DateTime? Logged { get; set; }
-      [Display(Name = "级别", Description = "级别")]
+      [Display(Name = "Level", Description = "Level")]
       [MaxLength(15)]
       public string Level { get; set; }
-      [Display(Name = "信息", Description = "信息")]
+      [Display(Name = "Message", Description = "Message")]
       public string Message { get; set; }
-      [Display(Name = "异常信息", Description = "异常信息")]
+      [Display(Name = "ErrorMessage", Description = "ErrorMessage")]
       public string Exception { get; set; }
-      [Display(Name = "请求IP", Description = "请求IP")]
+      [Display(Name = "RequestIp", Description = "RequestIp")]
       [MaxLength(32)]
       public string RequestIp { get; set; }
-      [Display(Name = "事件属性", Description = "事件属性")]
+      [Display(Name = "Properties", Description = "Properties")]
       public string Properties { get; set; }
-      [Display(Name = "表单值", Description = "表单值")]
+      [Display(Name = "RequestForm", Description = "RequestForm")]
       public string RequestForm { get; set; }
-      [Display(Name = "账号", Description = "账号")]
+      [Display(Name = "Identity", Description = "Identity")]
       [MaxLength(128)]
       public string Identity { get; set; }
-      [Display(Name = "日志记录器", Description = "日志记录器")]
+      [Display(Name = "Logger", Description = "Logger")]
       [MaxLength(256)]
       public string Logger { get; set; }
-      [Display(Name = "日志来源", Description = "日志来源")]
+      [Display(Name = "Callsite", Description = "Callsite")]
       [MaxLength(256)]
       public string Callsite { get; set; }
-      [Display(Name = "网站名", Description = "网站名")]
+      [Display(Name = "SiteName", Description = "SiteName")]
       [MaxLength(128)]
       public string SiteName { get; set; }
-      [Display(Name = "已处理", Description = "已处理")]
+      [Display(Name = "Resolved", Description = "Resolved")]
       [DefaultValue(false)]
       public bool Resolved { get; set; }
     [Display(Name = "User-Agent", Description = "User-Agent")]

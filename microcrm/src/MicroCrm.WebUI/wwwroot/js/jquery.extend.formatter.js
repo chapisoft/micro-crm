@@ -1,8 +1,8 @@
-//-------订单状态---------//
+//-------订单Status---------//
 var statusfiltersource = [{ value: '', text: 'All'}];
 var statusdatasource = [];
-statusfiltersource.push({ value: '新增',text:'新增'  });
-statusdatasource.push({ value: '新增',text:'新增'  });
+statusfiltersource.push({ value: 'Added',text:'Added'  });
+statusdatasource.push({ value: 'Added',text:'Added'  });
 //for datagrid status field  formatter
 function statusformatter(value, row, index) { 
      let multiple = false; 

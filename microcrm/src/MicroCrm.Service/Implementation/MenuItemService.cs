@@ -65,7 +65,7 @@ namespace MicroCrm.Service
             {
               var menuitemtype = item.GetType();
               var propertyInfo = menuitemtype.GetProperty(field.FieldName);
-              //关联外键查询获取Id
+              //关联外键Search获取Id
               switch (field.FieldName)
               {
                 case "ParentId":

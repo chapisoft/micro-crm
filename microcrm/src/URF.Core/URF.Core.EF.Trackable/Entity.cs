@@ -21,21 +21,21 @@ namespace URF.Core.EF.Trackable
 
         [NotMapped]
         public Guid EntityIdentifier { get; set; }
-        [Display(Name = "创建时间", Description = "创建时间")]
+        [Display(Name = "创建Logged", Description = "创建Logged")]
         [ScaffoldColumn(false)]
         public virtual DateTime? CreatedDate { get; set; }
         [Display(Name = "创建用户", Description = "创建用户")]
         [MaxLength(20)]
         [ScaffoldColumn(false)]
         public virtual string CreatedBy { get; set; }
-        [Display(Name = "最后更新时间", Description = "最后更新时间")]
+        [Display(Name = "最后SaveLogged", Description = "最后SaveLogged")]
         [ScaffoldColumn(false)]
         public virtual DateTime? LastModifiedDate { get; set; }
-        [Display(Name = "最后更新用户", Description = "最后更新用户")]
+        [Display(Name = "最后Save用户", Description = "最后Save用户")]
         [MaxLength(20)]
         [ScaffoldColumn(false)]
         public virtual string LastModifiedBy { get; set; }
-        [Display(Name = "租户", Description = "租户")]
+        [Display(Name = "Tenant", Description = "Tenant")]
         [ScaffoldColumn(false)]
         public virtual int TenantId { get; set; }
     }

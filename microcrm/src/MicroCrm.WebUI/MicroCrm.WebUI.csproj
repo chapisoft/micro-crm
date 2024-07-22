@@ -261,7 +261,7 @@
     <None Include="wwwroot\js\plugin\plupload\i18n\tr.js" />
     <None Include="wwwroot\js\plugin\plupload\i18n\uk_UA.js" />
     <None Include="wwwroot\js\plugin\plupload\i18n\vi.js" />
-    <None Include="wwwroot\js\plugin\plupload\i18n\zh_CN.js" />
+    <None Include="wwwroot\js\plugin\plupload\i18n\en.js" />
     <None Include="wwwroot\js\plugin\plupload\i18n\zh_TW.js" />
     <None Include="wwwroot\js\plugin\plupload\jquery.plupload.queue\jquery.plupload.queue.js" />
     <None Include="wwwroot\js\plugin\plupload\jquery.plupload.queue\jquery.plupload.queue.min.js" />
