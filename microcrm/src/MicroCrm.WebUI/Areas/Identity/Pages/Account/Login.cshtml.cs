@@ -85,7 +85,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
           loginUser = await _userManager.FindByNameAsync(Input.UserName);
         }
         if (loginUser == null) {
-          ModelState.AddModelError(string.Empty, "账号或电子邮件不存在.");
+          ModelState.AddModelError(string.Empty, "账号或Email不存在.");
           return Page();
         }
         // This doesn't count login failures towards account lockout
@@ -108,7 +108,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
         }
         else
         {
-          ModelState.AddModelError(string.Empty, "用户名或密码不正确" );
+          ModelState.AddModelError(string.Empty, "Username或密码不正确" );
           return Page();
         }
       }

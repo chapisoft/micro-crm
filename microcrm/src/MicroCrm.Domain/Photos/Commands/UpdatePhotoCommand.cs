@@ -33,7 +33,7 @@ namespace MicroCrm.Application.Photos.Commands
       var item =await this.photoService.FindAsync(request.Id);
       item.Landmarks = request.Landmarks;
       await this.unitOfWork.SaveChangesAsync();
-      return await Result<int>.SuccessAsync(0, "保存成功");
+      return await Result<int>.SuccessAsync(0, "Saved successfully");
     }
   }
 }

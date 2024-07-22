@@ -137,12 +137,12 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
 
     public class InputModel
     {
-      [Display(Name = "用户名", Description = "用户名", Prompt = "登录用户名")]
+      [Display(Name = "Username", Description = "Username", Prompt = "Login Username")]
       [Required]
-      [RegularExpression(@"^[\u4E00-\u9FA5a-zA-Z0-9_]{2,20}$",ErrorMessage = "用户名不合法(字母开头，允许2-20位，允许字母数字下划线)")]
+      [RegularExpression(@"^[\u4E00-\u9FA5a-zA-Z0-9_]{2,20}$",ErrorMessage = "Username is illegal (starts with a letter, 2-20 characters are allowed, letters, numbers and underscores are allowed)")]
       public string UserName { get; set; }
 
-      [Display(Name = "昵称", Description = "昵称", Prompt = "登录后显示的名称")]
+      [Display(Name = "昵称", Description = "昵称", Prompt = "Name displayed after login")]
       [RegularExpression(@"^[\u4E00-\u9FA5a-zA-Z0-9_]{2,20}$",ErrorMessage = "昵称不合法(字母开头，允许2-20位，允许字母数字下划线)")]
       public string GivenName { get; set; }
 
@@ -162,7 +162,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
       public string Password { get; set; }
 
       [DataType(DataType.Password)]
-      [Display(Name = "确认密码")]
+      [Display(Name = "Confirm密码")]
       [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
       public string ConfirmPassword { get; set; }
 

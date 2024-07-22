@@ -35,7 +35,7 @@ namespace MicroCrm.Application.Photos.Commands
         this.photoService.Delete(item);
       }
       await this.unitOfWork.SaveChangesAsync();
-      return await Result<int>.SuccessAsync(0, "保存成功");
+      return await Result<int>.SuccessAsync(0, "Saved successfully");
     }
   }
 }

@@ -7,10 +7,10 @@
 @section PageHeading {
   <div class="col-xl-12">
     <h2 class="fs-xxl fw-500 text-white text-center">
-      注册新用户
+      Register a new user
       <small class="h3 fw-300 mt-3 mb-5 text-white opacity-60 hidden-sm-down">
-        您的注册在有限的时间内是免费的. 可以在您的移动，桌面或平板电脑上流畅的使用所有功能.
-        <br>无论你去哪里,它都准备好了!
+        Your registration is free for a limited time. Enjoy all features seamlessly on your mobile, desktop or tablet.
+        <br>Wherever you go, it's ready!
       </small>
     </h2>
   </div>
@@ -31,7 +31,7 @@
               <div class="overlay">
                 <div class="text">
                   <h5 class="mb-0 fw-700 text-center mt-3">
-                    单击修改照片
+                    Click Edit Photo
                   </h5>
                 </div>
               </div>
@@ -43,22 +43,22 @@
       <div class="form-group row">
         <input type="hidden" asp-for="Input.Avatar"   />
         <div class="col-6 pr-1">
-          <label class="col-xl-12 form-label">用户名</label>
-          <input type="text" asp-for="Input.UserName" class="form-control" placeholder="登录用户名" />
-          <span class="invalid-feedback" asp-validation-for="Input.UserName">请输入有效的用户名.</span>
+          <label class="col-xl-12 form-label">Username</label>
+          <input type="text" asp-for="Input.UserName" class="form-control" placeholder="Login Username" />
+          <span class="invalid-feedback" asp-validation-for="Input.UserName">Please enter a valid username.</span>
         </div>
         <div class="col-6 pl-1">
           <label class="col-xl-12 form-label">昵称</label>
-          <input type="text" asp-for="Input.GivenName" class="form-control" placeholder="登录后显示的名称" />
-          <span class="invalid-feedback" asp-validation-for="Input.GivenName">请输入正确的昵称.</span>
+          <input type="text" asp-for="Input.GivenName" class="form-control" placeholder="Name displayed after login" />
+          <span class="invalid-feedback" asp-validation-for="Input.GivenName">Please enter a valid nickname.</span>
         </div>
       </div>
       <div class="form-group  row">
         <div class="col-6 pr-1">
-          <label class="form-label" asp-for="Input.Email">电子邮件</label>
-          <input type="email" asp-for="Input.Email" class="form-control" placeholder="电子邮件" value="" required="required" />
-          <span class="invalid-feedback" asp-validation-for="Input.Email">请输入有效的电子邮件.</span>
-          <div class="help-block">你常用的电子邮件</div>
+          <label class="form-label" asp-for="Input.Email">Email</label>
+          <input type="email" asp-for="Input.Email" class="form-control" placeholder="Email" value="" required="required" />
+          <span class="invalid-feedback" asp-validation-for="Input.Email">请输入有效的Email.</span>
+          <div class="help-block">你常用的Email</div>
         </div>
         <div class="col-6 pl-1">
           <label class="col-xl-12 form-label">手机号码</label>
@@ -83,7 +83,7 @@
         <div class="help-block">密码必须在6-20位之间.</div>
       </div>
       <div class="form-group">
-        <label class="form-label" asp-for="Input.ConfirmPassword">确认密码</label>
+        <label class="form-label" asp-for="Input.ConfirmPassword">Confirm密码</label>
         <input type="password" asp-for="Input.ConfirmPassword" class="form-control" placeholder="再输入一次密码" value="" required="required" />
         <span class="invalid-feedback" asp-validation-for="Input.ConfirmPassword">请输入有效的密码.</span>
       </div>
@@ -109,7 +109,7 @@
   <div class="modal-dialog modal-dialog-right  ">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title h4">修改照片</h5>
+        <h5 class="modal-title h4">Modify photos</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true"><i class="fal fa-times"></i></span>
         </button>
@@ -145,7 +145,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary waves-effect waves-themed" data-dismiss="modal">Close</button>
-        <button type="button" id="getcoppedbutton" class="btn btn-primary waves-effect waves-themed">确认</button>
+        <button type="button" id="getcoppedbutton" class="btn btn-primary waves-effect waves-themed">Confirm</button>
       </div>
     </div>
   </div>

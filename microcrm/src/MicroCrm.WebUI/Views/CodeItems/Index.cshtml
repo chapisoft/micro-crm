@@ -48,7 +48,7 @@
                   <button name="savebutton" disabled onclick="acceptChanges()" class="btn btn-default"> <span class="fal fa-save mr-1"></span> 保存 </button>
                 </div>
                 <div class="btn-group btn-group-sm">
-                  <button name="cancelbutton" disabled onclick="rejectChanges()" class="btn btn-default"> <span class="fal fa-ban mr-1"></span>  取消  </button>
+                  <button name="cancelbutton" disabled onclick="rejectChanges()" class="btn btn-default"> <span class="fal fa-ban mr-1"></span>  Cancel  </button>
                 </div>
 
                 <div class="btn-group btn-group-sm hidden-xs">
@@ -117,7 +117,7 @@
 
             }
         }, "json").fail(function (response) {
-            $.messager.alert("错误", "提交错误了！", "error");
+            $.messager.alert("Error", "提交Error了！", "error");
 
         });
     }
@@ -206,7 +206,7 @@
         return item.Id;
       });
       if (id.length > 0) {
-        $.messager.confirm('确认', `你确定要删除这 <span class='badge badge-icon position-relative'>${id.length} </span> 行记录?`, result => {
+        $.messager.confirm('Confirm', `你Sure要删除这 <span class='badge badge-icon position-relative'>${id.length} </span> 行记录?`, result => {
           if (result) {
             $.post('/CodeItems/DeleteChecked', { id: id })
               .done(response => {
@@ -214,7 +214,7 @@
                   toastr.error(`成功删除[${id.length}]行记录`);
                   reloadData();
                 } else {
-                  $.messager.alert('错误', response.err, 'error');
+                  $.messager.alert('Error', response.err, 'error');
                 }
               })
               .fail((jqXHR, textStatus, errorThrown) => {
@@ -248,14 +248,14 @@
           $.post("/CodeItems/SaveData", { codeitems: changed }, function (response) {
             //console.log(response);
             if (response.success) {
-              toastr.success('保存成功');
+              toastr.success('Saved successfully');
               $dg.datagrid('acceptChanges');
               reloadData();
             } else {
-              $.messager.alert('错误', response.err, 'error');
+              $.messager.alert('Error', response.err, 'error');
             }
           }, "json").fail(function (response) {
-            $.messager.alert('错误', response.err, 'error');
+            $.messager.alert('Error', response.err, 'error');
           });
 
         }

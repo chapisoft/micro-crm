@@ -110,7 +110,7 @@ namespace MicroCrm.WebUI.EndPoints
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
-                //添加自定义claim
+                //添加Customizeclaim
                 new Claim(ClaimTypes.GivenName,   user.GivenName??""),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim("http://schemas.microsoft.com/identity/claims/tenantid", user.TenantId.ToString()),

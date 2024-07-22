@@ -468,7 +468,7 @@
   // filter operators
   $.fn.datagrid.defaults.operators = {
     nofilter: {
-      text: '取消'
+      text: 'Cancel'
     },
     between: {
       text: '之间',

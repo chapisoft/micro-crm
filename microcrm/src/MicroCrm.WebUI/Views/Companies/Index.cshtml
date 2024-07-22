@@ -33,7 +33,7 @@
                 <div class="dropdown-menu dropdown-menu-animated">
                   <button name="searchmemenu" class="dropdown-item js-waves-on"> 我的记录 </button>
                   <div class="dropdown-divider"></div>
-                  <button name="searchcustommenu" class="dropdown-item js-waves-on"> 自定义查询 </button>
+                  <button name="searchcustommenu" class="dropdown-item js-waves-on"> Customize查询 </button>
                 </div>
               </div>
               <div class="btn-group btn-group-sm">
@@ -53,7 +53,7 @@
               </div>
               <div class="btn-group btn-group-sm">
                 <button name="cancelbutton" disabled class="btn btn-default">
-                  <span class="fal fa-ban mr-1"></span> 取消
+                  <span class="fal fa-ban mr-1"></span> Cancel
                 </button>
               </div>
 
@@ -600,7 +600,7 @@
       }
       //删除该行
       deleteRow(id) {
-        $.messager.confirm('确认', '你确定要删除该记录?', result => {
+        $.messager.confirm('Confirm', '你Sure要删除该记录?', result => {
           if (result) {
             this.dodeletechecked([id]);
           }
@@ -612,7 +612,7 @@
           return item.Id;
         });
         if (id.length > 0) {
-          $.messager.confirm('确认', `你确定要删除这 <span class='badge badge-icon position-relative'>${id.length} </span> 行记录?`, result => {
+          $.messager.confirm('Confirm', `你Sure要删除这 <span class='badge badge-icon position-relative'>${id.length} </span> 行记录?`, result => {
             if (result) {
               this.dodeletechecked(id);
             }
@@ -629,7 +629,7 @@
               toastr.error(`成功删除[${id.length}]行记录`);
               this.reloadData();
             } else {
-              $.messager.alert('错误', response.err, 'error');
+              $.messager.alert('Error', response.err, 'error');
             }
           })
           .fail((jqXHR, textStatus, errorThrown) => {
@@ -660,7 +660,7 @@
           }
         }
       }
-      //关闭编辑状态
+      //Close编辑状态
       endEditing() {
         if (this.editIndex === undefined) {
           return true;
@@ -703,12 +703,12 @@
                 //$.messager.progress('close');
                 //console.log(response);
                 if (response.success) {
-                  toastr.success('保存成功');
+                  toastr.success('Saved successfully');
                   this.$dg.datagrid('acceptChanges');
                   this.reloadData();
                   this.hook = false;
                 } else {
-                  $.messager.alert('错误', response.err, 'error');
+                  $.messager.alert('Error', response.err, 'error');
                 }
               })
               .fail((jqXHR, textStatus, errorThrown) => {
@@ -718,7 +718,7 @@
           }
         }
       }
-      //取消变更
+      //Cancel变更
       rejectChanges() {
         this.$dg.datagrid('rejectChanges');
         this.editIndex = undefined;
@@ -733,7 +733,7 @@
       }
       //删除当前记录
       deleteItem() {
-        $.messager.confirm('确认', '你确定要删除该记录?', result => {
+        $.messager.confirm('Confirm', '你Sure要删除该记录?', result => {
           if (result) {
             const url = `/Companies/Delete/${this.item.Id}`;
             $.get(url).done(res => {
@@ -742,7 +742,7 @@
                 this.$detailwindow.window("close");
                 this.reloadData();
               } else {
-                $.messager.alert("错误", res.err, "error");
+                $.messager.alert("Error", res.err, "error");
               }
             });
           }
@@ -776,9 +776,9 @@
                 this.$form.form('disableValidation');
                 this.$dg.datagrid('reload');
                 this.$detailwindow.window("close");
-                toastr.success("保存成功");
+                toastr.success("Saved successfully");
               } else {
-                $.messager.alert("错误", response.err, "error");
+                $.messager.alert("Error", response.err, "error");
               }
             })
             .fail((jqXHR, textStatus, errorThrown) => {
@@ -786,7 +786,7 @@
             });
         }
       }
-      //关闭窗口
+      //Close窗口
       closedetailwindow() {
         this.$detailwindow.window('close');
       }

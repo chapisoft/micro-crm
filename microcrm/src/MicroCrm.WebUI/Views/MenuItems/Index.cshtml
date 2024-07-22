@@ -47,7 +47,7 @@
                 <button name="savebutton" disabled onclick="acceptChanges()" class="btn btn-default"> <span class="fal fa-save mr-1"></span> 保存 </button>
               </div>
               <div class="btn-group btn-group-sm">
-                <button name="cancelbutton" disabled onclick="rejectChanges()" class="btn btn-default"> <span class="fal fa-ban mr-1"></span> 取消 </button>
+                <button name="cancelbutton" disabled onclick="rejectChanges()" class="btn btn-default"> <span class="fal fa-ban mr-1"></span> Cancel </button>
               </div>
 
               <div class="btn-group btn-group-sm hidden-xs">
@@ -119,7 +119,7 @@
               $dg.datagrid('reload');
             });
           } else {
-            $.messager.alert("错误", "生成异常！" + res.err, 'error', function () {
+            $.messager.alert("Error", "生成异常！" + res.err, 'error', function () {
 
             });
           }
@@ -141,7 +141,7 @@
                 }).catch(err => {
                     //console.log(err);
                     $.messager.progress("close");
-                    $.messager.alert("错误", err.statusText, "error");
+                    $.messager.alert("Error", err.statusText, "error");
                 });
 
 		}
@@ -159,7 +159,7 @@
           $dg.datagrid("unselectAll");
         }
       }
-    //关闭编辑状态
+    //Close编辑状态
     function endEditing() {
         if (editIndex === undefined) {
           return true;
@@ -227,19 +227,19 @@
           var id = rows.map(item => {
             return item.Id;
           });
-          $.messager.confirm("确认", `你确定要删除这 <span class='badge badge-danger badge-pill'>${id.length} </span> 行记录?`, result => {
+          $.messager.confirm("Confirm", `你Sure要删除这 <span class='badge badge-danger badge-pill'>${id.length} </span> 行记录?`, result => {
             if (result) {
               $.post("/MenuItems/DeleteChecked", { id: id })
                 .done(response => {
                   if (response.success) {
                     reloadData();
                   } else {
-                    $.messager.alert("错误", response.err, "error");
+                    $.messager.alert("Error", response.err, "error");
                   }
                 })
                 .fail((jqXHR, textStatus, errorThrown) => {
                   //console.log(errorThrown);
-                  $.messager.alert("错误", "提交错误了!" + errorThrown, "error");
+                  $.messager.alert("Error", "提交Error了!" + errorThrown, "error");
                 });
             }
           });
@@ -274,12 +274,12 @@
                 $dg.datagrid("acceptChanges");
                 reloadData();
               } else {
-                $.messager.alert("错误", response.err, "error");
+                $.messager.alert("Error", response.err, "error");
               }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
               //console.log(errorThrown);
-              $.messager.alert("错误", "提交错误了!" + errorThrown, "error");
+              $.messager.alert("Error", "提交Error了!" + errorThrown, "error");
             });
         }
       }

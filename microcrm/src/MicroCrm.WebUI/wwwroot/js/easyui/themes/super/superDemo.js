@@ -68,7 +68,7 @@ $(function() {
 					localStorage.setItem('superTheme', themeName);
 				}
 			}, {
-				text: '关闭',
+				text: 'Close',
 				handler: function() {
 					themeWin.panel('close');
 				}
@@ -87,9 +87,9 @@ $(function() {
 
 	// 退出系统
 	$("#logout").on('click', function() {
-		$.messager.confirm('提示', '确定退出系统？', function(r) {
+		$.messager.confirm('提示', 'Sure退出系统？', function(r) {
 			if(r) {
-				console.log('确定退出')
+				console.log('Sure退出')
 			}
 		});
 	});

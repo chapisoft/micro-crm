@@ -1,44 +1,41 @@
-
-
-
 //extend validatebox regex
 $.extend($.fn.validatebox.defaults.rules, {
-  regex: {//正则表达验证
+  regex: {//Regular expression verification
     validator: function (value, param) {
       var re = new RegExp(param[0]);
       return re.test(value);
     },
     message: '{1}'
   },
-  username: {// 验证用户名  
+  username: {// Verify Username  
     validator: function (value) {
       return /^[\u4E00-\u9FA5a-zA-Z0-9_]{2,20}$/i.test(value);
     },
-    message: '用户名不合法(字母开头，允许2-20位，允许字母数字下划线)'
+    message: 'Username is illegal (starts with a letter, 2-20 characters are allowed, letters, numbers and underscores are allowed)'
   },
   carNo: {
     validator: function (value) {
       return /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/.test(value);
     },
-    message: '车牌号码无效（例：苏E1235X）'
+    message: 'Invalid license plate number (Example: Su E1235X)'
   },
   carengine: {
     validator: function (value) {
       return /^[a-zA-Z0-9]{16}$/.test(value);
     },
-    message: '发动机型号无效(例：FG6H012345654584)'
+    message: 'Invalid engine model (e.g. FG6H012345654584)'
   },
-  ip: {// 验证IP地址  
+  ip: {// Verify IP Address  
     validator: function (value) {
       return /d+.d+.d+.d+/i.test(value);
     },
-    message: 'IP地址格式不正确'
+    message: 'The IP address format is incorrect'
   },
-  zip: {// 验证邮政编码  
+  zip: {// Verify postal code  
     validator: function (value) {
       return /^[1-9]\d{5}$/i.test(value);
     },
-    message: '邮政编码格式不正确'
+    message: 'The postal code format is incorrect'
   },
   chinese: {// 验证中文  
     validator: function (value) {
@@ -50,62 +47,62 @@ $.extend($.fn.validatebox.defaults.rules, {
     validator: function (value) {
       return /^[A-Za-z]+$/i.test(value);
     },
-    message: '请输入英文'
+    message: 'Please enter English'
   },
   mobile: {// 验证手机号码  
     validator: function (value) {
       return /^(13|14|15|16|17|18|19)\d{9}$/i.test(value);
     },
-    message: '手机号码格式不正确'
+    message: 'The mobile number format is incorrect'
   },
   idcard: {// 验证身份证  
     validator: function (value) {
       var regex = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}$)/;
       return regex.test(value);
     },
-    message: '身份证号码格式不正确'
+    message: 'The ID number format is incorrect'
   },
   qq: {// 验证QQ,从10000开始  
     validator: function (value) {
       return /^[1-9]\d{4,9}$/i.test(value);
     },
-    message: 'QQ号码格式不正确'
+    message: 'The number format is incorrect'
   },
   cardno: {// 银行卡号  
     validator: function (value) {
       var regex = /^(998801|998802|622525|622526|435744|435745|483536|528020|526855|622156|622155|356869|531659|622157|627066|627067|627068|627069)\d{10}$/;
       return reg.test(value);
     },
-    message: '银行卡号码格式不正确'
+    message: 'The bank card number format is incorrect'
   },
   tel: {//验证电话号码
     validator: function (value, param) {
-      this._invalidMessage = '电话号码输入规则:</br>手机号:13/15/18xxxxxxxxx</br>电话号:区号-电话号-分机号</br>(分机号/区号可选填)';
+      this._invalidMessage = 'Phone number input rules:</br>Mobile phone number:13/15/18xxxxxxxxx</br>Phone number:Area code-Phone number-Extension number</br>(Extension number/area code are optional)';
       return /(^(\d{3}-|\d{4}-)?(\d{8}|\d{7})?(-\d{1,6})?$)|(^(?:13\d|14\d|15\d|16\d|17\d|18\d|19\d)-?\d{5}(\d{3}|\*{3})$)/.test(value);
     },
-    message: '电话号码输入规则:</br>手机号:13/15/18xxxxxxxxx</br>电话号:区号-电话号-分机号</br>(分机号/区号可选填)'
+    message: 'Phone number input rules:</br>Mobile phone number:13/15/18xxxxxxxxx</br>Phone number:Area code-Phone number-Extension number</br>(Extension number/area code are optional)'
   },
   number: {//验证数字
     validator: function (value, param) {
-      this._invalidMessage = '请输入数字';
+      this._invalidMessage = 'Please enter the number';
       return /^[0-9]+(.[0-9]{1,10})?$/.test(value);
     },
-    message: '请输入数字'
+    message: 'Please enter the number'
   },
   money: {//验证金额
     validator: function (value, param) {
-      this._invalidMessage = '请输入正确的金额';
+      this._invalidMessage = 'Please enter a valid amount';
       return (/^(0|-?[1-9])+(.[0-9]{1,2})?$/).test(value);
     },
-    message: '请输入正确的金额'
+    message: 'Please enter a valid amount'
 
   },
   mone: {//只允许整数或小数
     validator: function (value, param) {
-      this._invalidMessage = '请输入整数或小数';
+      this._invalidMessage = 'Please enter an integer or decimal';
       return (/^(([1-9]\d*)|\d)(\.\d{1,5})?$/).test(value);
     },
-    message: '请输入整数或小数'
+    message: 'Please enter an integer or decimal'
 
   },
   currency: {// 验证正的整数或正的任意位数的小数  
@@ -116,45 +113,45 @@ $.extend($.fn.validatebox.defaults.rules, {
   },
   integer: {//不允许小数或0
     validator: function (value, param) {
-      this._invalidMessage = '请输入最小为1的整数';
+      this._invalidMessage = 'Please enter an integer with a minimum value of 1';
       return /^[+]?[1-9]\d*$/.test(numeral(value).value());
     },
-    message: '请输入最小为1的整数'
+    message: 'Please enter an integer with a minimum value of 1'
   },
   decimal: {
     validator: function (value) {
-      this._invalidMessage = '不能小于等于[0]';
+      this._invalidMessage = 'Cannot be less than or equal to [0]';
       return /^\s*(?=.*[1-9])\d*(?:\.\d{1,5})?\s*$/.test(numeral(value).value());
     },
-    message: '不能小于等于[0]'
+    message: 'Cannot be less than or equal to [0]'
   },
   minLength: {//最小字符数
     validator: function (value, param) {
       this._invalidMessage = '至少输入' + param[0] + '个字';
       return value.length >= param[0];
     },
-    message: '至少输入{0}个字'
+    message: 'Please enter at least {0} characters'
   },
   maxLength: {//最多字符数
     validator: function (value, param) {
-      this._invalidMessage = '最多' + param[0] + '个字';
+      this._invalidMessage = 'At most' + param[0] + 'words';
       return value.length <= param[0];
     },
     message: '最多{0}个字'
   },
   noZero: {//判断非零的正数
     validator: function (value) {
-      this._invalidMessage = '输入值不能为[0]';
+      this._invalidMessage = 'The input value cannot be [0]';
       return /(^[1-9]\d*\.\d*|0\.\d*[1-9]\d*$)|([1-9]\d*)/.test(value);
     },
-    message: '输入值不能为[0]'
+    message: 'The input value cannot be [0]'
   },
   password: {
     validator: function (value) {
-      this._invalidMessage = '只允许8/16/32位的字母数字组合';
+      this._invalidMessage = 'Only 8/16/32 alphanumeric characters are allowed';
       return /^[a-zA-Z0-9]{8}$|^[a-zA-Z0-9]{16}$|^[a-zA-Z0-9]{32}$/.test(value);
     },
-    message: '只允许8/16/32位的字母数字组合！'
+    message: 'Only 8/16/32 alphanumeric characters are allowed！'
   },
   combocheck: {
     validator: function (value, param) {
@@ -177,7 +174,7 @@ $.extend($.fn.validatebox.defaults.rules, {
       var d2 = $.fn.datebox.defaults.parser(value);
       return d2 >= d1;
     },
-    message: '必须大于{1}'
+    message: 'Must be greater than {1}'
   }
 });
 
@@ -209,7 +206,7 @@ $.extend($.fn.datagrid.defaults.editors, {
         } else {
           $(target).datebox('setValue', null);
         }
-       
+
       } else {
         $(target).datebox('setValue', null);
       }
@@ -499,7 +496,7 @@ function datetimeformatter(value, row, index) {
 
 //easyui datebox default options
 $.extend($.fn.datebox.defaults, {
-  formatter: dateformatter ,
+  formatter: dateformatter,
   parser: function (value) {
     if (typeof value !== "undefined"
       && moment(value).isValid()) {
@@ -573,28 +570,27 @@ $.extend($.fn.datagrid.defaults.filters, {
         applyClass: 'btn-sm btn-success',
         cancelClass: 'btn-sm btn-default',
         locale: {
-          applyLabel: '确认',
-          cancelLabel: '清空',
-          fromLabel: '起始时间',
-          toLabel: '结束时间',
-          customRangeLabel: '自定义',
+          applyLabel: 'Confirm',
+          cancelLabel: 'Clear',
+          fromLabel: 'Start time',
+          toLabel: 'End Time',
+          customRangeLabel: 'Customize',
           firstDay: 1,
-          daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
-          monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
-            '七月', '八月', '九月', '十月', '十一月', '十二月'],
+          daysOfWeek: ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'], //'日', '一', '二', '三', '四', '五', '六'
+          monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         },
         ranges: {
           //'最近1小时': [moment().subtract('hours',1), moment()],
-          '今日': [moment(), moment()],
-          '昨日': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
-          '最近7日': [moment().subtract(6, 'days'), moment()],
-          '最近30日': [moment().subtract(29, 'days'), moment()],
-          '本月': [moment().startOf("month"), moment().endOf("month")],
-          '上个月': [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days').startOf('day'), moment().subtract(1, 'days').endOf('day')],
+          'Last 7 days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 days': [moment().subtract(29, 'days'), moment()],
+          'This month': [moment().startOf("month"), moment().endOf("month")],
+          'Last month': [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
         },
         opens: 'right',    // 日期选择框的弹出位置
         separator: '-',
-        showWeekNumbers: false,     // 是否显示第几周
+        showWeekNumbers: false,     // 是否显示No.几周
         format: 'YYYY/MM/DD'
 
       };

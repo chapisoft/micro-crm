@@ -331,15 +331,15 @@
   (function () {
     bootbox.addLocale('zh_CN', {
       OK: 'OK',
-      CANCEL: '取消',
-      CONFIRM: '确认'
+      CANCEL: 'Cancel',
+      CONFIRM: 'Confirm'
     });
   })();
 
   (function () {
     bootbox.addLocale('zh_TW', {
       OK: 'OK',
-      CANCEL: '取消',
+      CANCEL: 'Cancel',
       CONFIRM: '確認'
     });
   })();

@@ -19,8 +19,8 @@ namespace MicroCrm.Infrastructure.Persistence
 
         var home = new Domain.Models.MenuItem()
         {
-          Title = "首页",
-          Description = "首页",
+          Title = "Home",
+          Description = "Home",
           Action = "Index",
           Controller = "Home",
           Url = "/Home/Index",
@@ -31,63 +31,19 @@ namespace MicroCrm.Infrastructure.Persistence
         };
         var menu1 = new Domain.Models.MenuItem()
         {
-          Title = "业务中心",
-          Description = "业务中心",
+          Title = "CRM",
+          Description = "CRM",
           Action = "#",
           Controller = "#",
           Url = "#",
-          LineNum = "003",
+          LineNum = "002",
           Icon = "fal fa-folders",
           IsEnabled = true,
           Children = new HashSet<Domain.Models.MenuItem>()
           {
             new Domain.Models.MenuItem(){
-              Title = "产品主档",
-              Description = "产品主档",
-              Action = "Index",
-              Controller = "Products",
-              Url = "/Products/Index",
-              LineNum = "301",
-              Icon = "",
-              IsEnabled = true,
-            },
-             new Domain.Models.MenuItem(){
-              Title = "订单信息",
-              Description = "订单信息",
-              Action = "Index",
-              Controller = "Products",
-              Url = "/Orders/Index",
-              LineNum = "302",
-              Icon = "",
-              IsEnabled = true,
-            },
-            new Domain.Models.MenuItem(){
-              Title = "照片库",
-              Description = "照片库",
-              Action = "index",
-              Controller = "photos",
-              Url = "/photos/index",
-              LineNum = "303",
-              Icon = "",
-              IsEnabled = true,
-            },
-          }
-        };
-        var menu2 = new Domain.Models.MenuItem()
-        {
-          Title = "组织架构",
-          Description = "组织架构",
-          Action = "Index",
-          Controller = "Home",
-          Url = "/Home/Index",
-          LineNum = "002",
-          Icon = "fal fa-window",
-          IsEnabled = true,
-          Children = new HashSet<Domain.Models.MenuItem>()
-          {
-            new Domain.Models.MenuItem(){
-              Title = "企业信息",
-              Description = "企业信息",
+              Title = "Companies",
+              Description = "Companies",
               Action = "Index",
               Controller = "Companies",
               Url = "/Companies/Index",
@@ -96,8 +52,8 @@ namespace MicroCrm.Infrastructure.Persistence
               IsEnabled = true,
             },
             new Domain.Models.MenuItem(){
-              Title = "客户信息",
-              Description = "客户信息",
+              Title = "Customers",
+              Description = "Customers",
               Action = "Index",
               Controller = "Customers",
               Url = "/Customers/Index",
@@ -105,12 +61,42 @@ namespace MicroCrm.Infrastructure.Persistence
               Icon = "",
               IsEnabled = true,
             },
+            new Domain.Models.MenuItem(){
+              Title = "Products",
+              Description = "Products",
+              Action = "Index",
+              Controller = "Products",
+              Url = "/Products/Index",
+              LineNum = "203",
+              Icon = "",
+              IsEnabled = true,
+            },
+             new Domain.Models.MenuItem(){
+              Title = "Orders",
+              Description = "Orders",
+              Action = "Index",
+              Controller = "Orders",
+              Url = "/Orders/Index",
+              LineNum = "204",
+              Icon = "",
+              IsEnabled = true,
+            },
+            new Domain.Models.MenuItem(){
+              Title = "Photos",
+              Description = "Photos",
+              Action = "index",
+              Controller = "Photos",
+              Url = "/photos/index",
+              LineNum = "205",
+              Icon = "",
+              IsEnabled = true,
+            },
           }
         };
-        var menu3 = new Domain.Models.MenuItem()
+        var menu2 = new Domain.Models.MenuItem()
         {
-          Title = "系统管理",
-          Description = "系统管理",
+          Title = "System Management",
+          Description = "System Management",
           Action = "#",
           Controller = "#",
           Url = "#",
@@ -120,8 +106,8 @@ namespace MicroCrm.Infrastructure.Persistence
           Children = new HashSet<Domain.Models.MenuItem>()
           {
             new Domain.Models.MenuItem(){
-              Title = "租户管理",
-              Description = "租户管理",
+              Title = "Tenants",
+              Description = "Tenants",
               Action = "Index",
               Controller = "Tenants",
               Url = "/Tenants/Index",
@@ -130,8 +116,8 @@ namespace MicroCrm.Infrastructure.Persistence
               IsEnabled = true,
             },
             new Domain.Models.MenuItem(){
-              Title = "账号管理",
-              Description = "账号管理",
+              Title = "Account Management",
+              Description = "Account Management",
               Action = "Index",
               Controller = "AccountManage",
               Url = "/AccountManage/Index",
@@ -140,8 +126,8 @@ namespace MicroCrm.Infrastructure.Persistence
               IsEnabled = true,
             },
             new Domain.Models.MenuItem(){
-              Title = "角色管理",
-              Description = "角色管理",
+              Title = "Role Manage",
+              Description = "Role Manage",
               Action = "Index",
               Controller = "RoleManage",
               Url = "/RoleManage/Index",
@@ -150,8 +136,8 @@ namespace MicroCrm.Infrastructure.Persistence
               IsEnabled = true,
             },
             new Domain.Models.MenuItem(){
-              Title = "角色授权",
-              Description = "角色授权",
+              Title = "Role Menus",
+              Description = "Role Menus",
               Action = "Index",
               Controller = "rolemenus",
               Url = "/rolemenus/index",
@@ -160,8 +146,8 @@ namespace MicroCrm.Infrastructure.Persistence
               IsEnabled = true,
             },
             new Domain.Models.MenuItem(){
-              Title = "导航菜单",
-              Description = "导航菜单",
+              Title = "Menu",
+              Description = "Menu",
               Action = "Index",
               Controller = "MenuItems",
               Url = "/MenuItems/Index",
@@ -170,8 +156,8 @@ namespace MicroCrm.Infrastructure.Persistence
               IsEnabled = true,
             },
             new Domain.Models.MenuItem(){
-              Title = "键值对配置",
-              Description = "键值对配置",
+              Title = "Key-value pair Config",
+              Description = "Key-value pair Config",
               Action = "Index",
               Controller = "CodeItems",
               Url = "/CodeItems/Index",
@@ -180,8 +166,8 @@ namespace MicroCrm.Infrastructure.Persistence
               IsEnabled = true,
             },
             new Domain.Models.MenuItem(){
-              Title = "导入&导出配置",
-              Description = "导入&导出配置",
+              Title = "Import & Export Config",
+              Description = "Import & Export Config",
               Action = "Index",
               Controller = "DataTableImportMappings",
               Url = "/DataTableImportMappings/Index",
@@ -190,8 +176,8 @@ namespace MicroCrm.Infrastructure.Persistence
               IsEnabled = true,
             },
             new Domain.Models.MenuItem(){
-              Title = "系统日志",
-              Description = "系统日志",
+              Title = "System log",
+              Description = "System log",
               Action = "Index",
               Controller = "Logs",
               Url = "/Logs/Index",
@@ -200,8 +186,8 @@ namespace MicroCrm.Infrastructure.Persistence
               IsEnabled = true,
             },
             new Domain.Models.MenuItem(){
-              Title = "消息推送",
-              Description = "消息推送",
+              Title = "Notifications",
+              Description = "Notifications",
               Action = "Index",
               Controller = "notifications",
               Url = "/notifications/index",
@@ -233,7 +219,6 @@ namespace MicroCrm.Infrastructure.Persistence
           }
         };
         context.MenuItems.Add(home);
-        context.MenuItems.Add(menu3);
         context.MenuItems.Add(menu2);
         context.MenuItems.Add(menu1);
         await context.SaveChangesAsync();
@@ -249,7 +234,7 @@ namespace MicroCrm.Infrastructure.Persistence
                MenuId=item.Id,
                IsEnabled = true,
             };
-            if (role == "Basic" && (item.Title == "系统管理" || item?.Parent?.Title== "系统管理")){
+            if (role == "Basic" && (item.Title == "System Management" || item?.Parent?.Title== "System Management")){
               continue;
             }
             context.RoleMenus.Add(rolemenu);

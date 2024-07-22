@@ -67,10 +67,10 @@
                     if (res.success) {
                       $('#customer-modal').modal('toggle');
                       reload();
-                      toastr.success("保存成功");
+                      toastr.success("Saved successfully");
                     }
                     else {
-                      $.messager.alert('错误', res.err)
+                      $.messager.alert('Error', res.err)
                     }
                   });
                   

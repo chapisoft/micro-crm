@@ -35,7 +35,7 @@
           .fail(() => {
             bootbox.alert(
           {
-                title: "错误",
+                title: "Error",
                 message: `没有找到导入模板['@Model.tpl'].`,
             size: 'small',
             centerVertical: false,
@@ -71,7 +71,7 @@
                 var result = JSON.parse(response);
                 bootbox.alert(
                   {
-                    title: "错误",
+                    title: "Error",
                     message: result.err,
                     size: 'small',
                     centerVertical: false,

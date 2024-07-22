@@ -11,7 +11,7 @@ $.extend($.fn.etree.defaults,{
 			msg:'请先选择节点后再进行删除操作。'
 		},
 		confirm:{
-			title:'确认',
+			title:'Confirm',
 			msg:'是否真的删除选定的节点？'
 		}
 	}

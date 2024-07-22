@@ -17,7 +17,7 @@ namespace MicroCrm.Service.Helper
       {
         ConnectionString = connectionString,
         DbType = DbType.SqlServer, //Required（那个数据库）
-        IsAutoCloseConnection = true, //默认false（是否自动关闭连接）
+        IsAutoCloseConnection = true, //默认false（是否自动Close连接）
         InitKeyType = InitKeyType.Attribute
       });  //默认SystemTable
       return db;

@@ -362,7 +362,7 @@
           });
           $.post('/RoleMenus/Submit', { selectmenus: list }, function (data, status, q) {
             $.messager.progress('close');
-            $.messager.alert('提示', '保存成功', 'info', function () {
+            $.messager.alert('提示', 'Saved successfully', 'info', function () {
               location.reload();
             });
           });

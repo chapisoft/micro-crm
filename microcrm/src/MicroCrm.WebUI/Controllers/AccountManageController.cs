@@ -70,7 +70,7 @@ namespace MicroCrm.WebUI.Controllers
       }
       return Json(new { success = true });
     }
-    //注册新用户
+    //Register a new user
     public async Task<JsonResult> ReregisterUser(AccountRegistrationModel model) {
       if (this.ModelState.IsValid)
       {
