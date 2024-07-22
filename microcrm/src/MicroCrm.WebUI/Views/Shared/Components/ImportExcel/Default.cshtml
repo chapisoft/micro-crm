@@ -1,0 +1,129 @@
+﻿@model MicroCrm.WebUI.ViewComponents.ImportExcelOptions
+<div class="modal fade" id="uploadmodal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">导入数据</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <input type="file"
+               class="filepond"
+               name="filepond" multiple
+               accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+               data-max-file-size="50MB"
+               data-max-files="100">
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+<script type="text/javascript">
+    var importExcel = {
+      //上传导入附件
+      upload: function () {
+        $('#uploadmodal').modal('toggle');
+      },
+      //下载Excel导入模板
+      downloadtemplate: function () {
+        const url = '@(Model.url)/Download?file=ExcelTemplate\\@(Model.tpl)';
+        $.fileDownload(url)
+          .done(() => {
+            toastr.success('模板下载完成!');
+          })
+          .fail(() => {
+            bootbox.alert(
+          {
+                title: "错误",
+                message: `没有找到导入模板['@Model.tpl'].`,
+            size: 'small',
+            centerVertical: false,
+            callback: function (result) {
+            }
+
+          });
+          });
+      },
+      init: function () {
+         // enable fileuploader plugin
+        FilePond.registerPlugin(
+          // validates the size of the file
+          FilePondPluginFileValidateSize,
+          // validates the type of the file
+          FilePondPluginFileValidateType
+        );
+        FilePond.create(document.querySelector('.filepond'));
+        FilePond.setOptions({
+          instantUpload: true,
+          server: {
+            timeout: 16000,
+            process: {
+              url: '@(Model.url)/ImportExcel',
+              method: 'POST',
+              ondata: (formData) => {
+                formData.append('model', '@Model.entity');
+                formData.append('save', true);
+                return formData;
+              },
+              onerror: (response) => {
+                console.log(response);
+                var result = JSON.parse(response);
+                bootbox.alert(
+                  {
+                    title: "错误",
+                    message: result.err,
+                    size: 'small',
+                    centerVertical: false,
+                    callback: function (result) {
+
+                    }
+                  });
+                return response;
+              },
+              onload: (response) => {
+                console.log(response)
+                var result = JSON.parse(response);
+                bootbox.alert(
+                  {
+                    title: "提示",
+                    message: `导入成功,耗时:${result.elapsedTime}`,
+                    size: 'small',
+                    centerVertical: false,
+                    callback: function (result) {
+                      $('#uploadmodal').modal('toggle');
+                      @Model.callback;
+                    }
+                  });
+                return response;
+              },
+            },
+            //revert: '/FileManager/Revert',
+          },
+
+        });
+      }
+    };
+  document.addEventListener("DOMContentLoaded", function () {
+    $(document).on('show.bs.modal', '.modal', function (event) {
+      var zIndex = 1040 + (10 * $('.modal:visible').length);
+      $(this).css('z-index', zIndex);
+      setTimeout(function () {
+        $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+       }, 0);
+    });
+      $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '/js/plugin/filepond/filepond.css'));
+      $.when($.getScript('/js/plugin/filesaver/jquery.fileDownload.js'),
+        $.getScript('/js/plugin/filepond/filepond.js'),
+        $.getScript('/js/plugin/filepond/plugin/filepond-plugin-file-validate-type.js'),
+        $.getScript('/js/plugin/filepond/plugin/filepond-plugin-file-validate-size.js')
+      ).done(function() {
+        importExcel.init();
+      });
+
+
+
+    });
+
+</script>
+

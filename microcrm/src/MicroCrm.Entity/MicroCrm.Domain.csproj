@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+   <TargetFramework>net5.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>MicroCrm.Domain</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\URF.Core\URF.Core.EF.Trackable\URF.Core.EF.Trackable.csproj" />
+  </ItemGroup>
+
+</Project>

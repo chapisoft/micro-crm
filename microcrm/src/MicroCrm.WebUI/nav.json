@@ -1,0 +1,114 @@
+﻿{
+  "version": "4.5",
+  "lists": [
+    {
+      "title": "Home Page",
+      "icon": "fal fa-home",
+      "href": "Home_Index.html",
+      "roles": []
+
+    },
+    {
+      "title": "Organization",
+      "icon": "fal fa-window",
+      "roles": [],
+      "items": [
+        {
+          "title": "Corporate Information",
+          "showOnSeed": false,
+          "href": "Companies_Index.html",
+          "roles": []
+        },
+        {
+          "title": "Customer Information",
+          "showOnSeed": false,
+          "href": "customers_index.html",
+          "roles": []
+        }
+      ]
+    },
+    {
+      "title": "Main data Management",
+      "icon": "fal fa-list-alt",
+      "roles": [],
+      "items": [
+        {
+          "title": "Product Master",
+          "showOnSeed": false,
+          "href": "products_index.html",
+          "roles": []
+        }
+
+      ]
+    },
+    {
+      "title": "System Management",
+      "icon": "fal fa-users-cog",
+      "roles": [],
+      "items": [
+        {
+          "title": "Tenant Management",
+          "showOnSeed": false,
+          "href": "accountmanage_tenant.html",
+          "roles": []
+        },
+        {
+          "title": "Account Management",
+          "showOnSeed": false,
+          "href": "accountmanage_index.html",
+          "roles": []
+        },
+        {
+          "title": "Role Management",
+          "showOnSeed": false,
+          "href": "rolemanage_index.html",
+          "roles": []
+        },
+        {
+          "title": "Navigation bar configuration",
+          "showOnSeed": false,
+          "href": "MenuItems_Index.html",
+          "roles": []
+        },
+        {
+          "title": "Role authorized",
+          "showOnSeed": false,
+          "href": "rolemenus_index.html",
+          "roles": []
+        },
+        {
+          "title": "Import & export configuration",
+          "showOnSeed": false,
+          "href": "DataTableImportMappings_Index.html",
+          "roles": []
+        },
+        {
+          "title": "Key-value pair configuration",
+          "showOnSeed": false,
+          "href": "CodeItems_Index.html",
+          "roles": []
+        },
+        {
+          "title": "System log",
+          "showOnSeed": false,
+          "href": "logs_index.html",
+          "roles": []
+        },
+        {
+          "title": "Message push",
+          "showOnSeed": false,
+          "href": "notifications_index.html",
+          "roles": []
+        },
+        {
+          "title": "WebApi",
+          "showOnSeed": false,
+          "href": "swagger/index.html",
+          "roles": []
+        }
+      ]
+    }
+
+
+  ]
+}

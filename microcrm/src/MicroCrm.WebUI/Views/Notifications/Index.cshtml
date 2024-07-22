@@ -1,0 +1,565 @@
+﻿@model MicroCrm.Domain.Models.Notification
+@{
+  /**/
+
+  ViewBag.Title = "消息推送";
+  ViewData["PageName"] = "notifications_index";
+  ViewData["Heading"] = "<i class='fal fa-comments-alt text-primary'></i>  消息推送";
+  ViewData["Category1"] = "系统管理";
+  ViewData["PageDescription"] = "";
+}
+@section HeadBlock {
+
+  <link href="~/css/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.css" rel="stylesheet" asp-append-version="true" />
+  <link href="~/js/easyui/themes/insdep/easyui.css" rel="stylesheet" asp-append-version="true" />
+
+}
+<div class="row">
+  <div class="col-lg-12 col-xl-12">
+    <div id="panel-1" class="panel">
+      <div class="panel-hdr">
+        <h2>
+          消息推送
+        </h2>
+        <div class="panel-toolbar">
+          <button class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"><i class="fal fa-window-minimize"></i></button>
+          <button class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"><i class="fal fa-expand"></i></button>
+          @*<button class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"><i class="fal fa-times"></i></button>*@
+        </div>
+
+      </div>
+      <div class="panel-container enable-loader show">
+        <div class="loader"><i class="fal fa-spinner-third fa-spin-4x fs-xxl"></i></div>
+        <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-faded bg-subtlelight-fade">
+          <div class="row no-gutters align-items-center">
+            <div class="col">
+              <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
+              <div class="btn-group btn-group-sm">
+                <button name="searchbutton" onclick="reloadData()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> 查询 </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button name="appendbutton" onclick="appendData()" class="btn btn-default"> <span class="fal fa-plus mr-1"></span> 发布新事件消息 </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button name="deletebutton"  onclick="removeData()" class="btn btn-default"> <span class="fal fa-times mr-1"></span> 删除 </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button name="savebutton"  onclick="acceptChanges()" class="btn btn-default"> <span class="fal fa-save mr-1"></span>  保存 </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button name="cancelbutton"  onclick="rejectChanges()" class="btn btn-default"> <span class="fal fa-ban mr-1"></span> 取消 </button>
+              </div>
+
+              <div class="btn-group btn-group-sm ">
+                <button name="exportbutton" onclick="exportexcel()" class="btn btn-default"> <span class="fal fa-file-excel mr-1"></span> 导出 </button>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="panel-content">
+          <div class="table-responsive">
+            <table id="notifications_datagrid">
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+@section ScriptsBlock {
+  <script src="~/js/dependency/moment/moment.js" asp-append-version="true"></script>
+  <script src="~/js/dependency/numeral/numeral.min.js" asp-append-version="true"></script>
+  <script src="~/js/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/jquery.easyui.min.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/plugins/datagrid-filter.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/plugins/columns-ext.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/plugins/columns-reset.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/locale/easyui-lang-zh_CN.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/jquery.easyui.component.js" asp-append-version="true"></script>
+  <script src="~/js/jquery.extend.formatter.js" asp-append-version="true"></script>
+  <script src="~/js/jquery.custom.extend.js" asp-append-version="true"></script>
+  <script src="~/js/plugin/jquery.serializejson/jquery.serializejson.js" asp-append-version="true"></script>
+
+  <script type="text/javascript">
+    //全屏事件
+    document.addEventListener('panel.onfullscreen', () => {
+      $dg.treegrid('resize');
+    });
+      //是否强制从后台取值
+      const REQUIRBACKEND = false;
+      //是否开启行内编辑
+      const EDITINLINE = true;
+      //上传导入参数设定
+      const entityname = "Notification";
+      var notification = {};
+
+
+
+	   //执行导出下载Excel
+	   function exportexcel() {
+				const filterRules = JSON.stringify($dg.datagrid('options').filterRules);
+				//console.log(filterRules);
+				$.messager.progress({ title: '正在执行导出!' });
+				let formData = new FormData();
+				formData.append('filterRules', filterRules);
+				formData.append('sort', 'Id');
+				formData.append('order', 'asc');
+				$.postDownload('/Notifications/ExportExcel', formData).then(res => {
+                    $.messager.progress('close');
+                    toastr.success('导出成功!');
+                }).catch(err => {
+                    //console.log(err);
+                    $.messager.progress('close');
+                    $.messager.alert('失败', err.statusText, 'error');
+                });
+
+		}
+
+       var editIndex = undefined;
+       //重新加载数据
+  function reloadData() {
+
+      $dg.datagrid('uncheckAll');
+      $dg.datagrid('reload');
+
+  }
+      //关闭编辑状态
+	  function endEditing() {
+			if (editIndex === undefined) {
+                return true;
+            }
+			if ($dg.datagrid('validateRow', editIndex)) {
+				$dg.datagrid('endEdit', editIndex);
+                return true;
+			} else {
+				const invalidinput = $('input.validatebox-invalid',$dg.datagrid('getPanel'));
+                const fieldnames = invalidinput.map((index, item) => {
+                  return $(item).attr('placeholder') || $(item).attr('id');
+                });
+                $.messager.alert('提示', `${Array.from(fieldnames)} 输入有误.`, 'error');
+				return false;
+			}
+		}
+    //单击列开启编辑功能
+	function onClickCell(index, field) {
+        notification = $dg.datagrid('getRows')[index];
+	    const _actions = ['action', 'ck'];
+		if (!EDITINLINE || $.inArray(field, _actions) >= 0) {
+				return;
+		}
+		if (editIndex !== index) {
+		    if (endEditing()) {
+			    $dg.datagrid('selectRow', index)
+				   .datagrid('beginEdit', index);
+                hook = true;
+                editIndex = index;
+				const ed = $dg.datagrid('getEditor', { index: index, field: field });
+				if (ed) {
+						($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+				}
+			} else {
+				$dg.datagrid('selectRow', editIndex);
+			}
+		}
+	}
+    //新增记录
+    async function appendData() {
+      notification = {
+        Read: false,
+        From: '',
+        To: 'ALL',
+        Group: '',
+        PublishDate: new Date(),
+      };
+
+      if (endEditing()) {
+        //对Required字段进行默认值初始化
+        $dg.datagrid('insertRow',
+          {
+            index: 0,
+            row: notification
+          });
+        editIndex = 0;
+        $dg.datagrid('selectRow', editIndex)
+          .datagrid('beginEdit', editIndex);
+        hook = true;
+      }
+
+    }
+    //删除编辑的行
+	function removeData() {
+       if (EDITINLINE) {
+          if (editIndex !== undefined) {
+    		 $dg.datagrid('cancelEdit', editIndex)
+				.datagrid('deleteRow', editIndex);
+			   editIndex = undefined;
+               hook = true;
+           }else{
+              const rows = $dg.datagrid('getChecked');
+              rows.slice().reverse().forEach(row => {
+                const rowindex = $dg.datagrid('getRowIndex', row);
+                $dg.datagrid('deleteRow', rowindex);
+                hook = true;
+              });
+           }
+        } else {
+		  deletechecked();
+        }
+	}
+  //删除该行
+  function deleteRow(id) {
+    $.messager.confirm('确认', '你确定要删除该记录?', result => {
+      if (result) {
+        $.post('/Notifications/DeleteCheckedAsync', { id: [id] })
+          .done(response => {
+             if (response.success) {
+                toastr.error('成功删除');
+                reloadData();
+              } else {
+                $.messager.alert('错误', response.err,'error');
+              }
+          })
+          .fail((jqXHR, textStatus, errorThrown) => {
+			 $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+		  });
+      }
+     });
+  }
+    //删除选中的行
+    function deletechecked() {
+        const id = $dg.datagrid('getChecked').filter(item=>item.Id!=null && item.Id > 0).map(item => {
+                   return item.Id;
+                });;
+        if (id.length > 0) {
+           $.messager.confirm('确认', `你确定要删除这 <span class='badge badge-icon position-relative'>${id.length} </span> 行记录?`, result => {
+                if (result) {
+                    $.post('/Notifications/DeleteChecked', { id: id })
+                         .done(response => {
+                                if (response.success) {
+                                    toastr.error(`成功删除【${id.length}】行记录`);
+                                    reloadData();
+                                } else {
+                                    $.messager.alert('错误', response.err,'error');
+                                }
+                          })
+                          .fail((jqXHR, textStatus, errorThrown) => {
+						     $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+					      });
+                    }
+                });
+         } else {
+                $.messager.alert('提示', '请先选择要删除的记录!','question');
+         }
+     }
+    //提交保存后台数据库
+    function acceptChanges() {
+      if (endEditing()) {
+        if ($dg.datagrid('getChanges').length > 0) {
+          const inserted = $dg.datagrid('getChanges', 'inserted').map(item => {
+            item.TrackingState = 1;
+            return item;
+          });
+          const updated = $dg.datagrid('getChanges', 'updated').map(item => {
+            item.TrackingState = 2
+            return item;
+          });
+          const deleted = $dg.datagrid('getChanges', 'deleted').map(item => {
+            item.TrackingState = 3
+            return item;
+          });
+          //过滤已删除的重复项
+          const changed = inserted.concat(updated.filter(item => {
+            return !deleted.includes(item);
+          })).concat(deleted);
+          //console.table(changed);
+          $.post('/Notifications/AcceptChanges', { notifications: changed })
+            .done(response => {
+              //console.log(response);
+              if (response.success) {
+                toastr.success('保存成功');
+                $dg.datagrid('acceptChanges');
+                reloadData();
+                hook = false;
+              } else {
+                $.messager.alert('错误', response.err, 'error');
+              }
+            })
+            .fail((jqXHR, textStatus, errorThrown) => {
+              $.messager.alert('异常', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+            });
+        }
+      }
+    }
+	function rejectChanges() {
+	    $dg.datagrid('rejectChanges');
+	    editIndex = undefined;
+        hook = false;
+	}
+	function getChanges() {
+	    const rows = $dg.datagrid('getChanges');
+		//console.log(rows.length + ' rows are changed!');
+	}
+    //弹出明细信息
+	async function showdetailswindow(id,index) {
+        var notification = $dg.datagrid('getRows')[index];
+        if (REQUIRBACKEND) {
+           notification = await $.get('/Notifications/GetItemAsync/' + id);
+        }
+        opendetailwindow(notification,'Modified');
+	}
+
+    //初始化定义datagrid
+    var $dg = $('#notifications_datagrid');
+    $(() => {
+      //定义datagrid结构
+      $dg.datagrid({
+        rownumbers: true,
+        checkOnSelect: false,
+        selectOnCheck: true,
+        idField: 'Id',
+        sortName: 'Id',
+        sortOrder: 'desc',
+        remoteFilter: true,
+        singleSelect: false,
+        method: 'get',
+        onClickCell: onClickCell,
+        pagination: true,
+        clientPaging: false,
+        striped: true,
+        height: 670,
+        pageSize: 15,
+        pageList: [15, 20, 50, 100, 500, 2000],
+        onBeforeLoad: function () {
+          $('.enable-loader').removeClass('enable-loader')
+        },
+        onLoadSuccess: function (data) {
+          editIndex = undefined;
+          $("button[name*='deletebutton']").prop("disabled", true);
+          $("button[name*='savebutton']").prop("disabled", true);
+          $("button[name*='cancelbutton']").prop("disabled", true);
+        },
+        onCheck: function () {
+          $("button[name*='deletebutton']").prop("disabled", false);
+        },
+        onUncheck: function () {
+          console.log('onUncheck');
+        },
+        onSelect: function (index, row) {
+          notification = row;
+        },
+        onBeginEdit: function (index, row) {
+
+        },
+        onEndEdit: function (index, row) {
+
+          editIndex = undefined;
+        },
+        onBeforeEdit: function (index, row) {
+          row.editing = true;
+          $("button[name*='deletebutton']").prop("disabled", false);
+          $("button[name*='cancelbutton']").prop("disabled", false);
+          $("button[name*='savebutton']").prop("disabled", false);
+          $(this).datagrid('refreshRow', index);
+        },
+        onAfterEdit: function (index, row) {
+          row.editing = false;
+          $(this).datagrid('refreshRow', index);
+        },
+        onCancelEdit: function (index, row) {
+          row.editing = false;
+          $("button[name*='savebutton']").prop("disabled", true);
+          $("button[name*='cancelbutton']").prop("disabled", true);
+          $("button[name*='deletebutton']").prop("disabled", true);
+          $(this).datagrid('refreshRow', index);
+        },
+        frozenColumns: [[
+          /*开启CheckBox选择功能*/
+          { field: 'ck', checkbox: true },
+
+        ]],
+        columns: [[
+           {     /*类型*/
+            field: 'Group',
+            title: '<span class="required">@Html.DisplayNameFor(model => model.Group)</span>',
+            width: 100,
+            align: 'right',
+            hidden: false,
+            editor: {
+              type: 'combobox',
+              options: {
+                prompt: '@Html.DescriptionFor(model => model.Group)',
+                required: true,
+                data: [
+                  { value: '操作日志', text: '操作日志' },
+                  { value: '审批记录', text: '审批记录' },
+                  { value: '审计记录', text: '审计记录' }
+
+                ],
+
+              }
+            },
+            sortable: true,
+            resizable: true
+          },
+          {   /*发出时间*/
+            field: 'PublishDate',
+            title: '<span class="required">@Html.DisplayNameFor(model => model.PublishDate)</span>',
+            width: 150,
+            align: 'right',
+            hidden: false,
+            editor: {
+              type: 'datetimebox',
+              options: { prompt: '@Html.DescriptionFor(model => model.PublishDate)', required: true, showSeconds: true }
+            },
+            formatter: datetimeformatter,
+            sortable: true,
+            resizable: true
+          },
+          {    /*主题*/
+            field: 'Title',
+            title: '<span class="required">@Html.DisplayNameFor(model => model.Title)</span>',
+            width: 220,
+            hidden: false,
+            editor: {
+              type: 'textbox',
+              options: { prompt: '@Html.DescriptionFor(model => model.Title)', required: true, validType: 'length[0,128]' }
+            },
+            sortable: true,
+            resizable: true
+          },
+          {    /*消息内容*/
+            field: 'Content',
+            title: '@Html.DisplayNameFor(model => model.Content)',
+            width: 300,
+            hidden: false,
+            editor: {
+              type: 'textbox',
+              options: { prompt: '@Html.DescriptionFor(model => model.Content)', required: false, validType: 'length[0,255]' }
+            },
+            sortable: true,
+            resizable: true
+          },
+          {    /*链接*/
+            field: 'Link',
+            title: '@Html.DisplayNameFor(model => model.Link)',
+            width: 160,
+            hidden: false,
+            editor: {
+              type: 'textbox',
+              options: { prompt: '@Html.DescriptionFor(model => model.Link)', required: false, validType: 'length[0,255]' }
+            },
+            sortable: true,
+            resizable: true
+          },
+          {    /*发布源*/
+            field: 'Publisher',
+            title: '@Html.DisplayNameFor(model => model.Publisher)',
+            width: 160,
+            hidden: false,
+            editor: {
+              type: 'textbox',
+              options: { prompt: '@Html.DescriptionFor(model => model.Publisher)', required: false, validType: 'length[0, 128]' }
+            },
+            sortable: true,
+            resizable: true
+          },
+          {  /*已读*/
+            field: 'Read',
+            title: '<span class="required">@Html.DisplayNameFor(model => model.Read)</span>',
+            width: 80,
+            align: 'center',
+            hidden: false,
+            editor: {
+              type: 'checkbox',
+              options: {
+                id:'editor_read',
+                prompt: '@Html.DescriptionFor(model => model.Read)',
+                required: true
+              }
+            },
+            formatter: booleanformatter,
+            sortable: true,
+            resizable: true
+          },
+          {    /*From*/
+            field: 'From',
+            title: '@Html.DisplayNameFor(model => model.From)',
+            width: 140,
+            hidden: false,
+            editor: {
+              type: 'textbox',
+              options: { prompt: '@Html.DescriptionFor(model => model.From)', required: false, validType: 'length[0,50]' }
+            },
+            sortable: true,
+            resizable: true
+          },
+          {    /*From*/
+            field: 'To',
+            title: '@Html.DisplayNameFor(model => model.To)',
+            width: 120,
+            hidden: false,
+            editor: {
+              type: 'textbox',
+              options: { prompt: '@Html.DescriptionFor(model => model.To)', required: false, validType: 'length[0,50]' }
+            },
+            sortable: true,
+            resizable: true
+          }
+
+
+        ]]
+      })
+        .datagrid('enableFilter', [
+          {   /*类型*/
+            field: 'Group',
+            type: 'combobox',
+            options: {
+              data: [
+                { value: '操作日志', text: '操作日志' },
+                { value: '审批记录', text: '审批记录' },
+                { value: '审计记录', text: '审计记录' }
+              ],
+              onChange: value => {
+                $dg.datagrid('addFilterRule', {
+                  field: 'Group',
+                  op: 'equal',
+                  value: value
+                });
+
+                $dg.datagrid('doFilter');
+              }
+            }
+          },
+          {     /*发出时间*/
+            field: 'PublishDate',
+            type: 'dateRange',
+            options: {
+              onChange: value => {
+                $dg.datagrid('addFilterRule', {
+                  field: 'PublishDate',
+                  op: 'between',
+                  value: value
+                });
+
+                $dg.datagrid('doFilter');
+              }
+            }
+          },
+          {   /*已读*/
+            field: 'Read',
+            type: 'booleanfilter'
+          },
+        ])
+        .datagrid('load', '/Notifications/GetData');
+    });
+
+  </script>
+
+}
+
+
