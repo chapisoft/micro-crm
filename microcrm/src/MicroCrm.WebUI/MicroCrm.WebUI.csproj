@@ -11,9 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Mapping\**" />
     <Compile Remove="Migrations\**" />
+    <Content Remove="Mapping\**" />
     <Content Remove="Migrations\**" />
+    <EmbeddedResource Remove="Mapping\**" />
     <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Mapping\**" />
     <None Remove="Migrations\**" />
   </ItemGroup>
 
@@ -73,7 +77,6 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Mapping\" />
     <Folder Include="wwwroot\js\plugin\jquery.validation\" />
     <Folder Include="wwwroot\js\plugin\jquery.form.binding\" />
     <Folder Include="wwwroot\js\plugin\snowflakeid\" />
