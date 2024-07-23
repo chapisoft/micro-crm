@@ -86,7 +86,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
         var result = await this._userManager.CreateAsync(user, Input.Password);
         if (result.Succeeded)
         {
-          this._logger.LogInformation($"{Input.UserName}:Register成功");
+          this._logger.LogInformation($"{Input.UserName}:Register successfully");
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim("http://schemas.microsoft.com/identity/claims/tenantid", user.TenantId.ToString()));
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, user.UserName));
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.GivenName,user.GivenName??""));
@@ -97,8 +97,8 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.MobilePhone, user.PhoneNumber ?? ""));
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.HomePhone,  user.PhoneNumber ?? ""));
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.OtherPhone, user.PhoneNumber ?? ""));
-          await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Locality, "zh-cn"));
-          await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Country, "china"));
+          await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Locality, "en"));
+          await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Country, "vietnam"));
           await _signInManager.SignInAsync(user, true);
           return LocalRedirect(returnUrl);
         }
@@ -143,7 +143,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
       public string UserName { get; set; }
 
       [Display(Name = "Nick name", Description = "Nick name", Prompt = "Name displayed after login")]
-      [RegularExpression(@"^[\u4E00-\u9FA5a-zA-Z0-9_]{2,20}$",ErrorMessage = "Nick name不合法(字母开头，允许2-20位，允许字母数字下划线)")]
+      [RegularExpression(@"^[\u4E00-\u9FA5a-zA-Z0-9_]{2,20}$",ErrorMessage = "Nick name is illegal (starts with a letter, 2-20 characters are allowed, letters, numbers and underscores are allowed)")]
       public string GivenName { get; set; }
 
       [Required]
@@ -158,16 +158,16 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
       [Required]
       [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
       [DataType(DataType.Password)]
-      [Display(Name = "密码")]
+      [Display(Name = "Password")]
       public string Password { get; set; }
 
       [DataType(DataType.Password)]
-      [Display(Name = "Confirm密码")]
+      [Display(Name = "ConfirmPassword")]
       [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
       public string ConfirmPassword { get; set; }
 
       [Required]
-      [Display(Name = "我同意条款及细则")]
+      [Display(Name = "I agree to the terms and conditions")]
       public bool AgreeToTerms { get; set; }
 
       [Display(Name = "Register")]

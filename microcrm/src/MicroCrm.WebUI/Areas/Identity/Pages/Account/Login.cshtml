@@ -14,7 +14,7 @@
 
 <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4 m-auto">
     <h1 class="text-white fw-300 mb-3 d-sm-block d-md-none">
-        登录
+        Login
     </h1>
     <div class="card p-4 rounded-plus bg-faded">
         <form id="js-login"  asp-antiforgery="false"  method="post">
@@ -22,29 +22,29 @@
             <div class="form-group">
                 <label class="form-label" asp-for="Input.UserName">Username</label>
                 <input type="text" asp-for="Input.UserName" class="form-control" placeholder="Email for verification" value="demo" required="required" />
-                <span class="invalid-feedback" asp-validation-for="Input.UserName">Please enter Username或Email Address.</span>
-                <div class="help-block">Register的Username或Email Address</div>
+                <span class="invalid-feedback" asp-validation-for="Input.UserName">Please enter Username or Email Address.</span>
+                <div class="help-block">Register Username or Email Address</div>
             </div>
             <div class="form-group">
-                <label class="form-label" asp-for="Input.Password">密码</label>
+                <label class="form-label" asp-for="Input.Password">Password</label>
                 <input type="password" asp-for="Input.Password" class="form-control" placeholder="Your password" value="" required="required" />
-                <span class="invalid-feedback" asp-validation-for="Input.Password">Please enter 有效的密码.</span>
-                <div class="help-block">您在Register时指定的密码</div>
+                <span class="invalid-feedback" asp-validation-for="Input.Password">Please enter a valid password.</span>
+                <div class="help-block">The password you specified when registering</div>
             </div>
             <div class="form-group text-left">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" asp-for="Input.RememberMe" />
-                    <label class="custom-control-label" asp-for="Input.RememberMe">在接下来的30天里，请记住我</label>
+                    <label class="custom-control-label" asp-for="Input.RememberMe">Please remember me for the next 30 days.</label>
                 </div>
             </div>
             <div class="row no-gutters">
           
                 <div class="col-lg-6 pl-lg-1 my-2 ml-auto">
-                    <button id="js-login-btn" type="submit" class="btn btn-danger btn-block ">登录</button>
+                    <button id="js-login-btn" type="submit" class="btn btn-danger btn-block ">Login</button>
                 </div>
             </div>
             <div class="text-center">
-                <a asp-page="ForgotPassword" class="opacity-90">忘记了你的密码?</a>
+                <a asp-page="ForgotPassword" class="opacity-90">Forgot your password?</a>
             </div>
         </form>
     </div>

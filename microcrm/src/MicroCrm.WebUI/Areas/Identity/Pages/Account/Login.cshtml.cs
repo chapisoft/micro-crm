@@ -93,7 +93,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
         var result = await _signInManager.PasswordSignInAsync(loginUser, Input.Password, Input.RememberMe, lockoutOnFailure: true);
         if (result.Succeeded)
         {
-          _logger.LogInformation($"{loginUser.UserName}:登录成功");
+          _logger.LogInformation($"{loginUser.UserName}:Login成功");
           return LocalRedirect(returnUrl);
         }
         if (result.RequiresTwoFactor)
@@ -102,13 +102,13 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
         }
         if (result.IsLockedOut)
         {
-          _logger.LogInformation($"{loginUser.UserName}:Identity被锁定");
-          ModelState.AddModelError(string.Empty, "Identity被锁定,15分钟后再试.");
+          _logger.LogInformation($"{loginUser.UserName}:Account is locked");
+          ModelState.AddModelError(string.Empty, "Account is locked,Try again after 15 minutes.");
           return Page();
         }
         else
         {
-          ModelState.AddModelError(string.Empty, "Username或密码不正确" );
+          ModelState.AddModelError(string.Empty, "Username或Password不正确" );
           return Page();
         }
       }

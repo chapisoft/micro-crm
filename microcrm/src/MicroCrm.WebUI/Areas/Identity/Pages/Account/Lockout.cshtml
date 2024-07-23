@@ -7,7 +7,7 @@
 <div class="container py-4 py-lg-5 my-lg-5 px-4 px-sm-0 text-white d-flex align-items-center justify-content-center">
   <form id="js-login" role="form"  asp-antiforgery="false" class="text-center text-white mb-5 pb-5" method="post">
     <div class="py-3">
-      <img src="~/img/demo/avatars/@(HttpContext.Request.Cookies["Avatars"])" class="img-responsive rounded-circle img-thumbnail" alt="thumbnail">
+      <img src="~/img/avatars/@(HttpContext.Request.Cookies["Avatars"])" class="img-responsive rounded-circle img-thumbnail" alt="thumbnail">
     </div>
 
     <div class="form-group">
@@ -18,10 +18,10 @@
         </small>
       </h3>
       <div asp-validation-summary="All" class="alert alert-warning bg-transparent  border-0"></div>
-      <p class="text-white opacity-50">输入密码解锁</p>
+      <p class="text-white opacity-50">Enter password to unlock</p>
       <div class="input-group input-group-lg">
         <input type="password" asp-for="Input.Password" class="form-control" value="" required="required" />
-        <span class="invalid-feedback" asp-validation-for="Input.Password">Please enter 密码.</span>
+        <span class="invalid-feedback" asp-validation-for="Input.Password">Please enter Password.</span>
         <div class="input-group-append">
           <button class="btn btn-success shadow-0" type="submit" id="button-addon5"><i class="fal fa-key"></i></button>
         </div>
@@ -29,7 +29,7 @@
     </div>
 
     <div class="text-center">
-      <a asp-page="Login" class="text-white opacity-90"> 我不是 <span class="text-secondary">@(HttpContext.Request.Cookies["GivenName"])</span>?</a>
+      <a asp-page="Login" class="text-white opacity-90"> I'm not <span class="text-secondary">@(HttpContext.Request.Cookies["GivenName"])</span>?</a>
     </div>
    
     <input type="hidden" asp-for="Input.UserName" value="@(HttpContext.Request.Cookies["UserName"])" />

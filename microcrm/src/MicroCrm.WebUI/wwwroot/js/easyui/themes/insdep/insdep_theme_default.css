@@ -219,10 +219,10 @@ i, cite, em, var, address, dfn {/*斜体*/
 
 
 
-/*登录框架开始*/
+/*Login框架开始*/
 .theme-login-layout{background:#eef0ed;}
 
-/*登录form框架*/
+/*Loginform框架*/
 #theme-login-form{ width:800px; margin:0 auto 50px auto; background:#fff; overflow:hidden; clear:both; padding:70px 0 100px; position: relative;}
 #theme-login-form .QRcode{ 
 	position: absolute; top: 0; right: 0; width:93px; height: 93px; background: url('images/QRcode.png') no-repeat center center; 
@@ -258,8 +258,8 @@ i, cite, em, var, address, dfn {/*斜体*/
 #theme-login-form dl dd{ margin:0 0 5px; clear:both; height:auto; overflow:hidden;}
 #theme-login-form dl dt img{ margin: 0 auto 30px auto; width: 128px; display: block;}
 
-/*登录表单*/
-	/*登录选择表单,根据需要删减*/
+/*Login表单*/
+	/*Login选择表单,根据需要删减*/
 	.theme-login-select + .combo,.theme-login-select + .combo .textbox-text,.theme-login-select + .combo .combo-arrow{ height:38px !important; line-height:38px !important; color:#fff;}
 	.theme-login-select + .combo{border:1px solid #1e7bee;box-shadow:none;-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;}
 	.theme-login-select + .combo .textbox-addon-right,.theme-login-select + .combo .textbox-addon-left,.theme-login-select + .combo .textbox-text{ background-color:transparent;}
@@ -272,9 +272,9 @@ i, cite, em, var, address, dfn {/*斜体*/
 	.theme-login-select-panel .combobox-item{ color:#fff; padding:6px 15px;}
 	.theme-login-select-panel .combobox-item-hover{ background-color:#fff; color:#0d478f;}
 	.theme-login-select-panel .panel-header,.theme-login-select-panel .panel-body {border:none;}
-	/*登录选择表单,根据需要删减*/
+	/*Login选择表单,根据需要删减*/
 	
-	/*登录输入表单,根据需要删减*/
+	/*Login输入表单,根据需要删减*/
 	.theme-login-text + .textbox,.theme-login-text + .textbox .textbox-text{ height:38px !important; line-height:38px !important; color:#333333;}
 	.theme-login-text + .textbox .textbox-text{background-color:transparent;padding: 4px 15px;}
 	.theme-login-text + .textbox{-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;}
@@ -285,7 +285,7 @@ i, cite, em, var, address, dfn {/*斜体*/
 	  box-shadow:none;
 	}
 	.theme-login-text + .textbox .textbox-prompt{ color:#9d9d9d;}
-	/*登录输入表单,根据需要删减*/
+	/*Login输入表单,根据需要删减*/
 	
 	/*邮箱输入表单,根据需要删减*/
 	.theme-login-form .group-mail label,.theme-login-form .group-mail .textbox,.theme-login-form .group-mail .textbox .textbox-text{ height:38px !important; line-height:38px !important;}
@@ -309,9 +309,9 @@ i, cite, em, var, address, dfn {/*斜体*/
 	.theme-login-form .submit,.theme-login-form .submit .l-btn-text{height:40px !important; line-height:40px !important; margin:0 5px 0 0; padding:0 10px; color:#fff;}
 	.theme-login-form .button,.theme-login-form .button .l-btn-text{height:38px !important; line-height:38px !important; margin:0; padding:0 10px;}
 	
-/*登录表单*/
+/*Login表单*/
 
-/*登录框架结束*/
+/*Login框架结束*/
 
 
 /*主框架*/

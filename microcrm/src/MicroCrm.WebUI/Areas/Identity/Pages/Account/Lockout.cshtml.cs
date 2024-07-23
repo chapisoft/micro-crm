@@ -65,7 +65,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
 
         if (result.Succeeded)
         {
-          _logger.LogInformation($"{userName}:解锁成功");
+          _logger.LogInformation($"{userName}:Unlock successfully");
           return LocalRedirect(returnUrl);
         }
         if (result.RequiresTwoFactor)
@@ -74,13 +74,13 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
         }
         if (result.IsLockedOut)
         {
-          _logger.LogInformation($"{userName}:Identity被锁定");
-          ModelState.AddModelError(string.Empty, "Identity被锁定,15分钟后再试.");
+          _logger.LogInformation($"{userName}:Account is locked");
+          ModelState.AddModelError(string.Empty, "Account is locked,Try again after 15 minutes.");
           return Page();
         }
         else
         {
-          ModelState.AddModelError(string.Empty, "密码不准确.");
+          ModelState.AddModelError(string.Empty, "The password is incorrect.");
           return Page();
         }
       }

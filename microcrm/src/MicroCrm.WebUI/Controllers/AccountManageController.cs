@@ -92,7 +92,7 @@ namespace MicroCrm.WebUI.Controllers
         var result = await this._userManager.CreateAsync(user, model.Password);
         if (result.Succeeded)
         {
-          this._logger.LogInformation($"{user.UserName}:Register成功");
+          this._logger.LogInformation($"{user.UserName}:Register successfully");
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim("http://schemas.microsoft.com/identity/claims/tenantid", user.TenantId.ToString()));
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, user.UserName));
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.GivenName,  user.GivenName??""));
@@ -103,8 +103,8 @@ namespace MicroCrm.WebUI.Controllers
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.MobilePhone,   user.PhoneNumber??""));
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.HomePhone,   user.PhoneNumber ?? ""));
           await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.OtherPhone,  user.PhoneNumber ?? ""));
-          await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Locality, "zh-cn"));
-          await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Country, "china"));
+          await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Locality, "en"));
+          await this._userManager.AddClaimAsync(user, new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Country, "vietnam"));
           var role = "users";
           var any = await this._roleManager.FindByNameAsync(role);
           if (any != null)

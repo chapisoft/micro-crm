@@ -49,7 +49,7 @@ $.extend($.fn.validatebox.defaults.rules, {
     },
     message: 'Please enter English'
   },
-  mobile: {// 验证手机号码  
+  mobile: {// 验证Phone number  
     validator: function (value) {
       return /^(13|14|15|16|17|18|19)\d{9}$/i.test(value);
     },

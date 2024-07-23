@@ -41,9 +41,9 @@ namespace MicroCrm.WebUI.Controllers
       _eventBus.Publish("MicroCrm.eventbus", new SubscribeEventData()
       {
         publisher = typeof(HomeController).Name,
-        content = $"欢迎来到Homepage @ {DateTime.Now}",
+        content = $"Welcome to MicroCRM @ {DateTime.Now}",
         from = ViewBag.GivenName,
-        group = "Operate日志",
+        group = "Operate log",
         title = "Visit Homepage",
         url = "/Home/Index"
       });

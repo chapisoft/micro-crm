@@ -136,7 +136,7 @@ namespace MicroCrm.WebUI.Controllers
       }
       else
       {
-        return Json(new { success = false, message = "没有找到[" + entityname + "]配置Message请,先执行【生成】mapping关系" });
+        return Json(new { success = false, message = "Not found [" + entityname + "] configuration message, please execute [Generate] mapping relationship first" });
       }
     }
 

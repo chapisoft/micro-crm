@@ -253,7 +253,7 @@ namespace MicroCrm.WebUI.Controllers
       }
       else
       {
-        throw new FileNotFoundException($"文件 {file} 不存在!");
+        throw new FileNotFoundException($"File {file} does not exist!");
       }
     }
 
