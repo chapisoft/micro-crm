@@ -10,7 +10,7 @@ namespace URF.Core.EF.Trackable
     {
        
         [Key]
-        [Display(Name = "主键", Description = "主键")]
+        [Display(Name = "ID", Description = "ID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int Id { get; set; }
         [NotMapped]
@@ -21,17 +21,17 @@ namespace URF.Core.EF.Trackable
 
         [NotMapped]
         public Guid EntityIdentifier { get; set; }
-        [Display(Name = "创建Logged", Description = "创建Logged")]
+        [Display(Name = "Create Logged", Description = "Create Logged")]
         [ScaffoldColumn(false)]
         public virtual DateTime? CreatedDate { get; set; }
-        [Display(Name = "创建用户", Description = "创建用户")]
+        [Display(Name = "Create User", Description = "Create User")]
         [MaxLength(20)]
         [ScaffoldColumn(false)]
         public virtual string CreatedBy { get; set; }
-        [Display(Name = "最后SaveLogged", Description = "最后SaveLogged")]
+        [Display(Name = "Finally SaveLogged", Description = "Finally SaveLogged")]
         [ScaffoldColumn(false)]
         public virtual DateTime? LastModifiedDate { get; set; }
-        [Display(Name = "最后Save用户", Description = "最后Save用户")]
+        [Display(Name = "Last Save User", Description = "Last Save User")]
         [MaxLength(20)]
         [ScaffoldColumn(false)]
         public virtual string LastModifiedBy { get; set; }

@@ -30,7 +30,7 @@
         const url = '@(Model.url)/Download?file=ExcelTemplate\\@(Model.tpl)';
         $.fileDownload(url)
           .done(() => {
-            toastr.success('模板下载完成!');
+            toastr.success('Template download complete!');
           })
           .fail(() => {
             bootbox.alert(

@@ -1,20 +1,20 @@
-﻿@model MicroCrm.Domain.Models.Company
+﻿@model MicroCrm.Domain.Models.Leads
 @{
-  ViewData["Title"] = "Companies manage";
-  ViewData["PageName"] = "Companies_Index";
-  ViewData["Heading"] = "<i class='fal fa-window text-primary'></i> Companies manage";
+  ViewData["Title"] = "Leads Manage";
+  ViewData["PageName"] = "LeadsManage_Index";
+  ViewData["Heading"] = "<i class='fal fa-window text-primary'></i> Leads Manage";
   ViewData["Category1"] = "CRM";
   ViewData["PageDescription"] = "";
 }
 <div class="row">
   <div class="col-lg-12 col-xl-12">
-    <div id="panel-1" class="panel">
+    <div id="panel-leads" class="panel">
       <div class="panel-hdr">
         <h2>
-          Companies manage
+          Leads Manage
         </h2>
         <div class="panel-toolbar">
-          <button class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"><i class="fal fa-window-minimize"></i></button>
+          <button id="btnCollapse1" class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"><i class="fal fa-window-minimize"></i></button>
           <button class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"><i class="fal fa-expand"></i></button>
         </div>
 
@@ -24,7 +24,6 @@
         <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade ">
           <div class="row no-gutters align-items-center">
             <div class="col">
-              <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
               <div class="btn-group btn-group-sm">
                 <button name="searchbutton" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Search </button>
                 <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -89,7 +88,90 @@
     </div>
   </div>
 </div>
-<!-- 弹出窗体form表单 -->
+<div class="row">
+  <div class="col-lg-12 col-xl-12">
+    <div id="panel-2" class="panel">
+      <div class="panel-hdr">
+        <h2>
+          Leads Information
+        </h2>
+        <div class="panel-toolbar">
+          <button id="btnCollapse2" class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"><i class="fal fa-window-minimize"></i></button>
+          <button class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"><i class="fal fa-expand"></i></button>
+        </div>
+
+      </div>
+      <div class="panel-container enable-loader show">
+        <div class="loader"><i class="fal fa-spinner-third fa-spin-4x fs-xxl"></i></div>
+        <div class="panel-content">
+          <div class="panel-container show">
+            <div class="panel-content">
+              <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active fs-xl py-3 px-5" data-toggle="tab" href="#tab-company" role="tab">
+                    <i class="@(Settings.Theme.IconPrefix) fal fa-landmark text-success"></i>
+                    <span class="hidden-sm-down ml-1">COMPANY</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link fs-xl py-3 px-5" data-toggle="tab" href="#tab-contact" role="tab">
+                    <i class="@(Settings.Theme.IconPrefix) fal fa-id-card" text-primary"></i>
+                    <span class="hidden-sm-down ml-1">CONTACT</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link fs-xl py-3 px-5" data-toggle="tab" href="#tab-application" role="tab">
+                    <i class="@(Settings.Theme.IconPrefix) fal fa-money-check-edit-alt text-danger"></i>
+                    <span class="hidden-sm-down ml-1">APPLICATION</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link fs-xl py-3 px-5" data-toggle="tab" href="#tab-activity" role="tab">
+                    <i class="@(Settings.Theme.IconPrefix) fal fa-tags text-success"></i>
+                    <span class="hidden-sm-down ml-1">ACTIVITY</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link fs-xl py-3 px-5" data-toggle="tab" href="#tab-quotation" role="tab">
+                    <i class="@(Settings.Theme.IconPrefix) fal fa-paperclip text-primary"></i>
+                    <span class="hidden-sm-down ml-1">QUOTATION</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link fs-xl py-3 px-5" data-toggle="tab" href="#tab-sales" role="tab">
+                    <i class="@(Settings.Theme.IconPrefix) fa-cog text-danger"></i>
+                    <span class="hidden-sm-down ml-1">SALES</span>
+                  </a>
+                </li>
+              </ul>
+              <div class="tab-content p-3">
+                <div class="tab-pane fade show active" id="tab-company" role="tabpanel" aria-labelledby="tab-company">
+                  <partial name="CompanyInfo" />
+                </div>
+                <div class="tab-pane fade" id="tab-contact" role="tabpanel" aria-labelledby="tab-contact">
+                  <partial name="Contacts" />
+                </div>
+                <div class="tab-pane fade" id="tab-application" role="tabpanel" aria-labelledby="tab-application">
+                  Application
+                </div>
+                <div class="tab-pane fade show" id="tab-activity" role="tabpanel" aria-labelledby="tab-activity">
+                  Activity
+                </div>
+                <div class="tab-pane fade" id="tab-quotation" role="tabpanel" aria-labelledby="tab-quotation">
+                  Quotation
+                </div>
+                <div class="tab-pane fade" id="tab-sales" role="tabpanel" aria-labelledby="tab-sales">
+                  Sales
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="companydetailwindow" class="easyui-window"
      title="Detailed data"
      data-options="modal:true,
@@ -125,98 +207,78 @@
   <div class="panel-container show">
     <div class="container">
       <div class="panel-content">
-        <form id="company_form"
-              class="easyui-form form-horizontal p-1"
-              method="post">
+        <form id="company_form" class="easyui-form form-horizontal p-1" method="post">
           @Html.AntiForgeryToken()
           <!--Primary Key-->
-          @Html.HiddenFor(model => model.Id)
+          @Html.HiddenFor(model => model.Company.Id)
           <fieldset class="form-group">
             <!-- begin row -->
-            <!--名称-->
             <div class="row h-100 justify-content-center align-items-center">
-              <label class="col-md-2 pr-1 form-label text-right text-danger">@Html.DisplayNameFor(model => model.Name)</label>
+              <label class="col-md-2 pr-1 form-label text-right text-danger">@Html.DisplayNameFor(model => model.Company.Name)</label>
               <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.Name)"
-                       name="@Html.NameFor(model => model.Name)"
-                       value="@Html.ValueFor(model => model.Name)"
+                <input id="@Html.IdFor(model => model.Company.Name)"
+                       name="@Html.NameFor(model => model.Company.Name)"
+                       value="@Html.ValueFor(model => model.Company.Name)"
                        tabindex="0" required
                        class="easyui-textbox"
                        style="width:100%"
                        type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Name)',
-								 required:true,
-                                 validType: 'length[0,50]'
-                                 " />
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Company.Name)', required:true, validType: 'length[0,250]'" />
               </div>
-              <label class="col-md-2 pr-1 form-label text-right text-danger">@Html.DisplayNameFor(model => model.Code)</label>
+              <label class="col-md-2 pr-1 form-label text-right text-danger">@Html.DisplayNameFor(model => model.Company.Code)</label>
               <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.Code)"
-                       name="@Html.NameFor(model => model.Code)"
-                       value="@Html.ValueFor(model => model.Code)"
+                <input id="@Html.IdFor(model => model.Company.Code)"
+                       name="@Html.NameFor(model => model.Company.Code)"
+                       value="@Html.ValueFor(model => model.Company.Code)"
                        tabindex="1" required
                        class="easyui-textbox"
                        style="width:100%"
                        type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Code)',
-								 required:true,
-                                 validType: 'length[0,12]'
-                                 " />
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Company.Code)', required:true, validType: 'length[0,12]'" />
               </div>
-              <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Address)</label>
+              <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Company.Address)</label>
               <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.Address)"
-                       name="@Html.NameFor(model => model.Address)"
-                       value="@Html.ValueFor(model => model.Address)"
+                <input id="@Html.IdFor(model => model.Company.Address)"
+                       name="@Html.NameFor(model => model.Company.Address)"
+                       value="@Html.ValueFor(model => model.Company.Address)"
                        tabindex="2"
                        class="easyui-textbox"
                        style="width:100%"
                        type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Address)',
-								 required:false,
-                                 validType: 'length[0,50]'
-                                 " />
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Company.Address)', required:false, validType: 'length[0,500]'" />
               </div>
-              <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Contact)</label>
+              <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Company.Contact)</label>
               <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.Contact)"
-                       name="@Html.NameFor(model => model.Contact)"
-                       value="@Html.ValueFor(model => model.Contact)"
+                <input id="@Html.IdFor(model => model.Company.Contact)"
+                       name="@Html.NameFor(model => model.Company.Contact)"
+                       value="@Html.ValueFor(model => model.Company.Contact)"
                        tabindex="3"
                        class="easyui-textbox"
                        style="width:100%"
                        type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Contact)',
-								 required:false,
-                                 validType: 'length[0,12]'
-                                 " />
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Company.Contact)', required:false, validType: 'length[0,250]'" />
               </div>
-              <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.PhoneNumber)</label>
+              <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Company.PhoneNumber)</label>
               <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.PhoneNumber)"
-                       name="@Html.NameFor(model => model.PhoneNumber)"
-                       value="@Html.ValueFor(model => model.PhoneNumber)"
+                <input id="@Html.IdFor(model => model.Company.PhoneNumber)"
+                       name="@Html.NameFor(model => model.Company.PhoneNumber)"
+                       value="@Html.ValueFor(model => model.Company.PhoneNumber)"
                        tabindex="4"
                        class="easyui-textbox"
                        style="width:100%"
                        type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.PhoneNumber)',
-								 required:false,
-                                 validType: 'length[0,20]'
-                                 " />
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Company.PhoneNumber)', required:false, validType: 'length[0,20]'" />
               </div>
-              <label class="col-md-2 pr-1 form-label text-right text-danger">@Html.DisplayNameFor(model => model.RegisterDate)</label>
+              <label class="col-md-2 pr-1 form-label text-right text-danger">@Html.DisplayNameFor(model => model.Company.RegisterDate)</label>
               <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.RegisterDate)"
-                       name="@Html.NameFor(model => model.RegisterDate)"
-                       value="@Html.ValueFor(model => model.RegisterDate)"
+                <input id="@Html.IdFor(model => model.Company.RegisterDate)"
+                       name="@Html.NameFor(model => model.Company.RegisterDate)"
+                       value="@Html.ValueFor(model => model.Company.RegisterDate)"
                        tabindex="5" required
                        class="easyui-datebox"
                        style="width:100%"
                        type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.RegisterDate)',
-								 required:true,
-								 formatter:dateformatter" />
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Company.RegisterDate)', required:true, formatter:dateformatter" />
               </div>
             </div>
           </fieldset>
@@ -241,6 +303,11 @@
   <link href="~/js/easyui/themes/insdep/easyui.css" rel="stylesheet" asp-append-version="true" />
 }
 @section ScriptsBlock {
+
+  <script src="~/js/plugin/jquery.validation/jquery.validate.js" asp-append-version="true"></script>
+  <script src="~/js/plugin/jquery.validation/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
+  <script src="~/js/plugin/jquery.form.binding/jquery-json-form-binding.js" asp-append-version="true"></script>
+  <script src="~/js/dependency/numeral/numeral.min.js" asp-append-version="true"></script>
   <script src="~/js/dependency/moment/moment.js" asp-append-version="true"></script>
   <script src="~/js/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.js" asp-append-version="true"></script>
   <script src="~/js/easyui/jquery.easyui.min.js" asp-append-version="true"></script>
@@ -249,10 +316,25 @@
   <script src="~/js/easyui/plugins/columns-reset.js" asp-append-version="true"></script>
   <script src="~/js/easyui/locale/easyui-lang-en.js" asp-append-version="true"></script>
   <script src="~/js/easyui/jquery.easyui.component.js" asp-append-version="true"></script>
+  <script src="~/js/plugin/filesaver/FileSaver.js" asp-append-version="true"></script>
   <script src="~/js/plugin/jquery.serializejson/jquery.serializejson.js" asp-append-version="true"></script>
   <script src="~/js/jquery.custom.extend.js" asp-append-version="true"></script>
   <script src="~/js/jquery.extend.formatter.js" asp-append-version="true"></script>
+
   <script>
+    //全屏事件
+    document.addEventListener('panel.onfullscreen', () => {
+      $dgContact.treegrid('resize');
+    });
+    var $dgContact = $('#customers_datagrid');
+    var EDITINLINEContact = false;
+    var customer = null;
+    var editIndexContact = undefined;
+
+    $(document).ready(function () {
+      // Home
+      $("#btnCollapse2").click();
+    });
 
     class company {
       constructor() {
@@ -279,6 +361,7 @@
         this.$deleteitembutton = $('button[name="deleteitembutton"]');
         this.$detailwindow = $("#companydetailwindow");
         this.$form = $('#company_form');
+        this.$formview = $('#company_view');
 
         document.addEventListener('panel.onfullscreen', () => {
           this.$dg.datagrid('resize');
@@ -310,9 +393,9 @@
           clientPaging: false,
           pagination: true,
           striped: true,
-          height: 670,
-          pageSize: 15,
-          pageList: [15, 20, 50, 100, 500, 2000],
+          height: 400,
+          pageSize: 10,
+          pageList: [10, 20],
           filterRules: [],
           onClickCell: (index, field) => {
             this.onClickCell(index, field);
@@ -374,20 +457,20 @@
             this.$dg.datagrid('refreshRow', index);
           },
           frozenColumns: [[
-            /*开启CheckBox选择功能*/
             { field: 'ck', checkbox: true },
             {
               field: 'action',
               title: 'Operate',
-              width: 85,
+              width: 120,
               sortable: false,
               resizable: true,
               formatter: (value, row, index) => {
 
                 if (!row.editing) {
                   return `<div class="btn-group">\
-                              <button name="actionbutton" data-cmd="edit"  data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
-                              <button name="actionbutton" data-cmd="delete" data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
+                              <button name="actionbutton" data-cmd="operation"  data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Operation" ><i class="fal fa-ballot-check"></i> </button>\
+                              <button name="actionbutton" data-cmd="edit"  data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Edit Details" ><i class="fal fa-edit"></i> </button>\
+                              <button name="actionbutton" data-cmd="delete" data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
                         </div>`;
                 } else {
                   return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
@@ -396,75 +479,75 @@
             }
           ]],
           columns: [[
-            {    /*名称*/
+            {
               field: 'Name',
-              title: '<span class="required">@Html.DisplayNameFor(model => model.Name)</span>',
+              title: '<span class="required">@Html.DisplayNameFor(model => model.Company.Name)</span>',
               width: 200,
               hidden: false,
               editor: {
                 type: 'textbox',
-                options: { prompt: '@Html.DescriptionFor(model => model.Name)', required: true, validType: 'length[0,50]' }
+                options: { prompt: '@Html.DescriptionFor(model => model.Company.Name)', required: true, validType: 'length[0,250]' }
               },
               sortable: true,
               resizable: true
             },
-            {    /*组织代码*/
+            {
               field: 'Code',
-              title: '<span class="required">@Html.DisplayNameFor(model => model.Code)</span>',
+              title: '<span class="required">@Html.DisplayNameFor(model => model.Company.Code)</span>',
               width: 120,
               hidden: false,
               editor: {
                 type: 'textbox',
-                options: { prompt: '@Html.DescriptionFor(model => model.Code)', required: true, validType: 'length[0,12]' }
+                options: { prompt: '@Html.DescriptionFor(model => model.Company.Code)', required: true, validType: 'length[0,12]' }
               },
               sortable: true,
               resizable: true
             },
-            {    /*地址*/
+            {
               field: 'Address',
-              title: '@Html.DisplayNameFor(model => model.Address)',
+              title: '@Html.DisplayNameFor(model => model.Company.Address)',
               width: 200,
               hidden: false,
               editor: {
                 type: 'textbox',
-                options: { prompt: '@Html.DescriptionFor(model => model.Address)', required: false, validType: 'length[0,50]' }
+                options: { prompt: '@Html.DescriptionFor(model => model.Company.Address)', required: false, validType: 'length[0,500]' }
               },
               sortable: true,
               resizable: true
             },
-            {    /*联系人*/
+            {
               field: 'Contact',
-              title: '@Html.DisplayNameFor(model => model.Contact)',
+              title: '@Html.DisplayNameFor(model => model.Company.Contact)',
               width: 120,
               hidden: false,
               editor: {
                 type: 'textbox',
-                options: { prompt: '@Html.DescriptionFor(model => model.Contact)', required: false, validType: 'length[0,12]' }
+                options: { prompt: '@Html.DescriptionFor(model => model.Company.Contact)', required: false, validType: 'length[0,250]' }
               },
               sortable: true,
               resizable: true
             },
-            {    /*Phone number*/
+            {
               field: 'PhoneNumber',
-              title: '@Html.DisplayNameFor(model => model.PhoneNumber)',
+              title: '@Html.DisplayNameFor(model => model.Company.PhoneNumber)',
               width: 120,
               hidden: false,
               editor: {
                 type: 'textbox',
-                options: { prompt: '@Html.DescriptionFor(model => model.PhoneNumber)', required: false, validType: 'length[0,20]' }
+                options: { prompt: '@Html.DescriptionFor(model => model.Company.PhoneNumber)', required: false, validType: 'length[0,20]' }
               },
               sortable: true,
               resizable: true
             },
-            {   /*Register Date*/
+            {
               field: 'RegisterDate',
-              title: '<span class="required">@Html.DisplayNameFor(model => model.RegisterDate)</span>',
+              title: '<span class="required">@Html.DisplayNameFor(model => model.Company.RegisterDate)</span>',
               width: 140,
               align: 'right',
               hidden: false,
               editor: {
                 type: 'datebox',
-                options: { prompt: '@Html.DescriptionFor(model => model.RegisterDate)', required: true }
+                options: { prompt: '@Html.DescriptionFor(model => model.Company.RegisterDate)', required: true }
               },
               formatter: dateformatter,
               sortable: true,
@@ -474,7 +557,7 @@
         }).datagrid('columnMoving')
           .datagrid('resetColumns')
           .datagrid('enableFilter', [
-            {     /*Register Date*/
+            {
               field: 'RegisterDate',
               type: 'dateRange',
               options: {
@@ -492,7 +575,7 @@
           ])
           .datagrid('load', '/Companies/GetData');
       }
-      //动态绑定datagridOperateLogged
+
       bindActionEvents() {
         $('button[name="actionbutton"]').off('click').on('click', $('button[name="actionbutton"]'), (e) => {
           console.log('-------')
@@ -508,14 +591,16 @@
           const index = $($button).data('index');
           if (action == 'edit') {
             this.editItem(id, index);
-          } else {
+          } else if (action == 'delete') {
             this.deleteRow(id);
+          } else if (action == 'operation') {
+            this.operationItem(id, index);
           }
 
         });
 
       }
-      //执行Export下载Excel
+
       exportexcel() {
         const filterRules = JSON.stringify(this.$dg.datagrid('options').filterRules);
         $.messager.progress({ title: 'Please wait', msg: 'Export in progress...' });
@@ -533,38 +618,41 @@
         });
 
       }
-      //Show快捷菜单
+
       showContextMenu(e, index) {
         this.$dg.datagrid('columnMenu').menu('show', {
           left: e.pageX,
           top: e.pageY
         });
       }
-      //弹出EditMessage
+
       editItem(id, index) {
         this.MODELSTATE = "Modified"
         this.item = this.$dg.datagrid('getRows')[index];
         this.showDetailWindow(this.item);
       }
-      //重载或Search数据
+
+      operationItem(id, index) {
+        this.item = this.$dg.datagrid('getRows')[index];
+        this.showDetailCompany(this.item);
+      }
+
       reloadData() {
         this.$dg.datagrid('unselectAll');
         this.$dg.datagrid('uncheckAll');
         this.$dg.datagrid('reload');
       }
-      //Added记录
+
       appendItem() {
         this.item = {
           Address: '-',
           RegisterDate: moment().format('YYYY-MM-DD HH:mm:ss'),
         };
         if (!this.EDITINLINE) {
-          //弹出Added窗口
           this.MODELSTATE = 'Added';
           this.showDetailWindow(this.item);
         } else {
           if (this.endEditing()) {
-            //对Required字段进行默认value初始化
             this.$dg.datagrid('insertRow',
               {
                 index: 0,
@@ -577,7 +665,7 @@
           }
         }
       }
-      //DeleteEdit的行
+
       removeItem() {
         if (this.$dg.datagrid('getChecked').length <= 0 && this.EDITINLINE) {
           if (this.editIndex !== undefined) {
@@ -599,7 +687,7 @@
           this.deletechecked();
         }
       }
-      //Delete该行
+
       deleteRow(id) {
         $.messager.confirm('Confirm', 'Are you sure you want to delete this record?', result => {
           if (result) {
@@ -607,7 +695,7 @@
           }
         })
       }
-      //Delete选中的行
+
       deletechecked() {
         const id = this.$dg.datagrid('getChecked').filter(item => item.Id > 0).map(item => {
           return item.Id;
@@ -622,7 +710,7 @@
           $.messager.alert('Success', 'Please select the record to be deleted first!', 'question');
         }
       }
-      //执行Delete
+
       dodeletechecked(id) {
         $.post('/Companies/DeleteChecked', { id: id })
           .done(response => {
@@ -637,7 +725,7 @@
             $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
           });
       }
-      //开启EditStatus
+
       onClickCell(index, field) {
         console.log('onClickCell')
         this.item = this.$dg.datagrid('getRows')[index];
@@ -661,7 +749,7 @@
           }
         }
       }
-      //CloseEditStatus
+
       endEditing() {
         if (this.editIndex === undefined) {
           return true;
@@ -678,7 +766,7 @@
           return false;
         }
       }
-      //提交Accept后台数据库
+
       acceptChanges() {
         if (this.endEditing()) {
           if (this.$dg.datagrid('getChanges').length > 0) {
@@ -694,7 +782,7 @@
               item.TrackingState = 3
               return item;
             });
-            //过滤已Delete的重复项
+
             const changed = inserted.concat(updated.filter(item => {
               return !deleted.includes(item);
             })).concat(deleted);
@@ -719,20 +807,32 @@
           }
         }
       }
-      //Cancel变更
+
       rejectChanges() {
         this.$dg.datagrid('rejectChanges');
         this.editIndex = undefined;
         this.hook = false;
       }
-      //弹出Edit窗体
+
       showDetailWindow(data) {
         this.id = (data.Id || 0);
         this.$detailwindow.window("open");
         this.$form.form('reset');
         this.$form.form('load', data);
       }
-      //Delete当前记录
+
+      showDetailCompany(data) {
+        this.id = (data.Id || 0);
+        this.$formview.form('reset');
+        this.$formview.form('load', data);
+
+        // Contact
+        showContacts();
+
+        //$("#btnCollapse1").click();
+        $("#btnCollapse2").click();
+      }
+
       deleteItem() {
         $.messager.confirm('Confirm', 'Are you sure you want to delete this record?', result => {
           if (result) {
@@ -749,12 +849,12 @@
           }
         });
       }
-      //Accept当然Edit
+
       saveItem() {
         if (this.$form.form('enableValidation').form('validate')) {
           let company = this.$form.serializeJSON();
           let url = '/Companies/Edit';
-          //判断是Added或是修改方法
+
           if (this.MODELSTATE === 'Added') {
             url = '/Companies/Create';
           }
@@ -787,11 +887,13 @@
             });
         }
       }
-      //Close窗口
+
       closedetailwindow() {
         this.$detailwindow.window('close');
       }
     }
+
+    //Contact
 
     $(() => {
       var mycompany = new company();

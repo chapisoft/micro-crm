@@ -43,6 +43,12 @@ namespace MicroCrm.WebUI.Controllers
 
     // GET: Customers
     public IActionResult Index() => View();
+
+    // GET: Contacts
+    public virtual ActionResult List(int id)
+    {
+      return PartialView();
+    }
     //datagrid 数据源
     //public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
     public async Task<JsonResult> GetData(CustomerPaginationQuery request)

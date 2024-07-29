@@ -10,7 +10,7 @@ namespace MicroCrm.Domain.Models
     public partial class Company : URF.Core.EF.Trackable.Entity
     {
         [Display(Name = "Name", Description = "Name")]
-        [MaxLength(50)]
+        [MaxLength(250)]
         [Required]
         //[Index(IsUnique = true)]
         public virtual string Name { get; set; }
@@ -20,11 +20,11 @@ namespace MicroCrm.Domain.Models
         [Required]
         public virtual string Code { get; set; }
         [Display(Name = "Address", Description = "Address")]
-        [MaxLength(128)]
+        [MaxLength(500)]
         [DefaultValue("-")]
         public virtual string Address { get; set; }
         [Display(Name = "Contact", Description = "Contact")]
-        [MaxLength(12)]
+        [MaxLength(250)]
         public virtual string Contact { get; set; }
         [Display(Name = "PhoneNumber", Description = "PhoneNumber")]
         [MaxLength(20)]
