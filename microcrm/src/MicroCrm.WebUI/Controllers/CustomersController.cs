@@ -49,7 +49,7 @@ namespace MicroCrm.WebUI.Controllers
     {
       return PartialView();
     }
-    //datagrid 数据源
+    //data source
     //public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
     public async Task<JsonResult> GetData(CustomerPaginationQuery request)
     {
@@ -115,7 +115,7 @@ namespace MicroCrm.WebUI.Controllers
       }
     }
 
-      //Delete当前记录
+      //Delete current record
       //GET: Customers/Delete/:id
       [HttpGet]
     public async Task<JsonResult> Delete(int id)
@@ -132,7 +132,7 @@ namespace MicroCrm.WebUI.Controllers
         return Json(new { success = false, err = e.GetBaseException().Message });
       }
     }
-    //Delete选中的记录
+    //Delete the selected records
     [HttpPost]
     //public async Task<JsonResult> DeleteChecked(int[] id)
     public async Task<JsonResult> DeleteChecked(DeleteCustomerCommand request)
@@ -162,7 +162,7 @@ namespace MicroCrm.WebUI.Controllers
         return Json(new { success = false, err = e.GetBaseException().Message });
       }
     }
-    //AcceptdatagridEdit的数据
+    //Accept datagrid edit data
     [HttpPost]
     public async Task<JsonResult> AcceptChanges(Customer[] customers)
     {
@@ -222,7 +222,7 @@ namespace MicroCrm.WebUI.Controllers
         }
 
         watch.Stop();
-        //获取当前实例测量得出的总运行Logged（以毫秒为单位）
+        //Get the total running Logged measured by the current instance (in milliseconds)
         var elapsedTime = watch.ElapsedMilliseconds.ToString();
         return Json(new { success = true, total, elapsedTime });
       }

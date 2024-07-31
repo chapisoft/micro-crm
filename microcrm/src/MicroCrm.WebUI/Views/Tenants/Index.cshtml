@@ -29,7 +29,7 @@
         <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-faded bg-subtlelight-fade">
           <div class="row no-gutters align-items-center">
             <div class="col">
-              <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
+              <!-- To enable authorization control, please refer to @@if (Html.IsAuthorize("Create") -->
               <div class="btn-group btn-group-sm">
                 <button name="searchbutton" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Refresh </button>
               </div>
@@ -242,7 +242,7 @@
       append() {
         this.item = { Disabled: false };
         if (this.endEditing()) {
-          //对Required字段进行默认value初始化
+          //Initialize the default value for the Required field
           this.$dg.datagrid('insertRow',
             {
               index: 0,
@@ -298,7 +298,7 @@
               item.TrackingState = 3
               return item;
             });
-            //过滤已Delete的重复项
+            //Filter Deleted Duplicates
             const changedarray = inserted.concat(updated.filter(item => {
               return !deleted.includes(item);
             })).concat(deleted);

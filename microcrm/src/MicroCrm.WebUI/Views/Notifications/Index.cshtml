@@ -33,7 +33,7 @@
         <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-faded bg-subtlelight-fade">
           <div class="row no-gutters align-items-center">
             <div class="col">
-              <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
+              <!-- To enable authorization control, please refer to @@if (Html.IsAuthorize("Create") -->
               <div class="btn-group btn-group-sm">
                 <button name="searchbutton" onclick="reloadData()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Search </button>
               </div>
@@ -86,21 +86,21 @@
   <script src="~/js/plugin/jquery.serializejson/jquery.serializejson.js" asp-append-version="true"></script>
 
   <script type="text/javascript">
-    //全屏事件
+    //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
       $dg.treegrid('resize');
     });
-      //是否强制从后台取value
+      //Whether to force the value to be fetched from the background
       const REQUIRBACKEND = false;
-      //是否开启行内Edit
+      //Whether to enable inline editing
       const EDITINLINE = true;
-      //UploadImport参数设定
+      //UploadImport parameter settings
       const entityname = "Notification";
       var notification = {};
 
 
 
-	   //执行Export下载Excel
+	   //Execute Export to download Excel
 	   function exportexcel() {
 				const filterRules = JSON.stringify($dg.datagrid('options').filterRules);
 				//console.log(filterRules);
@@ -121,7 +121,7 @@
 		}
 
        var editIndex = undefined;
-       //重新加载数据
+       //Reload Data
   function reloadData() {
 
       $dg.datagrid('uncheckAll');
@@ -145,7 +145,7 @@
 				return false;
 			}
 		}
-    //单击列开启Edit功能
+    //Click on the column to open the Edit function
 	function onClickCell(index, field) {
         notification = $dg.datagrid('getRows')[index];
 	    const _actions = ['action', 'ck'];
@@ -167,7 +167,7 @@
 			}
 		}
 	}
-    //Added记录
+    //Added records
     async function appendData() {
       notification = {
         Read: false,
@@ -178,7 +178,7 @@
       };
 
       if (endEditing()) {
-        //对Required字段进行默认value初始化
+        //Initialize the default value for the Required field
         $dg.datagrid('insertRow',
           {
             index: 0,
@@ -191,7 +191,7 @@
       }
 
     }
-    //DeleteEdit的行
+    //Delete Edit Row
 	function removeData() {
        if (EDITINLINE) {
           if (editIndex !== undefined) {
@@ -230,7 +230,7 @@
       }
      });
   }
-    //Delete选中的行
+    //Delete the selected row
     function deletechecked() {
         const id = $dg.datagrid('getChecked').filter(item=>item.Id!=null && item.Id > 0).map(item => {
                    return item.Id;
@@ -256,7 +256,7 @@
                 $.messager.alert('Success', 'Please select the record to be deleted first!','question');
          }
      }
-    //提交Accept后台数据库
+    //Submit Accept backend database
     function acceptChanges() {
       if (endEditing()) {
         if ($dg.datagrid('getChanges').length > 0) {
@@ -272,7 +272,7 @@
             item.TrackingState = 3
             return item;
           });
-          //过滤已Delete的重复项
+          //Filter Deleted Duplicates
           const changed = inserted.concat(updated.filter(item => {
             return !deleted.includes(item);
           })).concat(deleted);
@@ -304,7 +304,7 @@
 	    const rows = $dg.datagrid('getChanges');
 		//console.log(rows.length + ' rows are changed!');
 	}
-    //弹出明细Message
+    //Pop-up details Message
 	async function showdetailswindow(id,index) {
         var notification = $dg.datagrid('getRows')[index];
         if (REQUIRBACKEND) {
@@ -313,10 +313,10 @@
         opendetailwindow(notification,'Modified');
 	}
 
-    //初始化定义datagrid
+    //Initialize and define datagrid
     var $dg = $('#notifications_datagrid');
     $(() => {
-      //定义datagrid结构
+      //Define the datagrid structure
       $dg.datagrid({
         rownumbers: true,
         checkOnSelect: false,
@@ -378,12 +378,12 @@
           $(this).datagrid('refreshRow', index);
         },
         frozenColumns: [[
-          /*开启CheckBox选择功能*/
+          /*Enable CheckBox selection function*/
           { field: 'ck', checkbox: true },
 
         ]],
         columns: [[
-           {     /*类型*/
+           {     /*Group*/
             field: 'Group',
             title: '<span class="required">@Html.DisplayNameFor(model => model.Group)</span>',
             width: 100,
@@ -406,7 +406,7 @@
             sortable: true,
             resizable: true
           },
-          {   /*发出Logged*/
+          {   /*Issue Logged*/
             field: 'PublishDate',
             title: '<span class="required">@Html.DisplayNameFor(model => model.PublishDate)</span>',
             width: 150,
@@ -420,7 +420,7 @@
             sortable: true,
             resizable: true
           },
-          {    /*主题*/
+          {    /*Theme*/
             field: 'Title',
             title: '<span class="required">@Html.DisplayNameFor(model => model.Title)</span>',
             width: 220,
@@ -432,7 +432,7 @@
             sortable: true,
             resizable: true
           },
-          {    /*消息内容*/
+          {    /*Message content*/
             field: 'Content',
             title: '@Html.DisplayNameFor(model => model.Content)',
             width: 300,
@@ -444,7 +444,7 @@
             sortable: true,
             resizable: true
           },
-          {    /*链接*/
+          {    /*Link*/
             field: 'Link',
             title: '@Html.DisplayNameFor(model => model.Link)',
             width: 160,
@@ -456,7 +456,7 @@
             sortable: true,
             resizable: true
           },
-          {    /*发布源*/
+          {    /*Publisher*/
             field: 'Publisher',
             title: '@Html.DisplayNameFor(model => model.Publisher)',
             width: 160,
@@ -468,7 +468,7 @@
             sortable: true,
             resizable: true
           },
-          {  /*已读*/
+          {  /*Read*/
             field: 'Read',
             title: '<span class="required">@Html.DisplayNameFor(model => model.Read)</span>',
             width: 80,
@@ -515,7 +515,7 @@
         ]]
       })
         .datagrid('enableFilter', [
-          {   /*类型*/
+          {   /*Group*/
             field: 'Group',
             type: 'combobox',
             options: {
@@ -535,7 +535,7 @@
               }
             }
           },
-          {     /*发出Logged*/
+          {     /*Issue Logged*/
             field: 'PublishDate',
             type: 'dateRange',
             options: {
@@ -550,7 +550,7 @@
               }
             }
           },
-          {   /*已读*/
+          {   /*Read*/
             field: 'Read',
             type: 'booleanfilter'
           },

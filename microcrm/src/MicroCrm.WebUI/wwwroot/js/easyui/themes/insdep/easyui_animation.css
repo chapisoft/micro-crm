@@ -1,12 +1,12 @@
 /*
     JQuery EasyUI 1.5.x of Insdep Theme 1.0.0
-    演示地址：https://www.insdep.com/example/
-    下载地址：https://www.insdep.com
-    问答地址：https://bbs.insdep.com
+    演示Address：https://www.insdep.com/example/
+    下载Address：https://www.insdep.com
+    问答Address：https://bbs.insdep.com
 
-    项目地址：http://git.oschina.net/weavors/JQuery-EasyUI-1.5.x-Of-Insdep-Theme
+    项目Address：http://git.oschina.net/weavors/JQuery-EasyUI-1.5.x-Of-Insdep-Theme
 
-    QQ交流群：184075694 （优先发布Save主题及内测包）
+    QQ交流群：184075694 （优先发布SaveTheme及内测包）
 */
 
 @keyframes window-mask-fadeIn {
@@ -31,13 +31,13 @@
 }
 
 .window {
-  animation-name: window-fadeIn; /*动画名称*/
+  animation-name: window-fadeIn; /*动画Name*/
   animation-duration: 0.3s; /*动画持续Logged*/
   animation-iteration-count: 1; /*动画次数*/
   animation-delay: 0s; /*延迟Logged*/
 }
 .window-proxy-mask,.window-mask {
-  animation-name: window-mask-fadeIn; /*动画名称*/
+  animation-name: window-mask-fadeIn; /*动画Name*/
   animation-duration: 0.5s; /*动画持续Logged*/
   animation-iteration-count: 1; /*动画次数*/
   animation-delay: 0s; /*延迟Logged*/

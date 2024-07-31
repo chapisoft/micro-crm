@@ -30,7 +30,7 @@
         <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-faded bg-subtlelight-fade">
           <div class="row no-gutters align-items-center">
             <div class="col">
-              <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
+              <!-- To enable authorization control, please refer to @@if (Html.IsAuthorize("Create") -->
               <div class="btn-group btn-group-sm">
                 <button name="searchbutton" onclick="reloadData()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Search </button>
               </div>
@@ -102,7 +102,7 @@
   <script src="~/js/plugin/filesaver/FileSaver.js" asp-append-version="true"></script>
   <script src="~/js/plugin/jquery.serializejson/jquery.serializejson.js" asp-append-version="true"></script>
   <script type="text/javascript">
-    //全屏事件
+    //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
       $dg.treegrid('resize');
     });
@@ -127,7 +127,7 @@
         });
 
       }
-	   //执行Export下载Excel
+	   //Execute Export to download Excel
 	   function exportexcel() {
 				var filterRules = JSON.stringify($dg.datagrid("options").filterRules);
 				//console.log(filterRules);
@@ -147,11 +147,11 @@
 		}
 
         var editIndex = undefined;
-        //选中记录
+        //Selected Records
        function onSelect(index, row) {
           menuitem = row;
        }
-       //重新加载数据
+       //Reload Data
       function reloadData() {
         if (endEditing()) {
           $dg.datagrid("reload");
@@ -171,7 +171,7 @@
           return false;
         }
       }
-    //单击列开启Edit功能
+    //Click on the column to open the Edit function
       function onClickCell(index, field) {
         menuitem = $dg.datagrid('getRows')[index];
         var _operates = ["_operate1", "_operate2", "_operate3", "ck"];
@@ -192,10 +192,10 @@
           }
         }
       }
-    //Added记录
+    //Added records
       function appendData() {
         if (endEditing()) {
-          //对Required字段进行默认value初始化
+          //Initialize the default value for the Required field
           $dg.datagrid("insertRow",
             {
               index: 0,
@@ -213,14 +213,14 @@
           $dg.datagrid("beginEdit", 0);
         }
       }
-    //DeleteEdit的行
+    //Delete Edit Row
       function removeData() {
 
           deletechecked();
 
 
       }
-    //Delete选中的行
+    //Delete the selected row
       function deletechecked() {
         var rows = $dg.datagrid("getChecked");
         if (rows.length > 0) {
@@ -247,7 +247,7 @@
           $.messager.alert("Success", "Please select the record to be deleted first!");
         }
       }
-    //提交Accept后台数据库
+    //Submit Accept backend database
     function acceptChanges() {
       if (endEditing()) {
         if ($dg.datagrid("getChanges").length) {
@@ -263,7 +263,7 @@
             item.TrackingState = 3
             return item;
           });
-          //过滤已Delete的重复项
+          //Filter Deleted Duplicates
           const changed = inserted.concat(updated.filter(item => {
             return !deleted.includes(item);
           })).concat(deleted);
@@ -291,10 +291,10 @@
 
 
 
-    //初始化定义datagrid
+    //Initialize and define datagrid
     var $dg = $("#menuitems_datagrid");
       $(() => {
-        //定义datagrid结构
+        //Define the datagrid structure
         $dg.datagrid({
           rownumbers: true,
           checkOnSelect: false,
@@ -356,7 +356,7 @@
             editIndex = index;
           },
           columns: [[
-            /*开启CheckBox选择功能*/
+            /*Enable CheckBox selection function*/
             { field: 'ck', checkbox: true },
             {
               field: 'Title',

@@ -77,7 +77,7 @@
         <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-faded bg-subtlelight-fade">
           <div class="row no-gutters align-items-center">
             <div class="col">
-              <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
+              <!-- To enable authorization control, please refer to @@if (Html.IsAuthorize("Create") -->
               <div class="btn-group btn-group-sm ">
                 <button name="searchbutton" onclick="reloadData()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Refresh </button>
               </div>
@@ -146,7 +146,7 @@
   <script src="~/js/plugin/jquery.serializejson/jquery.serializejson.js" asp-append-version="true"></script>
   <script src="~/js/formplugins/cropperjs/cropper.js" asp-append-version="true"></script>
   <script type="text/javascript">
-    //全屏事件
+    //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
       $dg.treegrid('resize');
     });

@@ -50,7 +50,7 @@ namespace MicroCrm.WebUI.Controllers
 
     //Get :Logs/GetData
     //For Index View datagrid datasource url
-    //Save日志Status
+    //SaveLoggerStatus
     [HttpGet]
     public async Task<IActionResult> SetLogState(int id)
     {

@@ -33,7 +33,7 @@
         <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-faded bg-subtlelight-fade">
           <div class="row no-gutters align-items-center">
             <div class="col">
-              <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
+              <!-- To enable authorization control, please refer to @@if (Html.IsAuthorize("Create") -->
               <input class="easyui-combobox"
                      name="entities"
                      id="entities"
@@ -130,11 +130,11 @@
   <script src="~/js/plugin/filepond/plugin/filepond-plugin-file-validate-type.min.js"></script>
   <script src="~/js/plugin/filepond/plugin/filepond-plugin-file-validate-size.min.js"></script>
   <script type="text/javascript">
-    //全屏事件
+    //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
       $dg.treegrid('resize');
     });
-            //UploadImport参数设定
+            //UploadImport parameter settings
     const entityname = "DataTableImportMapping";
     function reloadData() {
       $dg.datagrid('reload');
@@ -296,7 +296,7 @@
         $.messager.alert('Success', 'Please select the record to be deleted first!', 'question');
       }
     }
-    //执行Delete
+    //Execute Delete
     function dodeletechecked(id) {
       $.post('/DataTableImportMappings/DeleteChecked', { id: id })
         .done(response => {
@@ -408,7 +408,7 @@
           $("button[name*='cancelbutton']").prop('disabled', true);
         },
         frozenColumns: [[
-          /*开启CheckBox选择功能*/
+          /*Enable CheckBox selection function*/
           { field: 'ck', checkbox: true },
         ]],
         columns: [[

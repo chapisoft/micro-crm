@@ -6,7 +6,6 @@ namespace MicroCrm.Infrastructure.Persistence
   public partial class MicroCrmDbContext : DbContext
   {
 
-
     #region Business Domain Entity
     public virtual DbSet<Company> Companies { get; set; }
     public virtual DbSet<Customer> Customers { get; set; }
@@ -17,12 +16,8 @@ namespace MicroCrm.Infrastructure.Persistence
     public virtual DbSet<Photo> Photos { get; set; }
     #endregion
 
-
-
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
       #region set Global Query Filters with tenantid
 
       modelBuilder.Entity<Product>().HasQueryFilter(b => EF.Property<int>(b, "TenantId") == _tenantId);

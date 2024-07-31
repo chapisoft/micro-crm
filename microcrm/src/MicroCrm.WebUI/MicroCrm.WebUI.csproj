@@ -13,12 +13,16 @@
   <ItemGroup>
     <Compile Remove="Mapping\**" />
     <Compile Remove="Migrations\**" />
+    <Compile Remove="publish\**" />
     <Content Remove="Mapping\**" />
     <Content Remove="Migrations\**" />
+    <Content Remove="publish\**" />
     <EmbeddedResource Remove="Mapping\**" />
     <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Remove="publish\**" />
     <None Remove="Mapping\**" />
     <None Remove="Migrations\**" />
+    <None Remove="publish\**" />
   </ItemGroup>
 
   <ItemGroup>

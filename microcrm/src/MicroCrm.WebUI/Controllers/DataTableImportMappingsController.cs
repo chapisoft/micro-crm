@@ -182,7 +182,7 @@ namespace MicroCrm.WebUI.Controllers
 
       return Content(null);
     }
-    //Delete选中的记录
+    //Delete the selected records
     [HttpPost]
     public async Task<JsonResult> DeleteChecked(int[] id)
     {

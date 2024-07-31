@@ -10,7 +10,6 @@
         <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade ">
           <div class="row no-gutters align-items-center">
             <div class="col">
-              <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
               <div class="btn-group btn-group-sm">
                 <button onclick="appendContact()" class="btn btn-default">
                   <span class="fal fa-plus mr-1"></span> Add
@@ -113,7 +112,6 @@
 
   function showContacts() {
 
-    //定义datagrid结构
     $dgContact.datagrid({
       rownumbers: true,
       checkOnSelect: false,
@@ -189,7 +187,6 @@
         $(this).datagrid('refreshRow', index);
       },
       frozenColumns: [[
-        /*开启CheckBox选择功能*/
         { field: 'ck', checkbox: true },
         {
           field: 'action',
@@ -210,7 +207,7 @@
         }
       ]],
       columns: [[
-        {    /*名称*/
+        {    /*Name*/
           field: 'Name',
           title: '@Html.DisplayNameFor(model => model.Name)',
           width: 200,
@@ -222,7 +219,7 @@
           sortable: true,
           resizable: true
         },
-        {    /*联系人*/
+        {    /*Contact*/
           field: 'Contact',
           title: '@Html.DisplayNameFor(model => model.Contact)',
           width: 120,
@@ -234,7 +231,7 @@
           sortable: true,
           resizable: true
         },
-        {    /*电话*/
+        {    /*PhoneNumber*/
           field: 'PhoneNumber',
           title: '@Html.DisplayNameFor(model => model.PhoneNumber)',
           width: 200,
@@ -246,7 +243,7 @@
           sortable: true,
           resizable: true
         },
-        {    /*地址*/
+        {    /*Address*/
           field: 'Address',
           title: '@Html.DisplayNameFor(model => model.Address)',
           width: 120,
@@ -265,9 +262,9 @@
       ])
       .datagrid('load', '/Customers/GetData');
   }
-  //下载ExcelImport模板
+  //Download ExcelImport Template
 
-  //执行Export下载Excel
+  //Execute Export to download Excel
   function exportExcelContact() {
     const filterRules = JSON.stringify($dgContact.datagrid('options').filterRules);
     console.log(filterRules);
@@ -286,7 +283,7 @@
     });
 
   }
-  //弹出明细Message
+  //Pop-up details Message
   function showDetailsWindowContact(id, index) {
     const customer = $dgContact.datagrid('getRows')[index];
     openCustomerDetailWindow(customer, 'Modified');
@@ -295,7 +292,7 @@
     $dgContact.datagrid('uncheckAll');
     $dgContact.datagrid('reload');
   }
-  //Added记录
+  //Added records
   function appendContact() {
     customer = {
       Id: null,
@@ -305,11 +302,11 @@
       Address: '-'
     };
     if (!EDITINLINEContact) {
-      //弹出Added窗口
+      //The Added window pops up
       openCustomerDetailWindow(customer, 'Added');
     } else {
       if (endEditingContact()) {
-        //对Required字段进行默认value初始化
+        //Initialize the default value for the Required field
         $dgContact.datagrid('insertRow',
           {
             index: 0,
@@ -322,7 +319,7 @@
       }
     }
   }
-  //DeleteEdit的行
+  //Delete Edit Row
   function removeContact() {
     if (this.$dgContact.datagrid('getChecked').length <= 0 && EDITINLINEContact) {
       if (editIndexContact !== undefined) {
@@ -344,7 +341,7 @@
       deleteCheckedContact();
     }
   }
-  //Delete选中的行
+  //Delete the selected row
   function deleteCheckedContact() {
     const checked = $dgContact.datagrid('getChecked').filter(item => item.Id != null && item.Id > 0).map(item => {
       return item.Id;
@@ -355,7 +352,7 @@
       $.messager.alert('Success', 'Please select the record to be deleted first!', 'question');
     }
   }
-  //执行Delete
+  //Execute Delete
   function deleteRowsContact(selected) {
     $.messager.confirm('Confirm', `Are you sure you want to delete these <span class='badge badge-icon position-relative'>${selected.length} </span> rows?`, result => {
       if (result) {
@@ -392,7 +389,7 @@
       return false;
     }
   }
-  //提交Accept后台数据库
+  //Submit Accept backend database
   function acceptChangesContact() {
     if (endEditingContact()) {
       if ($dgContact.datagrid('getChanges').length > 0) {
@@ -408,7 +405,7 @@
           item.TrackingState = 3
           return item;
         });
-        //过滤已Delete的重复项
+        //Filter Deleted Duplicates
         const changed = inserted.concat(updated.filter(item => {
           return !deleted.includes(item);
         })).concat(deleted);
@@ -433,7 +430,7 @@
       }
     }
   }
-  //开启EditStatus
+  //Enable Edit Status
   function onClickCellContact(index, field) {
 
     customer = $dgContact.datagrid('getRows')[index];

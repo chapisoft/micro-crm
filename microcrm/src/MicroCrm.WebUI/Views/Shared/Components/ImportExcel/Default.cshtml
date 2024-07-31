@@ -21,11 +21,11 @@
 </div>
 <script type="text/javascript">
     var importExcel = {
-      //UploadImport附件
+      //Upload Import Attachment
       upload: function () {
         $('#uploadmodal').modal('toggle');
       },
-      //下载ExcelImport模板
+      //Download ExcelImport Template
       downloadtemplate: function () {
         const url = '@(Model.url)/Download?file=ExcelTemplate\\@(Model.tpl)';
         $.fileDownload(url)

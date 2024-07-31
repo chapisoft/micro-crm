@@ -25,7 +25,7 @@
                 <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade ">
                     <div class="row no-gutters align-items-center">
                         <div class="col">
-                            <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
+                            <!-- To enable authorization control, please refer to @@if (Html.IsAuthorize("Create") -->
                             <div class="btn-group btn-group-sm">
                                 <button onclick="appendItem()" class="btn btn-default">
                                     <span class="fal fa-plus mr-1"></span> Add
@@ -422,7 +422,7 @@
     }
 </script>
 <script>
-    //全屏事件
+    //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
       $dg.treegrid('resize');
     });
@@ -430,9 +430,9 @@
         var EDITINLINE = true;
         var product = null;
     var editIndex = undefined;
-    //下载ExcelImport模板
+    //Download ExcelImport Template
 
-    //执行Export下载Excel
+    //Execute Export to download Excel
     function exportExcel() {
       const filterRules = JSON.stringify($dg.datagrid('options').filterRules);
       console.log(filterRules);
@@ -451,7 +451,7 @@
       });
 
     }
-            //弹出明细Message
+            //Pop-up details Message
     function previewphoto(id, index) {
       const photo = $dg.datagrid('getRows')[index];
       console.log(photo)
@@ -461,13 +461,13 @@
       $dg.datagrid('uncheckAll');
       $dg.datagrid('reload');
     }
-            //Added记录
+            //Added records
     function appendItem() {
       openuploadfilemodal();
     }
 
 
-    //Delete选中的行
+    //Delete the selected row
     function deleteChecked() {
       const checked = $dg.datagrid('getChecked').map(item => {
         return item.Id;
@@ -478,7 +478,7 @@
         $.messager.alert('Success', 'Please select the record to be deleted first!', 'question');
       }
     }
-    //执行Delete
+    //Execute Delete
     function deleteRows(selected) {
       $.messager.confirm('Confirm', `Are you sure you want to delete these <span class='badge badge-icon position-relative'>${selected.length} </span> rows?`, result => {
         if (result) {
@@ -500,7 +500,7 @@
 
 
     $(document).ready(function () {
-      //定义datagrid结构
+      //Define the datagrid structure
       $dg.datagrid({
         rownumbers: true,
         checkOnSelect: false,
@@ -574,7 +574,7 @@
           $(this).datagrid('refreshRow', index);
         },
         frozenColumns: [[
-          /*开启CheckBox选择功能*/
+          /*Enable CheckBox selection function*/
           { field: 'ck', checkbox: true },
           {
             field: 'action',
@@ -591,7 +591,7 @@
           }
         ]],
         columns: [[
-          {    /*名称*/
+          {    /*Name*/
             field: 'Name',
             title: '@Html.DisplayNameFor(model => model.Name)',
             width: 160,

@@ -33,7 +33,7 @@ namespace MicroCrm.WebUI.Controllers
 
     // GET: Companies
     public IActionResult Index()=> View();
-    //datagrid 数据源
+    //data source
     public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
     {
       try
@@ -125,7 +125,7 @@ namespace MicroCrm.WebUI.Controllers
       }
       //return View(work);
     }
-    //Delete当前记录
+    //Delete current record
     //GET: Companies/Delete/:id
     [HttpGet]
     public async Task<JsonResult> Delete(int id)
@@ -142,7 +142,7 @@ namespace MicroCrm.WebUI.Controllers
         return Json(new { success = false, err = e.GetBaseException().Message });
       }
     }
-    //Delete选中的记录
+    //Delete the selected records
     [HttpPost]
     public async Task<JsonResult> DeleteChecked(int[] id)
     {
@@ -160,7 +160,7 @@ namespace MicroCrm.WebUI.Controllers
         return Json(new { success = false, err = e.GetBaseException().Message });
       }
     }
-    //AcceptdatagridEdit的数据
+    //Accept datagrid edit data
     [HttpPost]
     public async Task<JsonResult> AcceptChanges(Company[] companies)
     {

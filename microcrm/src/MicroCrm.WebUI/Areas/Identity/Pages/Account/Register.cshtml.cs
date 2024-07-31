@@ -152,7 +152,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
       public string Email { get; set; }
       [Display(Name = "Tenant")]
       public int TenantId { get; set; }
-      [Display(Name = "移动电话")]
+      [Display(Name = "PhoneNumber")]
       public string PhoneNumber { get; set; }
 
       [Required]

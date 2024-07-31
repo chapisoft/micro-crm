@@ -1509,7 +1509,7 @@ var initApp = (function(app) {
 
 						/* return ID of panel */
 						//return selectedPanel.attr('id');
-            //Customize全屏事件 TODO:这里有Save
+            //CustomizeFull Screen Event TODO:这里有Save
             let event = document.createEvent('Event');
             event.initEvent('panel.onfullscreen', true, true);
             // Dispatch the event.

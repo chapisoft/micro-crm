@@ -1,5 +1,5 @@
 $(function() {
-	// 初始化主题
+	// 初始化Theme
 	var initTheme = function(themeName) {
 		if(themeName == null) {
 			themeName = $('#themeCss').attr('href').split('/').pop().split('.css')[0];
@@ -50,13 +50,13 @@ $(function() {
 		});
 	});
 
-	// 修改主题
+	// 修改Theme
 	$('#themeSetting').on('click', function() {
 		var themeWin = $('#win').dialog({
 			width: 460,
 			height: 260,
 			modal: true,
-			title: '主题设置',
+			title: 'Theme设置',
 			buttons: [{
 				text: 'Accept',
 				id: 'btn-sure',
@@ -79,7 +79,7 @@ $(function() {
 		});
 	});
 
-	// 勾选主题
+	// 勾选Theme
 	$(".themeItem ul li").on('click', function() {
 		$(".themeItem ul li").removeClass('themeActive');
 		$(this).addClass('themeActive');

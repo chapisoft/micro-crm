@@ -9,6 +9,9 @@ namespace MicroCrm.Domain.Models
   public partial class Leads
   {
     public Company Company { get; set; }
-    public Company Customer { get; set; }
+    public List<Contact> Contacts { get; set; }
+    public List<Project> Applications { get; set; }
+    public List<ContactActivity> ContactActivities { get; set; }
+    public List<Quotation> Quotations { get; set; }
   }
 }

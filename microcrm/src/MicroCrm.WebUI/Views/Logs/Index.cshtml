@@ -48,7 +48,7 @@
         <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-faded bg-subtlelight-fade ">
           <div class="row no-gutters align-items-center">
             <div class="col">
-              <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
+              <!-- To enable authorization control, please refer to @@if (Html.IsAuthorize("Create") -->
 
               <div class="btn-group btn-group-sm">
                 <button onclick="reload()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Refresh </button>
@@ -82,7 +82,7 @@
   <script src="~/js/plugin/jquery.serializejson/jquery.serializejson.js" asp-append-version="true"></script>
   <script src="~/js/statistics/chartjs/chartjs.bundle.js"></script>
   <script type="text/javascript">
-    //全屏事件
+    //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
       $dg.treegrid('resize');
     });
@@ -159,7 +159,7 @@
         }
       }
     });
-    //获取图表数据
+    //Get chart data
     $(async () => {
       var data = await $.get('/Logs/GetChartData');
       console.log(data);
@@ -270,24 +270,24 @@
             position:'bottom'},
           title: {
             display: true,
-            text: '日志分类'
+            text: 'Log classification'
           }
         }
       });
     })
 
 
-      //是否强制从后台取value
+      //Whether to force the value to be fetched from the background
       const REQUIRBACKEND = false;
-      //是否开启行内Edit
+      //Whether to enable inline editing
       const EDITINLINE = true;
-      //UploadImport参数设定
+      //UploadImport parameter settings
       const entityname = "Log";
       var log = {};
 
 
 
-	   //执行Export下载Excel
+	   //Execute Export to download Excel
 	   function exportexcel() {
 				const filterRules = JSON.stringify($dg.datagrid('options').filterRules);
 				//console.log(filterRules);
@@ -308,12 +308,12 @@
 		}
 
        var editIndex = undefined;
-       //重新加载数据
+       //Reload Data
 	   function reload() {
           $dg.datagrid('uncheckAll');
 			    $dg.datagrid('reload');
 	   }
-    //设置日志Status
+    //Set the log status
     function setLogState(id,index) {
       $.get(`/Logs/SetLogState?id=${id}`).done(res => {
         if (res.success) {
@@ -367,10 +367,10 @@
       }
     }
 
-    //初始化定义datagrid
+    //Initialize and define datagrid
     var $dg = $('#logs_datagrid');
     $(() => {
-      //定义datagrid结构
+      //Define the datagrid structure
       $dg.datagrid({
         rownumbers: true,
         checkOnSelect: false,
@@ -463,7 +463,7 @@
             sortable: true,
             resizable: true
           },
-          {    /*使用Identity*/
+          {    /*Using Identity*/
             field: 'Identity',
             title: '@Html.DisplayNameFor(model => model.Identity)',
             width: 130,
@@ -499,7 +499,7 @@
             resizable: true
           },
 
-          {    /*日志*/
+          {    /*Logger*/
             field: 'Logger',
             title: '@Html.DisplayNameFor(model => model.Logger)',
             width: 180,
@@ -507,7 +507,7 @@
             sortable: true,
             resizable: true
           },
-          {    /*站点*/
+          {    /*Callsite*/
             field: 'Callsite',
             title: '@Html.DisplayNameFor(model => model.Callsite)',
             width: 180,

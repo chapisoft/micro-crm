@@ -24,7 +24,7 @@
         <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade ">
           <div class="row no-gutters align-items-center">
             <div class="col">
-              <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
+              <!-- To enable authorization control, please refer to @@if (Html.IsAuthorize("Create") -->
               <div class="btn-group btn-group-sm">
                 <button name="searchbutton" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Search </button>
                 <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -133,7 +133,7 @@
           @Html.HiddenFor(model => model.Id)
           <fieldset class="form-group">
             <!-- begin row -->
-            <!--名称-->
+            <!--Name-->
             <div class="row h-100 justify-content-center align-items-center">
               <label class="col-md-2 pr-1 form-label text-right text-danger">@Html.DisplayNameFor(model => model.Name)</label>
               <div class="col-md-4 mb-1 pl-1">
@@ -374,7 +374,7 @@
             this.$dg.datagrid('refreshRow', index);
           },
           frozenColumns: [[
-            /*开启CheckBox选择功能*/
+            /*Enable CheckBox selection function*/
             { field: 'ck', checkbox: true },
             {
               field: 'action',
@@ -396,7 +396,7 @@
             }
           ]],
           columns: [[
-            {    /*名称*/
+            {    /*Name*/
               field: 'Name',
               title: '<span class="required">@Html.DisplayNameFor(model => model.Name)</span>',
               width: 200,
@@ -420,7 +420,7 @@
               sortable: true,
               resizable: true
             },
-            {    /*地址*/
+            {    /*Address*/
               field: 'Address',
               title: '@Html.DisplayNameFor(model => model.Address)',
               width: 200,
@@ -432,7 +432,7 @@
               sortable: true,
               resizable: true
             },
-            {    /*联系人*/
+            {    /*Contact*/
               field: 'Contact',
               title: '@Html.DisplayNameFor(model => model.Contact)',
               width: 120,
@@ -515,7 +515,7 @@
         });
 
       }
-      //执行Export下载Excel
+      //Execute Export to download Excel
       exportexcel() {
         const filterRules = JSON.stringify(this.$dg.datagrid('options').filterRules);
         $.messager.progress({ title: 'Please wait', msg: 'Export in progress...' });
@@ -552,19 +552,19 @@
         this.$dg.datagrid('uncheckAll');
         this.$dg.datagrid('reload');
       }
-      //Added记录
+      //Added records
       appendItem() {
         this.item = {
           Address: '-',
           RegisterDate: moment().format('YYYY-MM-DD HH:mm:ss'),
         };
         if (!this.EDITINLINE) {
-          //弹出Added窗口
+          //The Added window pops up
           this.MODELSTATE = 'Added';
           this.showDetailWindow(this.item);
         } else {
           if (this.endEditing()) {
-            //对Required字段进行默认value初始化
+            //Initialize the default value for the Required field
             this.$dg.datagrid('insertRow',
               {
                 index: 0,
@@ -577,7 +577,7 @@
           }
         }
       }
-      //DeleteEdit的行
+      //Delete Edit Row
       removeItem() {
         if (this.$dg.datagrid('getChecked').length <= 0 && this.EDITINLINE) {
           if (this.editIndex !== undefined) {
@@ -607,7 +607,7 @@
           }
         })
       }
-      //Delete选中的行
+      //Delete the selected row
       deletechecked() {
         const id = this.$dg.datagrid('getChecked').filter(item => item.Id > 0).map(item => {
           return item.Id;
@@ -622,7 +622,7 @@
           $.messager.alert('Success', 'Please select the record to be deleted first!', 'question');
         }
       }
-      //执行Delete
+      //Execute Delete
       dodeletechecked(id) {
         $.post('/Companies/DeleteChecked', { id: id })
           .done(response => {
@@ -637,7 +637,7 @@
             $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
           });
       }
-      //开启EditStatus
+      //Enable Edit Status
       onClickCell(index, field) {
         console.log('onClickCell')
         this.item = this.$dg.datagrid('getRows')[index];
@@ -678,7 +678,7 @@
           return false;
         }
       }
-      //提交Accept后台数据库
+      //Submit Accept backend database
       acceptChanges() {
         if (this.endEditing()) {
           if (this.$dg.datagrid('getChanges').length > 0) {
@@ -694,7 +694,7 @@
               item.TrackingState = 3
               return item;
             });
-            //过滤已Delete的重复项
+            //Filter Deleted Duplicates
             const changed = inserted.concat(updated.filter(item => {
               return !deleted.includes(item);
             })).concat(deleted);
@@ -732,7 +732,7 @@
         this.$form.form('reset');
         this.$form.form('load', data);
       }
-      //Delete当前记录
+      //Delete current record
       deleteItem() {
         $.messager.confirm('Confirm', 'Are you sure you want to delete this record?', result => {
           if (result) {

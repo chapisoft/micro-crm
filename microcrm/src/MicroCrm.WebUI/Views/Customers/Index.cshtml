@@ -24,7 +24,7 @@
                 <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade ">
                     <div class="row no-gutters align-items-center">
                         <div class="col">
-                            <!-- 开启授权控制请参考 @@if (Html.IsAuthorize("Create") -->
+                            <!-- To enable authorization control, please refer to @@if (Html.IsAuthorize("Create") -->
                             <div class="btn-group btn-group-sm">
                                 <button onclick="appendItem()" class="btn btn-default">
                                     <span class="fal fa-plus mr-1"></span> Add
@@ -149,7 +149,7 @@
 <script src="~/js/jquery.custom.extend.js" asp-append-version="true"></script>
 <script src="~/js/jquery.extend.formatter.js" asp-append-version="true"></script>
 <script>
-    //全屏事件
+    //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
       $dg.treegrid('resize');
     });
@@ -157,9 +157,9 @@
         var EDITINLINE = false;
         var customer = null;
     var editIndex = undefined;
-    //下载ExcelImport模板
+    //Download ExcelImport Template
 
-    //执行Export下载Excel
+    //Execute Export to download Excel
     function exportExcel() {
       const filterRules = JSON.stringify($dg.datagrid('options').filterRules);
       console.log(filterRules);
@@ -178,7 +178,7 @@
       });
 
     }
-            //弹出明细Message
+            //Pop-up details Message
     function showDetailsWindow(id, index) {
       const customer = $dg.datagrid('getRows')[index];
       openCustomerDetailWindow(customer, 'Modified');
@@ -187,7 +187,7 @@
       $dg.datagrid('uncheckAll');
       $dg.datagrid('reload');
     }
-            //Added记录
+            //Added records
     function appendItem() {
       customer = {
         Id:null,
@@ -197,11 +197,11 @@
         Address: '-'
       };
       if (!EDITINLINE) {
-        //弹出Added窗口
+        //The Added window pops up
         openCustomerDetailWindow(customer, 'Added');
       } else {
         if (endEditing()) {
-          //对Required字段进行默认value初始化
+          //Initialize the default value for the Required field
           $dg.datagrid('insertRow',
             {
               index: 0,
@@ -214,7 +214,7 @@
         }
       }
     }
-            //DeleteEdit的行
+            //Delete Edit Row
     function removeItem() {
       if (this.$dg.datagrid('getChecked').length <= 0 && EDITINLINE) {
         if (editIndex !== undefined) {
@@ -236,7 +236,7 @@
         deleteChecked();
       }
     }
-    //Delete选中的行
+    //Delete the selected row
     function deleteChecked() {
       const checked = $dg.datagrid('getChecked').filter(item => item.Id != null && item.Id > 0).map(item => {
         return item.Id;
@@ -247,7 +247,7 @@
         $.messager.alert('Success', 'Please select the record to be deleted first!', 'question');
       }
     }
-    //执行Delete
+    //Execute Delete
     function deleteRows(selected) {
       $.messager.confirm('Confirm', `Are you sure you want to delete these <span class='badge badge-icon position-relative'>${selected.length} </span> rows?`, result => {
         if (result) {
@@ -266,7 +266,7 @@
         }
       });
     }
-            //开启EditStatus
+            //Enable Edit Status
     function onClickCell(index, field) {
 
       customer = $dg.datagrid('getRows')[index];
@@ -308,7 +308,7 @@
         return false;
       }
     }
-            //提交Accept后台数据库
+            //Submit Accept backend database
     function acceptChanges() {
       if (endEditing()) {
         if ($dg.datagrid('getChanges').length > 0) {
@@ -324,7 +324,7 @@
             item.TrackingState = 3
             return item;
           });
-          //过滤已Delete的重复项
+          //Filter Deleted Duplicates
           const changed = inserted.concat(updated.filter(item => {
             return !deleted.includes(item);
           })).concat(deleted);
@@ -355,7 +355,7 @@
       hook = false;
     }
     $(document).ready(function () {
-      //定义datagrid结构
+      //Define the datagrid structure
       $dg.datagrid({
         rownumbers: true,
         checkOnSelect: false,
@@ -430,7 +430,7 @@
           $(this).datagrid('refreshRow', index);
         },
         frozenColumns: [[
-          /*开启CheckBox选择功能*/
+          /*Enable CheckBox selection function*/
           { field: 'ck', checkbox: true },
           {
             field: 'action',
@@ -451,7 +451,7 @@
           }
         ]],
         columns: [[
-          {    /*名称*/
+          {    /*Name*/
             field: 'Name',
             title: '@Html.DisplayNameFor(model => model.Name)',
             width: 200,
@@ -463,7 +463,7 @@
             sortable: true,
             resizable: true
           },
-          {    /*联系人*/
+          {    /*Contact*/
             field: 'Contact',
             title: '@Html.DisplayNameFor(model => model.Contact)',
             width: 120,
@@ -475,7 +475,7 @@
             sortable: true,
             resizable: true
           },
-          {    /*电话*/
+          {    /*PhoneNumber*/
             field: 'PhoneNumber',
             title: '@Html.DisplayNameFor(model => model.PhoneNumber)',
             width: 200,
@@ -487,7 +487,7 @@
             sortable: true,
             resizable: true
           },
-          {    /*地址*/
+          {    /*Address*/
             field: 'Address',
             title: '@Html.DisplayNameFor(model => model.Address)',
             width: 120,
