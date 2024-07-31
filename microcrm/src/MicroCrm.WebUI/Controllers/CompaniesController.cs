@@ -54,10 +54,13 @@ namespace MicroCrm.WebUI.Controllers
                            {
                              Id = n.Id,
                              Name = n.Name,
+                             FullName = n.FullName,
                              Code = n.Code,
                              Address = n.Address,
                              Contact = n.Contact,
                              PhoneNumber = n.PhoneNumber,
+                             PostCode = n.PostCode,
+                             Note = n.Note,
                              RegisterDate = n.RegisterDate.ToString("yyyy-MM-dd HH:mm:ss")
                            }).ToList();
         var pagelist = new { total = total, rows = pagerows };

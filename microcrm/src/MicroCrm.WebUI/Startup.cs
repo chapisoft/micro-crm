@@ -132,6 +132,17 @@ namespace MicroCrm.WebUI
 
       services.AddScoped<IRepositoryX<Photo>, RepositoryX<Photo>>();
       services.AddScoped<IPhotoService, PhotoService>();
+
+      services.AddScoped<IRepositoryX<AqDetail>, RepositoryX<AqDetail>>();
+      services.AddScoped<IAqDetailService, AqDetailService>();
+      services.AddScoped<IRepositoryX<ContactActivity>, RepositoryX<ContactActivity>>();
+      services.AddScoped<IContactActivityService, ContactActivityService>();
+      services.AddScoped<IRepositoryX<Contact>, RepositoryX<Contact>>();
+      services.AddScoped<IContactService, ContactService>();
+      services.AddScoped<IRepositoryX<Project>, RepositoryX<Project>>();
+      services.AddScoped<IProjectService, ProjectService>();
+      services.AddScoped<IRepositoryX<Quotation>, RepositoryX<Quotation>>();
+      services.AddScoped<IQuotationService, QuotationService>();
       #endregion
       services.AddTransient<IEmailSender, EmailSender>();
 

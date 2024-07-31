@@ -14,6 +14,11 @@ namespace MicroCrm.Infrastructure.Persistence
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
     public virtual DbSet<Photo> Photos { get; set; }
+    public virtual DbSet<AqDetail> AqDetails { get; set; }
+    public virtual DbSet<ContactActivity> ContactActivities { get; set; }
+    public virtual DbSet<Contact> Contacts { get; set; }
+    public virtual DbSet<Project> Projects { get; set; }
+    public virtual DbSet<Quotation> Quotations { get; set; }
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

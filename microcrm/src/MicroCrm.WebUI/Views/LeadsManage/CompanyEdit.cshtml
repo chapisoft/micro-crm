@@ -1,0 +1,110 @@
+﻿@model MicroCrm.Domain.Models.Company
+<form id="company_form" class="easyui-form form-horizontal p-1" method="post">
+  @Html.AntiForgeryToken()
+  <!--Primary Key-->
+  @Html.HiddenFor(model => model.Id)
+  <fieldset class="form-group">
+    <!-- begin row -->
+    <div class="row h-100 justify-content-center align-items-center">
+      <label class="col-md-2 pr-1 form-label text-right text-danger">@Html.DisplayNameFor(model => model.Name)</label>
+      <div class="col-md-4 mb-1 pl-1">
+        <input id="@Html.IdFor(model => model.Name)"
+                name="@Html.NameFor(model => model.Name)"
+                value="@Html.ValueFor(model => model.Name)"
+                tabindex="0" required
+                class="easyui-textbox"
+                style="width:100%"
+                type="text"
+                data-options="prompt:'@Html.DescriptionFor(model => model.Name)', required:true, validType: 'length[0,250]'" />
+      </div>
+      <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.FullName)</label>
+      <div class="col-md-4 mb-1 pl-1">
+        <input id="@Html.IdFor(model => model.FullName)"
+                name="@Html.NameFor(model => model.FullName)"
+                value="@Html.ValueFor(model => model.FullName)"
+                tabindex="1" required
+                class="easyui-textbox"
+                style="width:100%"
+                type="text"
+                data-options="prompt:'@Html.DescriptionFor(model => model.FullName)', required:false, validType: 'length[0,250]'" />
+      </div>
+      <label class="col-md-2 pr-1 form-label text-right text-danger">@Html.DisplayNameFor(model => model.Code)</label>
+      <div class="col-md-4 mb-1 pl-1">
+        <input id="@Html.IdFor(model => model.Code)"
+                name="@Html.NameFor(model => model.Code)"
+                value="@Html.ValueFor(model => model.Code)"
+                tabindex="2" required
+                class="easyui-textbox"
+                style="width:100%"
+                type="text"
+                data-options="prompt:'@Html.DescriptionFor(model => model.Code)', required:true, validType: 'length[0,12]'" />
+      </div>
+      <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Address)</label>
+      <div class="col-md-4 mb-1 pl-1">
+        <input id="@Html.IdFor(model => model.Address)"
+                name="@Html.NameFor(model => model.Address)"
+                value="@Html.ValueFor(model => model.Address)"
+                tabindex="3"
+                class="easyui-textbox"
+                style="width:100%"
+                type="text"
+                data-options="prompt:'@Html.DescriptionFor(model => model.Address)', required:false, validType: 'length[0,500]'" />
+      </div>
+      <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Contact)</label>
+      <div class="col-md-4 mb-1 pl-1">
+        <input id="@Html.IdFor(model => model.Contact)"
+                name="@Html.NameFor(model => model.Contact)"
+                value="@Html.ValueFor(model => model.Contact)"
+                tabindex="4"
+                class="easyui-textbox"
+                style="width:100%"
+                type="text"
+                data-options="prompt:'@Html.DescriptionFor(model => model.Contact)', required:false, validType: 'length[0,250]'" />
+      </div>
+      <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.PhoneNumber)</label>
+      <div class="col-md-4 mb-1 pl-1">
+        <input id="@Html.IdFor(model => model.PhoneNumber)"
+                name="@Html.NameFor(model => model.PhoneNumber)"
+                value="@Html.ValueFor(model => model.PhoneNumber)"
+                tabindex="5"
+                class="easyui-textbox"
+                style="width:100%"
+                type="text"
+                data-options="prompt:'@Html.DescriptionFor(model => model.PhoneNumber)', required:false, validType: 'length[0,20]'" />
+      </div>
+      <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.PostCode)</label>
+      <div class="col-md-4 mb-1 pl-1">
+        <input id="@Html.IdFor(model => model.PostCode)"
+                name="@Html.NameFor(model => model.PostCode)"
+                value="@Html.ValueFor(model => model.PostCode)"
+                tabindex="6"
+                class="easyui-textbox"
+                style="width:100%"
+                type="text"
+                data-options="prompt:'@Html.DescriptionFor(model => model.PostCode)', required:false, validType: 'length[0,20]'" />
+      </div>
+      <label class="col-md-2 pr-1 form-label text-right text-danger">@Html.DisplayNameFor(model => model.RegisterDate)</label>
+      <div class="col-md-4 mb-1 pl-1">
+        <input id="@Html.IdFor(model => model.RegisterDate)"
+                name="@Html.NameFor(model => model.RegisterDate)"
+                value="@Html.ValueFor(model => model.RegisterDate)"
+                tabindex="7" required
+                class="easyui-datebox"
+                style="width:100%"
+                type="text"
+                data-options="prompt:'@Html.DescriptionFor(model => model.RegisterDate)', required:true, formatter:dateformatter" />
+      </div>
+      <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Note)</label>
+      <div class="col-md-10 mb-1 pl-1">
+        <input id="@Html.IdFor(model => model.Note)"
+                name="@Html.NameFor(model => model.Note)"
+                value="@Html.ValueFor(model => model.Note)"
+                tabindex="8"
+                class="easyui-textbox"
+                style="width:100%"
+                type="text"
+                data-options="prompt:'@Html.DescriptionFor(model => model.Note)', required:false, validType: 'length[0,20]'" />
+      </div>
+    </div>
+  </fieldset>
+</form>

@@ -207,82 +207,7 @@
   <div class="panel-container show">
     <div class="container">
       <div class="panel-content">
-        <form id="company_form" class="easyui-form form-horizontal p-1" method="post">
-          @Html.AntiForgeryToken()
-          <!--Primary Key-->
-          @Html.HiddenFor(model => model.Company.Id)
-          <fieldset class="form-group">
-            <!-- begin row -->
-            <div class="row h-100 justify-content-center align-items-center">
-              <label class="col-md-2 pr-1 form-label text-right text-danger">@Html.DisplayNameFor(model => model.Company.Name)</label>
-              <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.Company.Name)"
-                       name="@Html.NameFor(model => model.Company.Name)"
-                       value="@Html.ValueFor(model => model.Company.Name)"
-                       tabindex="0" required
-                       class="easyui-textbox"
-                       style="width:100%"
-                       type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Company.Name)', required:true, validType: 'length[0,250]'" />
-              </div>
-              <label class="col-md-2 pr-1 form-label text-right text-danger">@Html.DisplayNameFor(model => model.Company.Code)</label>
-              <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.Company.Code)"
-                       name="@Html.NameFor(model => model.Company.Code)"
-                       value="@Html.ValueFor(model => model.Company.Code)"
-                       tabindex="1" required
-                       class="easyui-textbox"
-                       style="width:100%"
-                       type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Company.Code)', required:true, validType: 'length[0,12]'" />
-              </div>
-              <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Company.Address)</label>
-              <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.Company.Address)"
-                       name="@Html.NameFor(model => model.Company.Address)"
-                       value="@Html.ValueFor(model => model.Company.Address)"
-                       tabindex="2"
-                       class="easyui-textbox"
-                       style="width:100%"
-                       type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Company.Address)', required:false, validType: 'length[0,500]'" />
-              </div>
-              <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Company.Contact)</label>
-              <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.Company.Contact)"
-                       name="@Html.NameFor(model => model.Company.Contact)"
-                       value="@Html.ValueFor(model => model.Company.Contact)"
-                       tabindex="3"
-                       class="easyui-textbox"
-                       style="width:100%"
-                       type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Company.Contact)', required:false, validType: 'length[0,250]'" />
-              </div>
-              <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Company.PhoneNumber)</label>
-              <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.Company.PhoneNumber)"
-                       name="@Html.NameFor(model => model.Company.PhoneNumber)"
-                       value="@Html.ValueFor(model => model.Company.PhoneNumber)"
-                       tabindex="4"
-                       class="easyui-textbox"
-                       style="width:100%"
-                       type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Company.PhoneNumber)', required:false, validType: 'length[0,20]'" />
-              </div>
-              <label class="col-md-2 pr-1 form-label text-right text-danger">@Html.DisplayNameFor(model => model.Company.RegisterDate)</label>
-              <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.Company.RegisterDate)"
-                       name="@Html.NameFor(model => model.Company.RegisterDate)"
-                       value="@Html.ValueFor(model => model.Company.RegisterDate)"
-                       tabindex="5" required
-                       class="easyui-datebox"
-                       style="width:100%"
-                       type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Company.RegisterDate)', required:true, formatter:dateformatter" />
-              </div>
-            </div>
-          </fieldset>
-        </form>
+        <partial name="CompanyEdit" />
       </div>
     </div>
   </div>
@@ -492,6 +417,18 @@
               resizable: true
             },
             {
+              field: 'FullName',
+              title: '<span>@Html.DisplayNameFor(model => model.Company.FullName)</span>',
+              width: 200,
+              hidden: false,
+              editor: {
+                type: 'textbox',
+                options: { prompt: '@Html.DescriptionFor(model => model.Company.FullName)', required: true, validType: 'length[0,250]' }
+              },
+              sortable: true,
+              resizable: true
+            },
+            {
               field: 'Code',
               title: '<span class="required">@Html.DisplayNameFor(model => model.Company.Code)</span>',
               width: 120,
@@ -535,6 +472,30 @@
               editor: {
                 type: 'textbox',
                 options: { prompt: '@Html.DescriptionFor(model => model.Company.PhoneNumber)', required: false, validType: 'length[0,20]' }
+              },
+              sortable: true,
+              resizable: true
+            },
+            {
+              field: 'PostCode',
+              title: '@Html.DisplayNameFor(model => model.Company.PostCode)',
+              width: 120,
+              hidden: false,
+              editor: {
+                type: 'textbox',
+                options: { prompt: '@Html.DescriptionFor(model => model.Company.PostCode)', required: false, validType: 'length[0,250]' }
+              },
+              sortable: true,
+              resizable: true
+            },
+            {
+              field: 'Note',
+              title: '@Html.DisplayNameFor(model => model.Company.Note)',
+              width: 120,
+              hidden: false,
+              editor: {
+                type: 'textbox',
+                options: { prompt: '@Html.DescriptionFor(model => model.Company.Note)', required: false, validType: 'length[0,250]' }
               },
               sortable: true,
               resizable: true
