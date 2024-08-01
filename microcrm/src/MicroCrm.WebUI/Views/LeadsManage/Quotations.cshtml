@@ -328,12 +328,14 @@
         {    /*Amount*/
           field: 'Amount',
           title: '@Html.DisplayNameFor(model => model.Amount)',
-          width: 120,
+          width: 150,
+          align: 'right',
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.Amount)', required: false, validType: 'length[0,20]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.Amount)', required: false}
           },
+          formatter: numberformatter,
           sortable: true,
           resizable: true,
 
@@ -352,7 +354,7 @@
 
         },
         {    /*Status*/
-          field: 'BusinessPhone',
+          field: 'Status',
           title: '@Html.DisplayNameFor(model => model.Status)',
           width: 120,
           hidden: false,
@@ -365,7 +367,7 @@
 
         },
         {    /*ApprovedBy*/
-          field: 'BusinessPhone',
+          field: 'ApprovedBy',
           title: '@Html.DisplayNameFor(model => model.ApprovedBy)',
           width: 120,
           hidden: false,
@@ -382,6 +384,13 @@
       .datagrid('enableFilter', [
       ])
       .datagrid('load', '/Quotations/GetData');
+
+    $('#panel-quotation .datagrid').css('width', '100%');
+    $('#panel-quotation .datagrid-wrap').css('width', '100%');
+    $('#panel-quotation .datagrid-view').css('width', '100%');
+    $('#panel-quotation .datagrid-view').css('height', '400px');
+    $('#panel-quotation .datagrid-view1').css('width', '155px');
+    $('#panel-quotation .datagrid-view2').css('width', $dgWidth - 250);
   }
   //Download ExcelImport Template
 

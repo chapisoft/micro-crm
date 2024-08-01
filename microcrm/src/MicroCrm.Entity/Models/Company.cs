@@ -47,5 +47,8 @@ namespace MicroCrm.Domain.Models
     [DefaultValue("now")]
     public virtual DateTime RegisterDate { get; set; }
 
+    [Display(Name = "Private", Description = "Private")]
+    public virtual int Private { get; set; }
+
   }
 }

@@ -25,7 +25,7 @@
     <div class="form-row">
       <div class="col-md-6 mb-3">
         <label class="form-label" asp-for="Channel">  </label>
-        <input type="text" class="form-control" asp-for="Channel" maxlength="20">
+        @Html.DropDownList("Channel", (IEnumerable<SelectListItem>)ViewBag.Channel, new { @class = "form-control", required = "required" })
         <div class="invalid-feedback" asp-validation-for="Channel">
         </div>
       </div>
@@ -77,7 +77,7 @@
                 toastr.success("Saved successfully");
               }
               else {
-                $.messager.alert('Error', res.err)
+                //$.messager.alert('Error', res.err)
               }
             });
 

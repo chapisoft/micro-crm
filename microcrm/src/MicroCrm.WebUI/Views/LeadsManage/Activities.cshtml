@@ -248,12 +248,29 @@
           title: '@Html.DisplayNameFor(model => model.Channel)',
           width: 200,
           hidden: false,
-          editor: {
+          @*editor: {
             type: 'textbox',
             options: { prompt: '@Html.DescriptionFor(model => model.Channel)', required: false, validType: 'length[0,20]' }
-          },
+          },*@
           sortable: true,
-          resizable: true
+          resizable: true,
+          formatter: function (value, row, index) {
+            if (row.Channel == 0) {
+              return "Mobile"
+            }
+            else if (row.Channel == 1) {
+              return "Chat"
+            }
+            else if (row.Channel == 2) {
+              return "Mail"
+            }
+            else if (row.Channel == 3) {
+              return "Meet"
+            }
+            else {
+              return "Other"
+            }
+          }
         },
         {    /*ActivityDate*/
           field: 'ActivityDate',
@@ -286,6 +303,13 @@
       .datagrid('enableFilter', [
       ])
       .datagrid('load', '/ContactActivities/GetData');
+
+    $('#panel-activity .datagrid').css('width', '100%');
+    $('#panel-activity .datagrid-wrap').css('width', '100%');
+    $('#panel-activity .datagrid-view').css('width', '100%');
+    $('#panel-activity .datagrid-view').css('height', '400px');
+    $('#panel-activity .datagrid-view1').css('width', '155px');
+    $('#panel-activity .datagrid-view2').css('width', $dgWidth - 250);
   }
   //Download ExcelImport Template
 

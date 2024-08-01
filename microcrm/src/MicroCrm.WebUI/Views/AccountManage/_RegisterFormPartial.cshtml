@@ -83,11 +83,10 @@
           <div class="form-row form-group">
             <div class="col-md-6">
               <label class="form-label" for="tenantid">Tenant</label>
-              @Html.DropDownList("tenantid", (IEnumerable
-        <SelectListItem>)ViewBag.tenantid, new { @class = "form-control", required = "required" })
+              @Html.DropDownList("tenantid", (IEnumerable <SelectListItem>)ViewBag.tenantid, new { @class = "form-control", required = "required" })
 
               <div class="invalid-feedback">
-                请选择Tenant
+                Please select tenant
               </div>
             </div>
           </div>

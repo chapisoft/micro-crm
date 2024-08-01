@@ -61,7 +61,8 @@ namespace MicroCrm.WebUI.Controllers
                              PhoneNumber = n.PhoneNumber,
                              PostCode = n.PostCode,
                              Note = n.Note,
-                             RegisterDate = n.RegisterDate.ToString("yyyy-MM-dd HH:mm:ss")
+                             RegisterDate = n.RegisterDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                             Private = n.Private
                            }).ToList();
         var pagelist = new { total = total, rows = pagerows };
         return Json(pagelist);

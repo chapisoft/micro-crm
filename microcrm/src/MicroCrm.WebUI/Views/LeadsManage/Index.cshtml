@@ -112,7 +112,7 @@
           <div class="panel-container show">
             <div class="panel-content">
               <ul class="nav nav-tabs" role="tablist">
-                <li class="nav-item">
+                <li class="nav-item active">
                   <a class="nav-link active fs-xl py-3 px-5" data-toggle="tab" href="#tab-company" role="tab">
                     <i class="@(Settings.Theme.IconPrefix) fal fa-landmark text-success"></i>
                     <span class="hidden-sm-down ml-1">COMPANY</span>
@@ -159,7 +159,7 @@
                 <div class="tab-pane fade" id="tab-application" role="tabpanel" aria-labelledby="tab-application">
                   <partial name="Projects" />
                 </div>
-                <div class="tab-pane fade show" id="tab-activity" role="tabpanel" aria-labelledby="tab-activity">
+                <div class="tab-pane fade " id="tab-activity" role="tabpanel" aria-labelledby="tab-activity">
                   <partial name="Activities" />
                 </div>
                 <div class="tab-pane fade" id="tab-quotation" role="tabpanel" aria-labelledby="tab-quotation">
@@ -252,6 +252,7 @@
   <script src="~/js/jquery.extend.formatter.js" asp-append-version="true"></script>
 
   <script>
+    var $dgWidth = 0;
     //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
       $dgActivity.treegrid('resize');
@@ -347,6 +348,7 @@
         })
         this.$saveitembutton.on('click', this.saveItem.bind(this));
         this.$deleteitembutton.on('click', this.deleteItem.bind(this));
+
         this.$dg = $('#companies_datagrid').datagrid({
           rownumbers: true,
           checkOnSelect: false,
@@ -432,8 +434,7 @@
               sortable: false,
               resizable: true,
               formatter: (value, row, index) => {
-
-                if (!row.editing) {
+                if (!row.editing && !row.Private) {
                   return `<div class="btn-group">\
                               <button name="actionbutton" data-cmd="operation"  data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Operation" ><i class="fal fa-ballot-check"></i> </button>\
                               <button name="actionbutton" data-cmd="edit"  data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Edit Details" ><i class="fal fa-edit"></i> </button>\
@@ -531,9 +532,19 @@
               resizable: true
             },
             {
+              field: 'Private',
+              title: '<span class="required">@Html.DisplayNameFor(model => model.Company.Private)</span>',
+              width: 80,
+              align: 'center',
+              hidden: false,
+              formatter: checkboxformatter,
+              sortable: true,
+              resizable: true
+            },
+            {
               field: 'Note',
               title: '@Html.DisplayNameFor(model => model.Company.Note)',
-              width: 120,
+              width: 250,
               hidden: false,
               editor: {
                 type: 'textbox',
@@ -555,7 +566,7 @@
               formatter: dateformatter,
               sortable: true,
               resizable: true
-            },
+            }
           ]]
         }).datagrid('columnMoving')
           .datagrid('resetColumns')
@@ -825,6 +836,7 @@
       }
 
       showDetailCompany(data) {
+        $dgWidth = $('#panel-leads .datagrid-view').width();
 
         $("#panel-infor").show();
 

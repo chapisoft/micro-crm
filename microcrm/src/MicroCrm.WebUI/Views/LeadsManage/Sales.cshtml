@@ -140,6 +140,7 @@
             type: 'datebox',
             options: { prompt: '@Html.DescriptionFor(model => model.StartDate)', required: false, validType: 'length[0,20]' }
           },
+          formatter: dateformatter,
           sortable: true,
           resizable: true
         },
@@ -152,12 +153,13 @@
             type: 'datebox',
             options: { prompt: '@Html.DescriptionFor(model => model.EndDate)', required: false, validType: 'length[0,20]' }
           },
+          formatter: dateformatter,
           sortable: true,
           resizable: true,
 
         },
         {    /*Competitors*/
-          field: 'EndDate',
+          field: 'Competitors',
           title: '@Html.DisplayNameFor(model => model.Competitors)',
           width: 120,
           hidden: false,
@@ -172,12 +174,14 @@
         {    /*TotalVolume*/
           field: 'TotalVolume',
           title: '@Html.DisplayNameFor(model => model.TotalVolume)',
-          width: 120,
+          width: 150,
+          align: 'right',
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.TotalVolume)', required: false, validType: 'length[0,20]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.TotalVolume)', required: false }
           },
+          formatter: numberformatter,
           sortable: true,
           resizable: true,
 
@@ -200,13 +204,29 @@
           title: '@Html.DisplayNameFor(model => model.Status)',
           width: 120,
           hidden: false,
-          editor: {
+          @*editor: {
             type: 'textbox',
             options: { prompt: '@Html.DescriptionFor(model => model.Status)', required: false, validType: 'length[0,20]' }
-          },
+          },*@
           sortable: true,
           resizable: true,
-
+          formatter: function (value, row, index) {
+            if (row.Status == 0) {
+              return "Pending"
+            }
+            else if (row.Status == 1) {
+              return "On - going"
+            }
+            else if (row.Status == 2) {
+              return "LOST"
+            }
+            else if (row.Channel == 3) {
+              return "SUBMIT"
+            }
+            else {
+              return "SOLD"
+            }
+          }
         },
         {    /*ApprovedBy*/
           field: 'ApprovedBy',
@@ -226,6 +246,13 @@
       .datagrid('enableFilter', [
       ])
       .datagrid('load', '/Projects/GetData');
+
+    $('#panel-sale .datagrid').css('width', '100%');
+    $('#panel-sale .datagrid-wrap').css('width', '100%');
+    $('#panel-sale .datagrid-view').css('width', '100%');
+    $('#panel-sale .datagrid-view').css('height', '400px');
+    $('#panel-sale .datagrid-view1').css('width', '155px');
+    $('#panel-sale .datagrid-view2').css('width', $dgWidth - 250);
   }
   //Download ExcelImport Template
 

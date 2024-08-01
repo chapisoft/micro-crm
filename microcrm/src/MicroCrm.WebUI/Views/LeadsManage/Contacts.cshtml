@@ -210,7 +210,8 @@
         {    /*Name*/
           field: 'Name',
           title: '@Html.DisplayNameFor(model => model.Name)',
-          width: 200,
+          minidth: 200,
+          flex: 1,
           hidden: false,
           editor: {
             type: 'textbox',
@@ -287,6 +288,13 @@
       .datagrid('enableFilter', [
       ])
       .datagrid('load', '/Contacts/GetData');
+
+    $('#panel-contact .datagrid').css('width', '100%');
+    $('#panel-contact .datagrid-wrap').css('width', '100%');
+    $('#panel-contact .datagrid-view').css('width', '100%');
+    $('#panel-contact .datagrid-view').css('height', '400px');
+    $('#panel-contact .datagrid-view1').css('width', '155px');
+    $('#panel-contact .datagrid-view2').css('width', $dgWidth - 250);
   }
   //Download ExcelImport Template
 
