@@ -1,4 +1,4 @@
-﻿@model MicroCrm.Domain.Models.Customer
+﻿@model MicroCrm.Domain.Models.Contact
 @{
   Layout = null;
 }
@@ -62,7 +62,7 @@
         </div>
         <div class="panel-content">
           <div class="table-responsive">
-            <table id="customers_datagrid">
+            <table id="contacts_datagrid">
             </table>
           </div>
         </div>
@@ -71,13 +71,13 @@
   </div>
 </div>
 
-<!--Customer Edit Modal -->
-<div class="modal fade" id="customer-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<!--Contact Edit Modal -->
+<div class="modal fade" id="contact-modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">
-          Customer Information
+          Contact Information
           <small class="m-0 text-muted">
 
           </small>
@@ -102,10 +102,10 @@
 
 @await Component.InvokeAsync("ImportExcel", new ImportExcelOptions
 {
-  entity = "Customer",
-  folder = "Customers",
-  url = "/Customers",
-  tpl = "Customer.xlsx"
+  entity = "Contact",
+  folder = "Contacts",
+  url = "/Contacts",
+  tpl = "Contact.xlsx"
 })
 
 <script>
@@ -126,7 +126,7 @@
       clientPaging: false,
       pagination: true,
       striped: true,
-      width: 1000,
+      //width: 1000,
       height: 400,
       pageSize: 10,
       pageList: [10, 20, 50],
@@ -156,7 +156,7 @@
         $("button[name*='deletebutton']").prop('disabled', !checked);
       },
       onSelect: function (index, row) {
-        customer = row;
+        contact = row;
       },
       onBeginEdit: function (index, row) {
         //const editors = $(this).datagrid('getEditors', index);
@@ -219,38 +219,64 @@
           sortable: true,
           resizable: true
         },
-        {    /*Contact*/
-          field: 'Contact',
-          title: '@Html.DisplayNameFor(model => model.Contact)',
+        {    /*Title*/
+          field: 'Title',
+          title: '@Html.DisplayNameFor(model => model.Title)',
           width: 120,
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.Contact)', required: true, validType: 'length[0,12]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.Title)', required: true, validType: 'length[0,128]' }
           },
           sortable: true,
           resizable: true
         },
-        {    /*PhoneNumber*/
-          field: 'PhoneNumber',
-          title: '@Html.DisplayNameFor(model => model.PhoneNumber)',
+        {    /*Department*/
+          field: 'Department',
+          title: '@Html.DisplayNameFor(model => model.Department)',
           width: 200,
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.PhoneNumber)', required: false, validType: 'length[0,20]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.Department)', required: false, validType: 'length[0,50]' }
           },
           sortable: true,
           resizable: true
         },
-        {    /*Address*/
-          field: 'Address',
-          title: '@Html.DisplayNameFor(model => model.Address)',
+        {    /*BusinessPhone*/
+          field: 'BusinessPhone',
+          title: '@Html.DisplayNameFor(model => model.BusinessPhone)',
           width: 120,
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.Address)', required: false, validType: 'length[0,50]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.BusinessPhone)', required: false, validType: 'length[0,50]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Ext*/
+          field: 'Ext',
+          title: '@Html.DisplayNameFor(model => model.Ext)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Ext)', required: false, validType: 'length[0,20]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Email*/
+          field: 'Email',
+          title: '@Html.DisplayNameFor(model => model.Email)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Email)', required: false, validType: 'length[0,50]' }
           },
           sortable: true,
           resizable: true,
@@ -260,7 +286,7 @@
     })
       .datagrid('enableFilter', [
       ])
-      .datagrid('load', '/Customers/GetData');
+      .datagrid('load', '/Contacts/GetData');
   }
   //Download ExcelImport Template
 
@@ -273,7 +299,7 @@
     formData.append('filterRules', filterRules);
     formData.append('sort', 'Id');
     formData.append('order', 'asc');
-    $.postDownload('/Customers/exportExcelContact', formData).then(res => {
+    $.postDownload('/Contacts/exportExcelContact', formData).then(res => {
       $.messager.progress('close');
       toastr.success('Export successful!');
     }).catch(err => {
@@ -285,8 +311,8 @@
   }
   //Pop-up details Message
   function showDetailsWindowContact(id, index) {
-    const customer = $dgContact.datagrid('getRows')[index];
-    openCustomerDetailWindow(customer, 'Modified');
+    const contact = $dgContact.datagrid('getRows')[index];
+    openContactDetailWindow(contact, 'Modified');
   }
   function reloadContact() {
     $dgContact.datagrid('uncheckAll');
@@ -294,7 +320,7 @@
   }
   //Added records
   function appendContact() {
-    customer = {
+    contact = {
       Id: null,
       Name: '',
       PhoneNumber: '',
@@ -303,14 +329,14 @@
     };
     if (!EDITINLINEContact) {
       //The Added window pops up
-      openCustomerDetailWindow(customer, 'Added');
+      openContactDetailWindow(contact, 'Added');
     } else {
       if (endEditingContact()) {
         //Initialize the default value for the Required field
         $dgContact.datagrid('insertRow',
           {
             index: 0,
-            row: customer
+            row: contact
           });
         editIndexContact = 0;
         $dgContact.datagrid('selectRow', editIndexContact)
@@ -356,7 +382,7 @@
   function deleteRowsContact(selected) {
     $.messager.confirm('Confirm', `Are you sure you want to delete these <span class='badge badge-icon position-relative'>${selected.length} </span> rows?`, result => {
       if (result) {
-        $.post('/Customers/deleteCheckedContact', { id: selected })
+        $.post('/Contacts/deleteCheckedContact', { id: selected })
           .done(response => {
             if (response.success) {
               toastr.error(`Successfully delete [${selected.length}] rows of records`);
@@ -410,7 +436,7 @@
           return !deleted.includes(item);
         })).concat(deleted);
         //$.messager.progress({ title: 'Please wait', msg: 'Accepting data...', interval: 200 });
-        $.post('/Customers/acceptChangesContact', { customers: changed })
+        $.post('/Contacts/acceptChangesContact', { contacts: changed })
           .done(response => {
             //$.messager.progress('close');
             //console.log(response);
@@ -433,7 +459,7 @@
   //Enable Edit Status
   function onClickCellContact(index, field) {
 
-    customer = $dgContact.datagrid('getRows')[index];
+    contact = $dgContact.datagrid('getRows')[index];
     const _actions = ['action', 'ck'];
     if (!EDITINLINEContact || $.inArray(field, _actions) >= 0) {
       return;
@@ -460,11 +486,11 @@
     hook = false;
   }
 
-  function openCustomerDetailWindow(data) {
-    const customerid = (data.Id || 0);
+  function openContactDetailWindow(data) {
+    const contactid = (data.Id || 0);
     console.log(data);
-    $('#customer-modal').modal('toggle');
-    $('#customer-form').jsonToForm(data)
+    $('#contact-modal').modal('toggle');
+    $('#contact-form').jsonToForm(data)
 
   }
 </script>

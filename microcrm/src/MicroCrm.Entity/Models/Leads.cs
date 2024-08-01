@@ -10,7 +10,7 @@ namespace MicroCrm.Domain.Models
   {
     public Company Company { get; set; }
     public List<Contact> Contacts { get; set; }
-    public List<Project> Applications { get; set; }
+    public List<Project> Projects { get; set; }
     public List<ContactActivity> ContactActivities { get; set; }
     public List<Quotation> Quotations { get; set; }
   }

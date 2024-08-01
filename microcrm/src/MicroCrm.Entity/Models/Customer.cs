@@ -26,7 +26,6 @@ namespace MicroCrm.Domain.Models
     public virtual string PhoneNumber { get; set; }
     [Display(Name = "Address", Description = "Address")]
     [MaxLength(50)]
-    [DefaultValue("-")]
     public virtual string Address { get; set; }
 
 

@@ -53,6 +53,7 @@ namespace MicroCrm.WebUI.Controllers
     //public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
     public async Task<JsonResult> GetData(QuotationPaginationQuery request)
     {
+      try { 
         //var filters = PredicateBuilder.FromFilter<Quotation>(filterRules);
         //var total = await this.quotationService
         //                     .Query(filters).CountAsync();
@@ -65,6 +66,11 @@ namespace MicroCrm.WebUI.Controllers
         //return Json(pagelist);
         var result= await this.mediator.Send(request);
         return Json(result);
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.Message });
+      }
     }
 
     [HttpPost]

@@ -6,6 +6,11 @@
   ViewData["Category1"] = "CRM";
   ViewData["PageDescription"] = "";
 }
+<style>
+  .datagrid-body .datagrid-cell, .datagrid-footer .datagrid-cell {
+    text-wrap: wrap;
+  }
+</style>
 <div class="row">
   <div class="col-lg-12 col-xl-12">
     <div id="panel-leads" class="panel">
@@ -96,12 +101,12 @@
           Leads Information
         </h2>
         <div class="panel-toolbar">
-          <button id="btnCollapse2" class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"><i class="fal fa-window-minimize"></i></button>
+          @*<button id="btnCollapse2" class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"><i class="fal fa-window-minimize"></i></button>*@
           <button class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"><i class="fal fa-expand"></i></button>
         </div>
 
       </div>
-      <div class="panel-container enable-loader show">
+      <div id="panel-infor" class="panel-container enable-loader show">
         <div class="loader"><i class="fal fa-spinner-third fa-spin-4x fs-xxl"></i></div>
         <div class="panel-content">
           <div class="panel-container show">
@@ -152,16 +157,16 @@
                   <partial name="Contacts" />
                 </div>
                 <div class="tab-pane fade" id="tab-application" role="tabpanel" aria-labelledby="tab-application">
-                  Application
+                  <partial name="Projects" />
                 </div>
                 <div class="tab-pane fade show" id="tab-activity" role="tabpanel" aria-labelledby="tab-activity">
-                  Activity
+                  <partial name="Activities" />
                 </div>
                 <div class="tab-pane fade" id="tab-quotation" role="tabpanel" aria-labelledby="tab-quotation">
-                  Quotation
+                  <partial name="Quotations" />
                 </div>
                 <div class="tab-pane fade" id="tab-sales" role="tabpanel" aria-labelledby="tab-sales">
-                  Sales
+                  <partial name="Sales" />
                 </div>
               </div>
             </div>
@@ -249,16 +254,53 @@
   <script>
     //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
+      $dgActivity.treegrid('resize');
+      $dgAqDetail.treegrid('resize');
       $dgContact.treegrid('resize');
+      $dgProject.treegrid('resize');
+      $dgQuotation.treegrid('resize');
+      $dgSale.treegrid('resize');
     });
-    var $dgContact = $('#customers_datagrid');
+    // Activity
+    var $dgActivity = $('#activities_datagrid');
+    $dgActivity.css('width', '100%');
+    var EDITINLINEActivity = false;
+    var activity = null;
+    var editIndexActivity = undefined;
+    // AqDetail
+    var $dgAqDetail = $('#aqDetails_datagrid');
+    $dgAqDetail.css('width', '100%');
+    var EDITINLINEAqDetail = false;
+    var aqDetail = null;
+    var editIndexAqDetail = undefined;
+    // Contact
+    var $dgContact = $('#contacts_datagrid');
+    $dgContact.css('width', '100%');
     var EDITINLINEContact = false;
-    var customer = null;
+    var contact = null;
     var editIndexContact = undefined;
+    // Project
+    var $dgProject = $('#projects_datagrid');
+    $dgProject.css('width', '100%');
+    var EDITINLINEProject = false;
+    var project = null;
+    var editIndexProject = undefined;
+    // Quotation
+    var $dgQuotation = $('#quotations_datagrid');
+    $dgQuotation.css('width', '100%');
+    var EDITINLINEQuotation = false;
+    var quotation = null;
+    var editIndexQuotation = undefined;
+    // Sale
+    var $dgSale = $('#sales_datagrid');
+    $dgSale.css('width', '100%');
+    var EDITINLINESale = false;
+    var sale = null;
+    var editIndexSale = undefined;
 
     $(document).ready(function () {
       // Home
-      $("#btnCollapse2").click();
+      $("#panel-infor").hide();
     });
 
     class company {
@@ -783,6 +825,9 @@
       }
 
       showDetailCompany(data) {
+
+        $("#panel-infor").show();
+
         this.id = (data.Id || 0);
         this.$formview.form('reset');
         this.$formview.form('load', data);
@@ -790,8 +835,17 @@
         // Contact
         showContacts();
 
-        //$("#btnCollapse1").click();
-        $("#btnCollapse2").click();
+        // Project
+        showProjects();
+
+        // Activity
+        showActivities();
+
+        // Quotation
+        showQuotations();
+
+        // Sale
+        showSales();
       }
 
       deleteItem() {

@@ -6,8 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="db\**" />
     <Compile Remove="sqlscripts\**" />
+    <EmbeddedResource Remove="db\**" />
     <EmbeddedResource Remove="sqlscripts\**" />
+    <None Remove="db\**" />
     <None Remove="sqlscripts\**" />
   </ItemGroup>
 

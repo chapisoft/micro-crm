@@ -1,37 +1,49 @@
-﻿@model MicroCrm.Domain.Models.Customer
+﻿@model MicroCrm.Domain.Models.Contact
 @{
   Layout = null;
 }
 
-      <form id="customer-form" class="needs-validation" asp-action="AddOrEdit" novalidate>
+      <form id="contact-form" class="needs-validation" asp-action="AddOrEdit" novalidate>
         <div class="panel-content">
           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
            <input type="hidden" asp-for="Id"/>
           <div class="form-row">
             <div class="col-md-6 mb-3">
               <label class="form-label" asp-for="Name">  </label>
-              <input type="text" class="form-control" asp-for="Name" required maxlength="50">
+              <input type="text" class="form-control" asp-for="Name" required maxlength="128">
               <div class="invalid-feedback" asp-validation-for="Name">
               </div>
             </div>
             <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="Contact">  </label>
-              <input type="text" class="form-control" asp-for="Contact" maxlength="12">
-              <div class="invalid-feedback" asp-validation-for="Contact">
+              <label class="form-label" asp-for="Title">  </label>
+              <input type="text" class="form-control" asp-for="Title" maxlength="128">
+              <div class="invalid-feedback" asp-validation-for="Title">
               </div>
             </div>
           </div>
           <div class="form-row">
             <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="PhoneNumber">  </label>
-              <input type="text" class="form-control" asp-for="PhoneNumber" maxlength="20">
-              <div class="invalid-feedback" asp-validation-for="PhoneNumber">
+              <label class="form-label" asp-for="Department">  </label>
+              <input type="text" class="form-control" asp-for="Department" maxlength="128">
+              <div class="invalid-feedback" asp-validation-for="Department">
               </div>
             </div>
             <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="Address">  </label>
-              <input type="text" class="form-control" asp-for="Address" maxlength="50">
-              <div class="invalid-feedback" asp-validation-for="Address">
+              <label class="form-label" asp-for="BusinessPhone">  </label>
+              <input type="text" class="form-control" asp-for="BusinessPhone" maxlength="50">
+              <div class="invalid-feedback" asp-validation-for="BusinessPhone">
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label" asp-for="Ext">  </label>
+              <input type="text" class="form-control" asp-for="Ext" maxlength="10">
+              <div class="invalid-feedback" asp-validation-for="Ext">
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label" asp-for="Email">  </label>
+              <input type="text" class="form-control" asp-for="Email" maxlength="50">
+              <div class="invalid-feedback" asp-validation-for="Email">
               </div>
             </div>
           </div>
@@ -58,14 +70,14 @@
                 } else {
                   event.preventDefault();
                   event.stopPropagation();
-                  var request = $('#customer-form').serializeJSON();
+                  var request = $('#contact-form').serializeJSON();
                   console.log(request)
-                  $.post('/Customers/AddOrEdit', {
+                  $.post('/Contacts/AddOrEdit', {
                     __RequestVerificationToken: request.__RequestVerificationToken,
                     request
                   }).done(res => {
                     if (res.success) {
-                      $('#customer-modal').modal('toggle');
+                      $('#contact-modal').modal('toggle');
                       reloadContact();
                       toastr.success("Saved successfully");
                     }

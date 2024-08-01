@@ -122,7 +122,7 @@ namespace MicroCrm.WebUI
 
       #endregion
 
-      #region 注入业务服务
+      #region Injecting business services
       services.AddScoped<ITrackableRepository<Company>, TrackableRepository<Company>>();
       services.AddScoped<ICompanyService, CompanyService>();
       services.AddScoped<IRepositoryX<Product>, RepositoryX<Product>>();
@@ -349,7 +349,7 @@ namespace MicroCrm.WebUI
         });
       });
 
-      logger.LogTrace("网站启动");
+      logger.LogTrace("Website Launch");
     }
   }
 }

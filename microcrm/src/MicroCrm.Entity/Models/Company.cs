@@ -35,7 +35,7 @@ namespace MicroCrm.Domain.Models
     [MaxLength(20)]
     public virtual string PhoneNumber { get; set; }
 
-    [Display(Name = "PostCode", Description = "PostCode")]
+    [Display(Name = "City", Description = "City")]
     [MaxLength(20)]
     public virtual string PostCode { get; set; }
 
