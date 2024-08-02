@@ -71,6 +71,8 @@
   </div>
 </div>
 
+<partial name="AqDetails" />
+
 <!--Quotation Edit Modal -->
 <div class="modal fade" id="quotation-modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -191,15 +193,16 @@
         {
           field: 'action',
           title: 'Operate',
-          width: 85,
+          width: 120,
           sortable: false,
           resizable: true,
           formatter: function showdetailsformatter(value, row, index) {
             if (!row.editing) {
               return `<div class="btn-group">\
-                                                         <button onclick="showDetailsWindowQuotation('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
-                                                         <button onclick="deleteRowsQuotation(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
-                                                    </div>`;
+                            <button onclick="showAqDetail('${row.Id}',  ${index})" class="btn btn-primary btn-icon waves-effect waves-themed" title="Operation" ><i class="fal fa-ballot-check"></i> </button>\
+                            <button onclick="showDetailsWindowQuotation('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
+                            <button onclick="deleteRowsQuotation(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
+                      </div>`;
             } else {
               return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
             }
@@ -222,7 +225,7 @@
         {    /*Title*/
           field: 'Title',
           title: '@Html.DisplayNameFor(model => model.Title)',
-          width: 120,
+          width: 250,
           hidden: false,
           editor: {
             type: 'textbox',
@@ -231,7 +234,7 @@
           sortable: true,
           resizable: true
         },
-        {    /*Department*/
+        @*{    /*Department*/
           field: 'Department',
           title: '@Html.DisplayNameFor(model => model.Department)',
           width: 200,
@@ -294,7 +297,7 @@
           sortable: true,
           resizable: true,
 
-        },
+        },*@
         {    /*StartDate*/
           field: 'StartDate',
           title: '@Html.DisplayNameFor(model => model.StartDate)',
@@ -358,13 +361,30 @@
           title: '@Html.DisplayNameFor(model => model.Status)',
           width: 120,
           hidden: false,
-          editor: {
+          @*editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.Status)', required: false, validType: 'length[0,10]' }
-          },
+            options: { prompt: '@Html.DescriptionFor(model => model.Status)', required: false, validType: 'length[0,20]' }
+          },*@
           sortable: true,
           resizable: true,
+          formatter: function (value, row, index) {
+            if (row.Status == 0) {
+              return "Pending"
+            }
+            else if (row.Status == 1) {
+              return "On - going"
+            }
+            else if (row.Status == 2) {
+              return "LOST"
+            }
+            else if (row.Channel == 3) {
+              return "SUBMIT"
+            }
+            else {
+              return "SOLD"
+            }
 
+          }
         },
         {    /*ApprovedBy*/
           field: 'ApprovedBy',
@@ -389,8 +409,8 @@
     $('#panel-quotation .datagrid-wrap').css('width', '100%');
     $('#panel-quotation .datagrid-view').css('width', '100%');
     $('#panel-quotation .datagrid-view').css('height', '400px');
-    $('#panel-quotation .datagrid-view1').css('width', '155px');
-    $('#panel-quotation .datagrid-view2').css('width', $dgWidth - 250);
+    $('#panel-quotation .datagrid-view1').css('width', '185px');
+    $('#panel-quotation .datagrid-view2').css('width', $dgWidth - 285);
   }
   //Download ExcelImport Template
 
@@ -417,6 +437,11 @@
   function showDetailsWindowQuotation(id, index) {
     const quotation = $dgQuotation.datagrid('getRows')[index];
     openQuotationDetailWindow(quotation, 'Modified');
+  }
+  //Pop-up details Message
+  function showAqDetail(id, index) {
+    const quotation = $dgQuotation.datagrid('getRows')[index];
+    openAqDetailWindow(quotation, 'Modified');
   }
   function reloadQuotation() {
     $dgQuotation.datagrid('uncheckAll');
@@ -595,6 +620,9 @@
     console.log(data);
     $('#quotation-modal').modal('toggle');
     $('#quotation-form').jsonToForm(data)
-
+  }
+  function openAqDetailWindow(data) {
+    const quotationid = (data.Id || 0);
+    showAqDetails();
   }
 </script>

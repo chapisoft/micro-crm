@@ -5,6 +5,7 @@
   ViewData["Heading"] = "<i class='fal fa-window text-primary'></i> Leads Manage";
   ViewData["Category1"] = "CRM";
   ViewData["PageDescription"] = "";
+  var role = (string)ViewBag.Role;
 }
 <style>
   .datagrid-body .datagrid-cell, .datagrid-footer .datagrid-cell {
@@ -16,7 +17,7 @@
     <div id="panel-leads" class="panel">
       <div class="panel-hdr">
         <h2>
-          Leads Manage
+          Leads Manage (@role)
         </h2>
         <div class="panel-toolbar">
           <button id="btnCollapse1" class="btn btn-panel bg-transparent fs-xl w-auto h-auto rounded-0" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"><i class="fal fa-window-minimize"></i></button>
@@ -434,7 +435,7 @@
               sortable: false,
               resizable: true,
               formatter: (value, row, index) => {
-                if (!row.editing && !row.Private) {
+                if (!row.editing && (!row.Private || '@role.ToLower()' == 'admin')) {
                   return `<div class="btn-group">\
                               <button name="actionbutton" data-cmd="operation"  data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Operation" ><i class="fal fa-ballot-check"></i> </button>\
                               <button name="actionbutton" data-cmd="edit"  data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Edit Details" ><i class="fal fa-edit"></i> </button>\

@@ -4,12 +4,17 @@
 }
 <div class="row">
   <div class="col-lg-12 col-xl-12">
-    <div id="panel-aqDetail" class="panel">
+    <div id="panel-aqDetail" class="panel hidden">
       <div class="panel-container enable-loader show">
         <div class="loader"><i class="fal fa-spinner-third fa-spin-4x fs-xxl"></i></div>
         <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade ">
           <div class="row no-gutters align-items-center">
             <div class="col">
+              <div class="btn-group btn-group-sm">
+                <button name="closebutton" onclick="closeAqDetail()" class="btn btn-default">
+                  <span class="fal fa-arrow-left mr-1"></span> Back
+                </button>
+              </div>
               <div class="btn-group btn-group-sm">
                 <button onclick="appendAqDetail()" class="btn btn-default">
                   <span class="fal fa-plus mr-1"></span> Add
@@ -30,33 +35,33 @@
                   <span class="fal fa-ban mr-1"></span> Cancel
                 </button>
               </div>
-              <div class="btn-group btn-group-sm">
-                <button onclick="reloadAqDetail()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Search </button>
-                <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu dropdown-menu-animated">
-                  <a class="dropdown-item js-waves-on" href="javascript:void()"> My Records </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item js-waves-on" href="javascript:void()"> Customize Search </a>
-                </div>
-              </div>
-              <div class="btn-group btn-group-sm hidden-xs">
-                <button type="button" onclick="importExcel.upload()" class="btn btn-default"><span class="fal fa-cloud-upload mr-1"></span> Import </button>
-                <button type="button" class="btn btn-default  dropdown-toggle dropdown-toggle-split waves-effect waves-themed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu dropdown-menu-animated">
-                  <a class="dropdown-item js-waves-on" href="javascript:importExcel.downloadtemplate()">
-                    <span class="fal fa-download"></span> Download the template
-                  </a>
-                </div>
-              </div>
-              <div class="btn-group btn-group-sm hidden-xs">
-                <button onclick="exportExcelAqDetail()" class="btn btn-default">
-                  <span class="fal fa-file-export mr-1"></span>  Export
-                </button>
-              </div>
+              @*<div class="btn-group btn-group-sm">
+      <button onclick="reloadAqDetail()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Search </button>
+      <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <div class="dropdown-menu dropdown-menu-animated">
+        <a class="dropdown-item js-waves-on" href="javascript:void()"> My Records </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item js-waves-on" href="javascript:void()"> Customize Search </a>
+      </div>
+    </div>
+    <div class="btn-group btn-group-sm hidden-xs">
+      <button type="button" onclick="importExcel.upload()" class="btn btn-default"><span class="fal fa-cloud-upload mr-1"></span> Import </button>
+      <button type="button" class="btn btn-default  dropdown-toggle dropdown-toggle-split waves-effect waves-themed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <div class="dropdown-menu dropdown-menu-animated">
+        <a class="dropdown-item js-waves-on" href="javascript:importExcel.downloadtemplate()">
+          <span class="fal fa-download"></span> Download the template
+        </a>
+      </div>
+    </div>
+    <div class="btn-group btn-group-sm hidden-xs">
+      <button onclick="exportExcelAqDetail()" class="btn btn-default">
+        <span class="fal fa-file-export mr-1"></span>  Export
+      </button>
+    </div>*@
             </div>
           </div>
         </div>
@@ -210,7 +215,7 @@
         {    /*PartNo*/
           field: 'PartNo',
           title: '@Html.DisplayNameFor(model => model.PartNo)',
-          width: 200,
+          width: 120,
           hidden: false,
           editor: {
             type: 'textbox',
@@ -222,7 +227,7 @@
         {    /*ItemName*/
           field: 'ItemName',
           title: '@Html.DisplayNameFor(model => model.ItemName)',
-          width: 120,
+          width: 200,
           hidden: false,
           editor: {
             type: 'textbox',
@@ -234,24 +239,28 @@
         {    /*Qty*/
           field: 'Qty',
           title: '@Html.DisplayNameFor(model => model.Qty)',
-          width: 200,
+          width: 80,
+          align: 'right',
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.Qty)', required: false, validType: 'length[0,10]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.Qty)', required: false }
           },
+          formatter: numberformatter,
           sortable: true,
           resizable: true
         },
         {    /*Price*/
           field: 'Price',
           title: '@Html.DisplayNameFor(model => model.Price)',
-          width: 120,
+          width: 150,
+          align: 'right',
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.Price)', required: false, validType: 'length[0,50]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.Price)', required: false }
           },
+          formatter: numberformatter,
           sortable: true,
           resizable: true,
 
@@ -259,25 +268,29 @@
         {    /*Discount*/
           field: 'Discount',
           title: '@Html.DisplayNameFor(model => model.Discount)',
-          width: 120,
+          width: 150,
+          align: 'right',
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.Discount)', required: false, validType: 'length[0,50]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.Discount)', required: false }
           },
+          formatter: numberformatter,
           sortable: true,
           resizable: true,
 
         },
         {    /*Vat*/
-          field: 'Price',
+          field: 'Vat',
           title: '@Html.DisplayNameFor(model => model.Vat)',
-          width: 120,
+          width: 80,
+          align: 'right',
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.Vat)', required: false, validType: 'length[0,50]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.Vat)', required: false }
           },
+          formatter: numberformatter,
           sortable: true,
           resizable: true,
 
@@ -285,12 +298,14 @@
         {    /*Amount*/
           field: 'Amount',
           title: '@Html.DisplayNameFor(model => model.Amount)',
-          width: 120,
+          width: 150,
+          align: 'right',
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.Amount)', required: false, validType: 'length[0,50]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.Amount)', required: false }
           },
+          formatter: numberformatter,
           sortable: true,
           resizable: true,
 
@@ -298,12 +313,14 @@
         {    /*AmountIncVat*/
           field: 'AmountIncVat',
           title: '@Html.DisplayNameFor(model => model.AmountIncVat)',
-          width: 120,
+          width: 150,
+          align: 'right',
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.AmountIncVat)', required: false, validType: 'length[0,50]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.AmountIncVat)', required: false }
           },
+          formatter: numberformatter,
           sortable: true,
           resizable: true,
 
@@ -313,6 +330,21 @@
       .datagrid('enableFilter', [
       ])
       .datagrid('load', '/AqDetails/GetData');
+
+    $('#panel-aqDetail .datagrid').css('width', '100%');
+    $('#panel-aqDetail .datagrid-wrap').css('width', '100%');
+    $('#panel-aqDetail .datagrid-view').css('width', '100%');
+    $('#panel-aqDetail .datagrid-view').css('height', '400px');
+    $('#panel-aqDetail .datagrid-view1').css('width', '155px');
+    $('#panel-aqDetail .datagrid-view2').css('width', $dgWidth - 250);
+
+    $('#panel-aqDetail').show();
+    $('#panel-quotation').hide();
+  }
+
+  function closeAqDetail() {
+    $('#panel-aqDetail').hide();
+    $('#panel-quotation').show();
   }
   //Download ExcelImport Template
 

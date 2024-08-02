@@ -24,46 +24,46 @@
             </div>
           </div>
           <div class="form-row">
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
               <label class="form-label" asp-for="StartDate">  </label>
-              <input type="text" class="easyui-datebox" asp-for="StartDate" maxlength="20">
+              <input type="text" class="easyui-datebox" asp-for="StartDate">
               <div class="invalid-feedback" asp-validation-for="StartDate">
               </div>
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
               <label class="form-label" asp-for="EndDate">  </label>
-              <input type="text" class="easyui-datebox" asp-for="EndDate" maxlength="20">
+              <input type="text" class="easyui-datebox" asp-for="EndDate">
               <div class="invalid-feedback" asp-validation-for="EndDate">
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label" asp-for="Status">  </label>
+              @Html.DropDownList("Status", (IEnumerable<SelectListItem>)ViewBag.ProjectStatus, new { @class = "form-control", required = "required" })
+              <div class="invalid-feedback" asp-validation-for="Status">
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label" asp-for="ApprovedBy">  </label>
+              <input type="text" class="form-control" disabled asp-for="ApprovedBy">
+              <div class="invalid-feedback" asp-validation-for="ApprovedBy">
               </div>
             </div>
             <div class="col-md-6 mb-3">
               <label class="form-label" asp-for="Competitors">  </label>
-              <input type="text" class="form-control" asp-for="Competitors" maxlength="20">
+              <input type="text" class="form-control" asp-for="Competitors">
               <div class="invalid-feedback" asp-validation-for="Competitors">
               </div>
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-3 mb-3">
               <label class="form-label" asp-for="TotalVolume">  </label>
-              <input type="text" class="form-control" asp-for="TotalVolume" maxlength="20">
+              <input type="text" class="form-control" asp-for="TotalVolume">
               <div class="invalid-feedback" asp-validation-for="TotalVolume">
               </div>
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-12 mb-3">
               <label class="form-label" asp-for="Note">  </label>
               <input type="text" class="form-control" asp-for="Note" maxlength="250">
               <div class="invalid-feedback" asp-validation-for="Note">
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="Status">  </label>
-              @Html.DropDownList("Channel", (IEnumerable<SelectListItem>)ViewBag.ProjectStatus, new { @class = "form-control", required = "required" })
-              <div class="invalid-feedback" asp-validation-for="Status">
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="ApprovedBy">  </label>
-              <input type="text" class="form-control" asp-for="ApprovedBy" maxlength="20">
-              <div class="invalid-feedback" asp-validation-for="ApprovedBy">
               </div>
             </div>
           </div>
@@ -80,7 +80,7 @@
           'use strict';
           window.addEventListener('load', function () {
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
+            var forms = $('#project-form');
             // Loop over them and prevent submission
             var validation = Array.prototype.filter.call(forms, function (form) {
               form.addEventListener('submit', function (event) {

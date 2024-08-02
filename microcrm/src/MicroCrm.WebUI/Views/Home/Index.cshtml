@@ -1,7 +1,8 @@
 ﻿@{
-  ViewData["Title"] = "Homepage";
-  ViewData["PageName"] = "Home_Index";
-  ViewData["Heading"] = "<i class='subheader-icon fal fa-chart-area'></i> <span class='fw-300'>Dashboard</span>";
+    ViewData["Title"] = "Homepage";
+    ViewData["PageName"] = "Home_Index";
+    ViewData["Heading"] = "<i class='subheader-icon fal fa-chart-area'></i> <span class='fw-300'>Dashboard (" + ViewBag.Role + ")</span>";
+    var role = (string)ViewBag.Role;
 }
 @section HeadBlock {
   <link rel="stylesheet" media="screen, print" href="~/css/miscellaneous/reactions/reactions.css">

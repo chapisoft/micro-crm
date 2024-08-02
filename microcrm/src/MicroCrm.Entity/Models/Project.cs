@@ -50,9 +50,5 @@ namespace MicroCrm.Domain.Models
     [Display(Name = "Approved By", Description = "Approved By", Order = 9)]
     [MaxLength(250)]
     public virtual string ApprovedBy { get; set; }
-
-    [Display(Name = "Details", Description = "Details", Order = 10)]
-    public virtual ICollection<AqDetail> Details { get; set; }
-
   }
 }

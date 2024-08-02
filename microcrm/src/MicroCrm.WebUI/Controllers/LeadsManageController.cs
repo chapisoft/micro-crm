@@ -13,6 +13,8 @@ namespace MicroCrm.WebUI.Controllers
     // GET: LeadsManageController
     public ActionResult Index()
     {
+      var role = (string)ViewBag.Role;
+
       var selectlist = new List<SelectListItem>();
       selectlist.Add(new SelectListItem() { Text = "Mobile", Value = "0" });
       selectlist.Add(new SelectListItem() { Text = "Chat", Value = "1" });
@@ -26,7 +28,8 @@ namespace MicroCrm.WebUI.Controllers
       selectlist.Add(new SelectListItem() { Text = "On - going", Value = "1" });
       selectlist.Add(new SelectListItem() { Text = "LOST", Value = "2" });
       selectlist.Add(new SelectListItem() { Text = "SUBMIT", Value = "3" });
-      selectlist.Add(new SelectListItem() { Text = "SOLD", Value = "4" });
+      if (role.ToLower() == "admin")
+        selectlist.Add(new SelectListItem() { Text = "SOLD", Value = "4" });
       ViewBag.ProjectStatus = selectlist;
 
       selectlist = new List<SelectListItem>();
