@@ -22,7 +22,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
 
         public async Task OnGet()
         {
-      _logger.LogInformation($"{this.User.Identity.Name}:注销");
+      _logger.LogInformation($"{this.User.Identity.Name}:Logout");
       await _signInManager.SignOutAsync();
            
         }

@@ -85,7 +85,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
           loginUser = await _userManager.FindByNameAsync(Input.UserName);
         }
         if (loginUser == null) {
-          ModelState.AddModelError(string.Empty, "Identity或Email不存在.");
+          ModelState.AddModelError(string.Empty, "Identity or Email does not exist.");
           return Page();
         }
         // This doesn't count login failures towards account lockout
@@ -93,7 +93,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
         var result = await _signInManager.PasswordSignInAsync(loginUser, Input.Password, Input.RememberMe, lockoutOnFailure: true);
         if (result.Succeeded)
         {
-          _logger.LogInformation($"{loginUser.UserName}:Login成功");
+          _logger.LogInformation($"{loginUser.UserName}:Login successful");
           return LocalRedirect(returnUrl);
         }
         if (result.RequiresTwoFactor)
@@ -108,7 +108,7 @@ namespace MicroCrm.WebUI.Areas.Identity.Pages.Account
         }
         else
         {
-          ModelState.AddModelError(string.Empty, "Username或Password不正确" );
+          ModelState.AddModelError(string.Empty, "Username or Password is incorrect" );
           return Page();
         }
       }

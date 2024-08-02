@@ -1322,7 +1322,7 @@ var initApp = (function(app) {
 		if( typeof($.fn.popover) !== 'undefined' && $('[data-toggle="popover"]').length ){
 
     /* BS4 sanatize */
-      //和easyui tooltip 冲突注销了 TODO:这里有Save
+      //和easyui tooltip 冲突Logout了 TODO:这里有Save
 			//var myDefaultWhiteList = $.fn.tooltip.Constructor.Default.whiteList
 
 			/* init popover */

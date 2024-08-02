@@ -66,7 +66,7 @@ namespace MicroCrm.WebUI.EndPoints
           var accessToken = await GenerateJSONWebToken(user);
           var refreshToken = GenerateRefreshToken();
           //Return Ok with token string as content
-          _logger.LogInformation($"{model.UserName}:JWTLogin成功");
+          _logger.LogInformation($"{model.UserName}:JWTLogin successful");
           return Ok(new { accessToken = accessToken, refreshToken = refreshToken });
         }
         return Unauthorized();
