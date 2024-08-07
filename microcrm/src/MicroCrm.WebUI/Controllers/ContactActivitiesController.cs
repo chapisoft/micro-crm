@@ -50,23 +50,23 @@ namespace MicroCrm.WebUI.Controllers
       return PartialView();
     }
     //data source
-    //public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
-    public async Task<JsonResult> GetData(ActivityPaginationQuery request)
+    public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
+    //public async Task<JsonResult> GetData(ActivityPaginationQuery request)
     {
       try
       {
-        //var filters = PredicateBuilder.FromFilter<Activity>(filterRules);
-        //var total = await this.contactActivityService
-        //                     .Query(filters).CountAsync();
-        //var pagerows = (await this.contactActivityService
-        //                     .Query(filters)
-        //                   .OrderBy(n => n.OrderBy($"{sort} {order}"))
-        //                   .Skip(page - 1).Take(rows).SelectAsync())
-        //                   .ToList();
-        //var pagelist = new { total = total, rows = pagerows };
-        //return Json(pagelist);
-        var result = await this.mediator.Send(request);
-        return Json(result);
+        var filters = PredicateBuilder.FromFilter<ContactActivity>(filterRules);
+        var total = await this.contactActivityService
+                             .Query(filters).CountAsync();
+        var pagerows = (await this.contactActivityService
+                             .Query(filters)
+                           .OrderBy(n => n.OrderBy($"{sort} {order}"))
+                           .Skip(page - 1).Take(rows).SelectAsync())
+                           .ToList();
+        var pagelist = new { total = total, rows = pagerows };
+        return Json(pagelist);
+        //var result = await this.mediator.Send(request);
+        //return Json(result);
       }
       catch (Exception e)
       {
@@ -117,6 +117,9 @@ namespace MicroCrm.WebUI.Controllers
       //}
       try
       {
+        var companyId = HttpContext.Session.GetInt32("CompanyId");
+        if (companyId != null)
+          request.CompanyId = companyId.Value;
         await this.mediator.Send(request);
         return Json(new { success = true });
       }

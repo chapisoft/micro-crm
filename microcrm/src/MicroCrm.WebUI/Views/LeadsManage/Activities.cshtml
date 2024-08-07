@@ -41,7 +41,7 @@
                   <a class="dropdown-item js-waves-on" href="javascript:void()"> Customize Search </a>
                 </div>
               </div>
-              <div class="btn-group btn-group-sm hidden-xs">
+              @*<div class="btn-group btn-group-sm hidden-xs">
                 <button type="button" onclick="importExcel.upload()" class="btn btn-default"><span class="fal fa-cloud-upload mr-1"></span> Import </button>
                 <button type="button" class="btn btn-default  dropdown-toggle dropdown-toggle-split waves-effect waves-themed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="sr-only">Toggle Dropdown</span>
@@ -51,7 +51,7 @@
                     <span class="fal fa-download"></span> Download the template
                   </a>
                 </div>
-              </div>
+              </div>*@
               <div class="btn-group btn-group-sm hidden-xs">
                 <button onclick="exportExcelActivity()" class="btn btn-default">
                   <span class="fal fa-file-export mr-1"></span>  Export
@@ -130,7 +130,7 @@
       height: 400,
       pageSize: 10,
       pageList: [10, 20, 50],
-      filterRules: [],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }],
       onBeforeloadActivity: function () {
         $('.enable-loader').removeClass('enable-loader')
       },
@@ -310,6 +310,8 @@
     $('#panel-activity .datagrid-view').css('height', '400px');
     $('#panel-activity .datagrid-view1').css('width', '155px');
     $('#panel-activity .datagrid-view2').css('width', $dgWidth - 250);
+
+    closeAqDetail()
   }
   //Download ExcelImport Template
 
@@ -322,7 +324,7 @@
     formData.append('filterRules', filterRules);
     formData.append('sort', 'Id');
     formData.append('order', 'asc');
-    $.postDownload('/ContactActivities/exportExcelActivity', formData).then(res => {
+    $.postDownload('/ContactActivities/exportExcel', formData).then(res => {
       $.messager.progress('close');
       toastr.success('Export successful!');
     }).catch(err => {
@@ -405,7 +407,7 @@
   function deleteRowsActivity(selected) {
     $.messager.confirm('Confirm', `Are you sure you want to delete these <span class='badge badge-icon position-relative'>${selected.length} </span> rows?`, result => {
       if (result) {
-        $.post('/ContactActivities/deleteCheckedActivity', { id: selected })
+        $.post('/ContactActivities/deleteChecked', { id: selected })
           .done(response => {
             if (response.success) {
               toastr.error(`Successfully delete [${selected.length}] rows of records`);
@@ -459,7 +461,7 @@
           return !deleted.includes(item);
         })).concat(deleted);
         //$.messager.progress({ title: 'Please wait', msg: 'Accepting data...', interval: 200 });
-        $.post('/ContactActivities/acceptChangesActivity', { activities: changed })
+        $.post('/ContactActivities/acceptChanges', { activities: changed })
           .done(response => {
             //$.messager.progress('close');
             //console.log(response);

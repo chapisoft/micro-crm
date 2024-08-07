@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Threading.Tasks;
 using DotNetCore.CAP;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
-using MicroCrm.Domain.Models;
 using MicroCrm.Dto;
-using MicroCrm.Service;
 using URF.Core.Abstractions;
+using MicroCrm.Service.Implementation;
 
 namespace MicroCrm.WebUI.Controllers
 {
@@ -16,18 +13,18 @@ namespace MicroCrm.WebUI.Controllers
   public class HomeController : Controller
   {
     private readonly ICapPublisher _eventBus;
-    private readonly ICompanyService  _companyService;
+    private readonly IDashboardService _dashboardService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<HomeController> logger;
 
     public HomeController(
       ICapPublisher eventBus,
-        ICompanyService companyService,
+        IDashboardService dashboardService,
         IUnitOfWork unitOfWork,
         ILogger<HomeController> logger)
     {
       _eventBus = eventBus;
-      _companyService = companyService;
+      _dashboardService = dashboardService;
       _unitOfWork = unitOfWork;
       this.logger = logger;
    
@@ -47,6 +44,11 @@ namespace MicroCrm.WebUI.Controllers
         title = "Visit Homepage",
         url = "/Home/Index"
       });
+      BaseRequest request = new BaseRequest();
+      request.TenantId = 1;
+      string username = ViewBag.GivenName;
+      string role = ViewBag.Role;
+      var result = _dashboardService.Get(request, username, role);
       return View();
       }
 

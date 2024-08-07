@@ -43,6 +43,18 @@
               </div>
             </div>
             <div class="col-md-3 mb-3">
+              <label class="form-label" asp-for="TotalVolume">  </label>
+              <input type="text" class="form-control" asp-for="TotalVolume">
+              <div class="invalid-feedback" asp-validation-for="TotalVolume">
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label" asp-for="Asignee">  </label>
+              <input type="text" class="form-control" asp-for="Asignee">
+              <div class="invalid-feedback" asp-validation-for="Asignee">
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
               <label class="form-label" asp-for="ApprovedBy">  </label>
               <input type="text" class="form-control" disabled asp-for="ApprovedBy">
               <div class="invalid-feedback" asp-validation-for="ApprovedBy">
@@ -52,12 +64,6 @@
               <label class="form-label" asp-for="Competitors">  </label>
               <input type="text" class="form-control" asp-for="Competitors">
               <div class="invalid-feedback" asp-validation-for="Competitors">
-              </div>
-            </div>
-            <div class="col-md-3 mb-3">
-              <label class="form-label" asp-for="TotalVolume">  </label>
-              <input type="text" class="form-control" asp-for="TotalVolume">
-              <div class="invalid-feedback" asp-validation-for="TotalVolume">
               </div>
             </div>
             <div class="col-md-12 mb-3">

@@ -57,7 +57,7 @@ namespace MicroCrm.Service
     //                       ).ToListAsync();
     //  if (mapping.Count == 0)
     //  {
-    //    throw new  NullReferenceException("没有找到Work对象的ExcelImport ConfigMessage，请执行[System Management/ExcelImport Config]");
+    //    throw new  NullReferenceException("ExcelImport ConfigMessage of Work object not found, please execute [System Management/ExcelImport Config]");
     //  }
     //  foreach (DataRow row in datatable.Rows)
     //  {

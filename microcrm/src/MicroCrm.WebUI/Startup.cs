@@ -164,10 +164,10 @@ namespace MicroCrm.WebUI
           opts.JsonSerializerOptions.IgnoreNullValues = true;
         });
 
-
       services.AddCors();
       services.AddRazorPages();
       services.AddMvc().AddRazorRuntimeCompilation();
+      services.AddSession();
 
       services.AddMediatR(Assembly.Load("MicroCrm.Application"));
 
@@ -301,8 +301,6 @@ namespace MicroCrm.WebUI
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public async void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
     {
-
-      
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
@@ -332,7 +330,8 @@ namespace MicroCrm.WebUI
       });
      
       app.UseRouting();
-    
+      app.UseSession();
+
       app.UseAuthentication();
       app.UseAuthorization();
 

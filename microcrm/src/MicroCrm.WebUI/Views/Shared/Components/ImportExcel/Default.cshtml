@@ -36,7 +36,7 @@
             bootbox.alert(
           {
                 title: "Error",
-                message: `没有找到Import模板['@Model.tpl'].`,
+                message: `Import template not found['@Model.tpl'].`,
             size: 'small',
             centerVertical: false,
             callback: function (result) {
@@ -87,7 +87,7 @@
                 bootbox.alert(
                   {
                     title: "Success",
-                    message: `Import成功,耗时:${result.elapsedTime}`,
+                    message: `Import successful, time consuming:${result.elapsedTime}`,
                     size: 'small',
                     centerVertical: false,
                     callback: function (result) {

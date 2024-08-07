@@ -208,7 +208,7 @@
         $.post('/DataTableImportMappings/Generate', { entityname: entityname }, function (data, textStatus, jqXHR) {
           //console.log(data);
           $.messager.progress('close');
-          $.messager.alert("Success", "生成完成！", 'info', function () {
+          $.messager.alert("Success", "Generation completed!", 'info', function () {
             $dg.datagrid('reload');
           });
 

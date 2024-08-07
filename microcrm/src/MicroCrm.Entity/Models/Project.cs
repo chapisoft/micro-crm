@@ -50,5 +50,13 @@ namespace MicroCrm.Domain.Models
     [Display(Name = "Approved By", Description = "Approved By", Order = 9)]
     [MaxLength(250)]
     public virtual string ApprovedBy { get; set; }
+
+    [Display(Name = "Approved Date", Description = "Approved Date", Order = 10)]
+    public virtual DateTime ApprovedDate { get; set; }
+
+    [Display(Name = "Asignee", Description = "Asignee", Order = 11)]
+    [MaxLength(250)]
+    public virtual string Asignee { get; set; }
+    
   }
 }

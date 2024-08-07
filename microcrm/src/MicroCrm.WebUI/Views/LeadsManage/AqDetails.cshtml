@@ -135,7 +135,7 @@
       height: 400,
       pageSize: 10,
       pageList: [10, 20, 50],
-      filterRules: [],
+      filterRules: [{ "field": "QaId", "op": "equal", "value": "" + $aqId + "" }],
       onBeforeloadAqDetail: function () {
         $('.enable-loader').removeClass('enable-loader')
       },
@@ -329,7 +329,7 @@
     })
       .datagrid('enableFilter', [
       ])
-      .datagrid('load', '/AqDetails/GetData');
+      .datagrid('load', '/AqDetails/GetData?qaId=' + $aqId);
 
     $('#panel-aqDetail .datagrid').css('width', '100%');
     $('#panel-aqDetail .datagrid-wrap').css('width', '100%');
@@ -340,11 +340,6 @@
 
     $('#panel-aqDetail').show();
     $('#panel-quotation').hide();
-  }
-
-  function closeAqDetail() {
-    $('#panel-aqDetail').hide();
-    $('#panel-quotation').show();
   }
   //Download ExcelImport Template
 
@@ -545,8 +540,6 @@
   }
 
   function openAqDetailDetailWindow(data) {
-    const aqDetailid = (data.Id || 0);
-    console.log(data);
     $('#aqDetail-modal').modal('toggle');
     $('#aqDetail-form').jsonToForm(data)
 

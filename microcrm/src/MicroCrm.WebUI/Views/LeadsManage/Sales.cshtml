@@ -61,7 +61,7 @@
       height: 400,
       pageSize: 10,
       pageList: [10, 20, 50],
-      filterRules: [],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "Status", "op": "equal", "value": "4" }],
       onBeforeloadSale: function () {
         $('.enable-loader').removeClass('enable-loader')
       },
@@ -199,35 +199,6 @@
           resizable: true,
 
         },
-        {    /*Status*/
-          field: 'Status',
-          title: '@Html.DisplayNameFor(model => model.Status)',
-          width: 120,
-          hidden: false,
-          @*editor: {
-            type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.Status)', required: false, validType: 'length[0,20]' }
-          },*@
-          sortable: true,
-          resizable: true,
-          formatter: function (value, row, index) {
-            if (row.Status == 0) {
-              return "Pending"
-            }
-            else if (row.Status == 1) {
-              return "On - going"
-            }
-            else if (row.Status == 2) {
-              return "LOST"
-            }
-            else if (row.Channel == 3) {
-              return "SUBMIT"
-            }
-            else {
-              return "SOLD"
-            }
-          }
-        },
         {    /*ApprovedBy*/
           field: 'ApprovedBy',
           title: '@Html.DisplayNameFor(model => model.ApprovedBy)',
@@ -253,6 +224,8 @@
     $('#panel-sale .datagrid-view').css('height', '400px');
     $('#panel-sale .datagrid-view1').css('width', '155px');
     $('#panel-sale .datagrid-view2').css('width', $dgWidth - 250);
+
+    closeAqDetail()
   }
   //Download ExcelImport Template
 
@@ -265,7 +238,7 @@
     formData.append('filterRules', filterRules);
     formData.append('sort', 'Id');
     formData.append('order', 'asc');
-    $.postDownload('/Projects/exportExcelProject', formData).then(res => {
+    $.postDownload('/Projects/exportExcel', formData).then(res => {
       $.messager.progress('close');
       toastr.success('Export successful!');
     }).catch(err => {

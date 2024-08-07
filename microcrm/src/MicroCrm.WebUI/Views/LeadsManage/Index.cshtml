@@ -254,6 +254,8 @@
 
   <script>
     var $dgWidth = 0;
+    var $comId = 0;
+    var $aqId = 0;
     //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
       $dgActivity.treegrid('resize');
@@ -435,7 +437,7 @@
               sortable: false,
               resizable: true,
               formatter: (value, row, index) => {
-                if (!row.editing && (!row.Private || '@role.ToLower()' == 'admin')) {
+                if (!row.editing && (!row.Private || '@role.ToLower()' == 'admin' || '@role.ToLower()' == 'manager')) {
                   return `<div class="btn-group">\
                               <button name="actionbutton" data-cmd="operation"  data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Operation" ><i class="fal fa-ballot-check"></i> </button>\
                               <button name="actionbutton" data-cmd="edit"  data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Edit Details" ><i class="fal fa-edit"></i> </button>\
@@ -837,14 +839,15 @@
       }
 
       showDetailCompany(data) {
-        $dgWidth = $('#panel-leads .datagrid-view').width();
 
+        $dgWidth = $('#panel-leads .datagrid-view').width();
         $("#panel-infor").show();
 
         this.id = (data.Id || 0);
         this.$formview.form('reset');
         this.$formview.form('load', data);
 
+        $comId = this.id
         // Contact
         showContacts();
 
@@ -919,6 +922,11 @@
       closedetailwindow() {
         this.$detailwindow.window('close');
       }
+    }
+
+    function closeAqDetail() {
+      $('#panel-aqDetail').hide();
+      $('#panel-quotation').show();
     }
 
     //Contact

@@ -45,5 +45,9 @@ namespace MicroCrm.Domain.Models
     [Display(Name = "Address", Description = "Address")]
     [MaxLength(250)]
     public virtual string Address { get; set; }
+
+    [Display(Name = "Asignee", Description = "Asignee")]
+    [MaxLength(250)]
+    public virtual string Asignee { get; set; }
   }
 }

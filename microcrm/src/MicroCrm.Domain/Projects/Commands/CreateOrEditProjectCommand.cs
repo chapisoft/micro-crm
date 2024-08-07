@@ -22,5 +22,8 @@ namespace MicroCrm.Application.Projects.Commands
     public string Note { get; set; }
     public int Status { get; set; }
     public string ApprovedBy { get; set; }
+    public DateTime ApprovedDate { get; set; }
+    public string Asignee { get; set; }
+    
   }
 }

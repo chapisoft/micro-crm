@@ -17,6 +17,7 @@ using URF.Core.Abstractions;
 using MediatR;
 using MicroCrm.Application.Contacts.Queries;
 using MicroCrm.Application.Contacts.Commands;
+using Newtonsoft.Json.Linq;
 
 namespace MicroCrm.WebUI.Controllers
 {
@@ -50,22 +51,27 @@ namespace MicroCrm.WebUI.Controllers
       return PartialView();
     }
     //data source
-    //public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
-    public async Task<JsonResult> GetData(ContactPaginationQuery request)
+    public async Task<JsonResult> GetData(int companyId = 0, int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
+    //public async Task<JsonResult> GetData(ContactPaginationQuery request)
     {
-      try { 
-        //var filters = PredicateBuilder.FromFilter<Contact>(filterRules);
-        //var total = await this.contactService
-        //                     .Query(filters).CountAsync();
-        //var pagerows = (await this.contactService
-        //                     .Query(filters)
-        //                   .OrderBy(n => n.OrderBy($"{sort} {order}"))
-        //                   .Skip(page - 1).Take(rows).SelectAsync())
-        //                   .ToList();
-        //var pagelist = new { total = total, rows = pagerows };
-        //return Json(pagelist);
-        var result= await this.mediator.Send(request);
-        return Json(result);
+      try
+      {
+        if (companyId > 0)
+          HttpContext.Session.SetInt32("CompanyId", companyId);
+
+
+        var filters = PredicateBuilder.FromFilter<Contact>(filterRules);
+        var total = await this.contactService
+                             .Query(filters).CountAsync();
+        var pagerows = (await this.contactService
+                             .Query(filters)
+                           .OrderBy(n => n.OrderBy($"{sort} {order}"))
+                           .Skip(page - 1).Take(rows).SelectAsync())
+                           .ToList();
+        var pagelist = new { total = total, rows = pagerows };
+        return Json(pagelist);
+        //var result= await this.mediator.Send(request);
+        //return Json(result);
       }
       catch (Exception e)
       {
@@ -112,6 +118,9 @@ namespace MicroCrm.WebUI.Controllers
       //}
       try
       {
+        var companyId = HttpContext.Session.GetInt32("CompanyId");
+        if (companyId != null)
+          request.CompanyId = companyId.Value;
         await this.mediator.Send(request);
         return Json(new { success = true });
       }
@@ -121,9 +130,9 @@ namespace MicroCrm.WebUI.Controllers
       }
     }
 
-      //Delete current record
-      //GET: Contacts/Delete/:id
-      [HttpGet]
+    //Delete current record
+    //GET: Contacts/Delete/:id
+    [HttpGet]
     public async Task<JsonResult> Delete(int id)
     {
       try
@@ -159,7 +168,6 @@ namespace MicroCrm.WebUI.Controllers
 
       try
       {
-
         await this.mediator.Send(request);
         return Json(new { success = true });
       }
@@ -207,7 +215,8 @@ namespace MicroCrm.WebUI.Controllers
     }
     //UploadImportExcel
     [HttpPost]
-    public async Task<JsonResult> ImportExcel(List<IFormFile> uploadfiles) {
+    public async Task<JsonResult> ImportExcel(List<IFormFile> uploadfiles)
+    {
       try
       {
         var total = 0m;
@@ -221,9 +230,9 @@ namespace MicroCrm.WebUI.Controllers
             var stream = new MemoryStream();
             await formFile.CopyToAsync(stream);
             stream.Seek(0, SeekOrigin.Begin);
-                  await this.contactService.ImportData(stream);
-            total =await this.unitOfWork.SaveChangesAsync();
-    
+            await this.contactService.ImportData(stream);
+            total = await this.unitOfWork.SaveChangesAsync();
+
           }
         }
 
@@ -232,9 +241,10 @@ namespace MicroCrm.WebUI.Controllers
         var elapsedTime = watch.ElapsedMilliseconds.ToString();
         return Json(new { success = true, total, elapsedTime });
       }
-      catch (Exception e) {
+      catch (Exception e)
+      {
         this.Response.StatusCode = 500;
-        return Json(new { success = false, err=e.GetBaseException().Message });
+        return Json(new { success = false, err = e.GetBaseException().Message });
       }
     }
     //Download the template

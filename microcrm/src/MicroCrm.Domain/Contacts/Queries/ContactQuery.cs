@@ -10,7 +10,7 @@ using MicroCrm.Domain.Models;
 namespace MicroCrm.Application.Contacts.Queries
 {
    public  class ContactPaginationQuery:IRequest<PageResponse<Contact>>
-    {
+  {
     public int Page { get; set; } = 1;
     public int Rows { get; set; } = 10;
     public string Sort { get; set; } = "Id";
