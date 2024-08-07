@@ -55,7 +55,7 @@ namespace MicroCrm.WebUI.Controllers
       var pagerows = (await this._dataTableImportMappingService
                              .Query(filters)
                            .OrderBy(n => n.OrderBy($"{sort} {order}").ThenBy(x=>x.LineNo))
-                           .Skip(page - 1).Take(rows).SelectAsync())
+                           .Skip((page - 1) * rows).Take(rows).SelectAsync())
                            .Select(n => new
              {
           Id = n.Id,

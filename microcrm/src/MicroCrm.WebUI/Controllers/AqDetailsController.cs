@@ -63,7 +63,7 @@ namespace MicroCrm.WebUI.Controllers
         var pagerows = (await this.aqDetailService
                              .Query(filters)
                            .OrderBy(n => n.OrderBy($"{sort} {order}"))
-                           .Skip(page - 1).Take(rows).SelectAsync())
+                           .Skip((page - 1) * rows).Take(rows).SelectAsync())
                            .ToList();
         var pagelist = new { total = total, rows = pagerows };
         return Json(pagelist);

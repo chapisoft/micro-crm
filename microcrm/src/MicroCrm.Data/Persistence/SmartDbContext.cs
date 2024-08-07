@@ -10,7 +10,7 @@ namespace MicroCrm.Infrastructure.Persistence
     public virtual DbSet<Company> Companies { get; set; }
     public virtual DbSet<Customer> Customers { get; set; }
     public virtual DbSet<Product> Products { get; set; }
-    public virtual  DbSet<Order> Orders { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
     public virtual DbSet<Photo> Photos { get; set; }
@@ -27,6 +27,12 @@ namespace MicroCrm.Infrastructure.Persistence
 
       modelBuilder.Entity<Product>().HasQueryFilter(b => EF.Property<int>(b, "TenantId") == _tenantId);
       modelBuilder.Entity<Customer>().HasQueryFilter(b => EF.Property<int>(b, "TenantId") == _tenantId);
+
+      modelBuilder.Entity<Contact>().HasQueryFilter(b => EF.Property<int>(b, "TenantId") == _tenantId);
+      modelBuilder.Entity<Project>().HasQueryFilter(b => EF.Property<int>(b, "TenantId") == _tenantId);
+      modelBuilder.Entity<Quotation>().HasQueryFilter(b => EF.Property<int>(b, "TenantId") == _tenantId);
+      modelBuilder.Entity<ContactActivity>().HasQueryFilter(b => EF.Property<int>(b, "TenantId") == _tenantId);
+      modelBuilder.Entity<AqDetail>().HasQueryFilter(b => EF.Property<int>(b, "TenantId") == _tenantId);
 
       #endregion
 

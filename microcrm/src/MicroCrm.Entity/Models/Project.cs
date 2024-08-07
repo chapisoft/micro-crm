@@ -52,7 +52,7 @@ namespace MicroCrm.Domain.Models
     public virtual string ApprovedBy { get; set; }
 
     [Display(Name = "Approved Date", Description = "Approved Date", Order = 10)]
-    public virtual DateTime ApprovedDate { get; set; }
+    public virtual DateTime? ApprovedDate { get; set; }
 
     [Display(Name = "Asignee", Description = "Asignee", Order = 11)]
     [MaxLength(250)]

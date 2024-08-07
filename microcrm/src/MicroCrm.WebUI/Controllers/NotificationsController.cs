@@ -95,7 +95,7 @@ namespace MicroCrm.WebUI.Controllers
       var pagerows = ( await this._notificationService
                                  .Query(filters)
                                  .OrderBy(n => n.OrderBy($"{sort} {order}"))
-                                 .Skip(page - 1).Take(rows).SelectAsync())
+                                 .Skip((page - 1) * rows).Take(rows).SelectAsync())
                                  .Select(n => new
                                  {
                                    n.Publisher,

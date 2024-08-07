@@ -68,6 +68,7 @@
     <PackageReference Include="NLog.Extensions.Logging" Version="1.7.4" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.13.0" />
     <PackageReference Include="Savorboard.CAP.InMemoryMessageQueue" Version="5.1.1" />
+    <PackageReference Include="StoredProcedureEFCore" Version="1.0.5" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.12" />

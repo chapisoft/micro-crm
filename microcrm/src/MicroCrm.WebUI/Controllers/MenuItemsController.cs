@@ -49,7 +49,7 @@ namespace MicroCrm.WebUI.Controllers
       var pagerows = ( await menuItemService
                                  .Query(filters).Include(m => m.Parent)
                                  .OrderBy(n => n.OrderBy($"{sort} {order}"))
-                                 .Skip(page - 1).Take(rows)
+                                 .Skip((page - 1) * rows).Take(rows)
                                  .SelectAsync())
                                  .Select(n => new
                                  {
@@ -82,7 +82,7 @@ namespace MicroCrm.WebUI.Controllers
                  .Where(x=>x.ParentId== parentid)
                  .Where(filters).Include(y => y.Parent)
                  .OrderBy($"{sort} {order}")
-                 .Skip(page - 1).Take(rows)
+                 .Skip((page - 1) * rows).Take(rows)
                  .ToListAsync())
                  .Select(n => new
                  {

@@ -71,7 +71,7 @@ namespace MicroCrm.WebUI.Controllers
                                  .Logs
                                  .Where(filters)
                                  .OrderBy($"{sort} {order}")
-                                 .Skip(page - 1).Take(rows)
+                                 .Skip((page - 1) * rows).Take(rows)
                                  .AsNoTracking()
                                  .ToListAsync();
                                  

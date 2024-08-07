@@ -47,7 +47,7 @@ namespace MicroCrm.WebUI.Controllers
       var pagerows = (await _codeItemService
                     .Query(filters)
                     .OrderBy(n => n.OrderBy($"{sort} {order}"))
-                           .Skip(page - 1).Take(rows)
+                           .Skip((page - 1) * rows).Take(rows)
                            .SelectAsync())
                       .Select(n => new
                       {

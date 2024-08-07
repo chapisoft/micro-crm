@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DashboardRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\URF.Core\URF.Core.EF.Trackable\URF.Core.EF.Trackable.csproj" />
   </ItemGroup>
 

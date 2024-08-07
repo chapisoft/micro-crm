@@ -48,7 +48,7 @@ namespace MicroCrm.WebUI.Controllers
                              .Query(filters)
                               .AsNoTracking()
                            .OrderBy(n => n.OrderBy($"{sort} {order}"))
-                           .Skip(page - 1).Take(rows)
+                           .Skip((page - 1) * rows).Take(rows)
                            .SelectAsync())
                            .Select(n => new
                            {

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace MicroCrm.WebUI.Data.Models
 {
@@ -53,5 +54,39 @@ namespace MicroCrm.WebUI.Data.Models
     public int TrackingState { get; set; }
 
 
+  }
+  public partial class Dashboard
+  {
+    public List<StatisticYear> StatisticYear { get; set; }
+    public List<StatisticStatus> StatisticStatus { get; set; }
+    public List<StatisticRank> StatisticRank { get; set; }
+  }
+
+  [Keyless]
+  public partial class StatisticYear
+  {
+    public int Year { get; set; }
+    public int Quarter { get; set; }
+    public int Month { get; set; }
+    public decimal Amount { get; set; }
+    public string Man { get; set; }
+    public decimal TopOfSale { get; set; }
+  }
+
+  [Keyless]
+  public partial class StatisticStatus
+  {
+    public string Status { get; set; }
+    public decimal Qty { get; set; }
+    public decimal Per { get; set; }
+  }
+
+  [Keyless]
+  public partial class StatisticRank
+  {
+    public string Period { get; set; }
+    public string Man { get; set; }
+    public decimal Qty { get; set; }
+    public decimal Per { get; set; }
   }
 }

@@ -1,8 +1,8 @@
 ﻿@{
-    ViewData["Title"] = "Homepage";
-    ViewData["PageName"] = "Home_Index";
-    ViewData["Heading"] = "<i class='subheader-icon fal fa-chart-area'></i> <span class='fw-300'>Dashboard (" + ViewBag.Role + ")</span>";
-    var role = (string)ViewBag.Role;
+  ViewData["Title"] = "Homepage";
+  ViewData["PageName"] = "Home_Index";
+  ViewData["Heading"] = "<i class='subheader-icon fal fa-chart-area'></i> <span class='fw-300'>Dashboard (" + ViewBag.Role + ")</span>";
+  var role = (string)ViewBag.Role;
 }
 @section HeadBlock {
   <link rel="stylesheet" media="screen, print" href="~/css/miscellaneous/reactions/reactions.css">
@@ -16,11 +16,10 @@
   <div class="col-lg-12">
     <div id="panel-5" class="panel">
       <div class="panel-hdr">
-        <h2>Subscriptions Hourly</h2>
+        <h2>Activity of last 12 month</h2>
       </div>
       <div class="panel-container show">
         <div class="panel-content">
-          <h5>Subscription Views / hour</h5>
           <div id="flotBar1" style="width: 100%; height: 300px;"></div>
         </div>
       </div>
@@ -31,59 +30,23 @@
   <div class="col-lg-6">
     <div id="panel-6" class="panel">
       <div class="panel-hdr">
-        <h2>Secession Scale </h2>
+        <h2>Application Status</h2>
       </div>
       <div class="panel-container show">
         @*<div class="panel-content p-0 mb-g">
-          <div class="alert alert-success alert-dismissible fade show border-faded border-left-0 border-right-0 border-top-0 rounded-0 m-0" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true"><i class="@(Settings.Theme.IconPrefix) fa-times"></i></span>
-            </button>
-            <strong>Last update was on <span class="js-get-date"></span></strong>  - Your logs are all up to date.
-          </div>
-        </div>*@
+            <div class="alert alert-success alert-dismissible fade show border-faded border-left-0 border-right-0 border-top-0 rounded-0 m-0" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="@(Settings.Theme.IconPrefix) fa-times"></i></span>
+              </button>
+              <strong>Last update was on <span class="js-get-date"></span></strong>  - Your logs are all up to date.
+            </div>
+          </div>*@
         <div class="panel-content">
           <div class="row  mb-g">
             <div class="col-md-6 d-flex align-items-center">
               <div id="flotPie" class="w-100" style="height:250px"></div>
             </div>
-            <div class="col-md-6 col-lg-5 mr-lg-auto">
-              <div class="d-flex mt-2 mb-1 fs-xs text-primary">
-                Current Usage
-              </div>
-              <div class="progress progress-xs mb-3">
-                <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <div class="d-flex mt-2 mb-1 fs-xs text-info">
-                Net Usage
-              </div>
-              <div class="progress progress-xs mb-3">
-                <div class="progress-bar bg-info-500" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <div class="d-flex mt-2 mb-1 fs-xs text-warning">
-                Users blocked
-              </div>
-              <div class="progress progress-xs mb-3">
-                <div class="progress-bar bg-warning-500" role="progressbar" style="width: 40%;" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <div class="d-flex mt-2 mb-1 fs-xs text-danger">
-                Custom cases
-              </div>
-              <div class="progress progress-xs mb-3">
-                <div class="progress-bar bg-danger-500" role="progressbar" style="width: 15%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <div class="d-flex mt-2 mb-1 fs-xs text-success">
-                Test logs
-              </div>
-              <div class="progress progress-xs mb-3">
-                <div class="progress-bar bg-success-500" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <div class="d-flex mt-2 mb-1 fs-xs text-dark">
-                Uptime records
-              </div>
-              <div class="progress progress-xs mb-3">
-                <div class="progress-bar bg-fusion-500" role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
+            <div id="flotPieDes" class="col-md-6 col-lg-5 mr-lg-auto">
             </div>
           </div>
         </div>
@@ -94,56 +57,30 @@
     <div id="panel-1" class="panel">
       <div class="panel-hdr">
         <h2>
-          Basic <span class="fw-300"><i>Tables</i></span>
+          Activity Ranking <span class="fw-300"><i>of Quarter</i></span>
         </h2>
         @*<div class="panel-toolbar">
-          <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
-          <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
-          <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
-        </div>*@
+            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+            <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+          </div>*@
       </div>
       <div class="panel-container show">
         <div class="panel-content">
           @*<div class="panel-tag">
-            Using the most basic table markup, here’s how <code>.table</code>-based tables look in @Settings.App. You can inverse a table by using the class <code>.table-dark</code>
-          </div>*@
-          <h5 class="frame-heading">
-            Default
-          </h5>
+              Using the most basic table markup, here’s how <code>.table</code>-based tables look in @Settings.App. You can inverse a table by using the class <code>.table-dark</code>
+            </div>*@
           <div class="frame-wrap">
             <table class="table m-0">
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Username</th>
+                  <th>Name</th>
+                  <th>Quantity</th>
+                  <th>Percentage</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@@twitter</td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td colspan="2">Larry the Bird</td>
-                  <td>@@twitter</td>
-                </tr>
+              <tbody id="rank-body">
               </tbody>
             </table>
           </div>
@@ -161,153 +98,190 @@
   <script src="~/js/statistics/easypiechart/easypiechart.bundle.js"></script>
   <script src="~/js/statistics/flot/flot.bundle.js"></script>
   <script>
-		$(document).ready(function () {
-			//$('#js-page-content').smartPanel();
-			//
-			//
-			var dataSetPie = [
-			{
-				label: "Asia",
-				data: 4119630000,
-				color: color.primary._500
-			},
-			{
-				label: "Latin America",
-				data: 590950000,
-				color: color.info._500
-			},
-			{
-				label: "Africa",
-				data: 1012960000,
-				color: color.warning._500
-			},
-			{
-				label: "Oceania",
-				data: 95100000,
-				color: color.danger._500
-			},
-			{
-				label: "Europe",
-				data: 727080000,
-				color: color.success._500
-			},
-			{
-				label: "North America",
-				data: 344120000,
-				color: color.fusion._400
-			}];
-			$.plot($("#flotPie"), dataSetPie, {
-				series:
-				{
-					pie:
-					{
-						innerRadius: 0.5,
-						show: true,
-						radius: 1,
-						label:
-						{
-							show: true,
-							radius: 2 / 3,
-							threshold: 0.1
-						}
-					}
-				},
-				legend:
-				{
-					show: false
-				}
-			});
-			$.plot('#flotBar1', [{
-				data: [
-					[1, 0],
-					[2, 0],
-					[3, 0],
-					[4, 1],
-					[5, 3],
-					[6, 3],
-					[7, 10],
-					[8, 11],
-					[9, 10],
-					[10, 9],
-					[11, 12],
-					[12, 8],
-					[13, 10],
-					[14, 6],
-					[15, 3]
-				],
-				bars: {
-					show: true,
-					lineWidth: 0,
-					fillColor: color.fusion._50,
-					barWidth: .3,
-					order: 'left'
-				}
-			}, {
-				data: [
-					[1, 0],
-					[2, 0],
-					[3, 1],
-					[4, 2],
-					[5, 2],
-					[6, 5],
-					[7, 8],
-					[8, 12],
-					[9, 10],
-					[10, 11],
-					[11, 3]
-				],
-				bars: {
-					show: true,
-					lineWidth: 0,
-					fillColor: color.success._500,
-					barWidth: .3,
-					align: 'right'
-				}
-			}], {
-				grid: {
-					borderWidth: 0,
-				},
-				yaxis: {
-					min: 0,
-					max: 15,
-					tickColor: 'rgba(0,0,0,0.05)',
-					ticks: [
-						[0, ''],
-						[5, '$5000'],
-						[10, '$25000'],
-						[15, '$45000']
-					],
-					font: {
-						color: '#444',
-						size: 10
-					}
-				},
-				xaxis: {
-					mode: 'categories',
-					tickColor: 'rgba(0,0,0,0.05)',
-					ticks: [
-						[0, '3am'],
-						[1, '4am'],
-						[2, '5am'],
-						[3, '6am'],
-						[4, '7am'],
-						[5, '8am'],
-						[6, '9am'],
-						[7, '10am'],
-						[8, '11am'],
-						[9, '12nn'],
-						[10, '1pm'],
-						[11, '2pm'],
-						[12, '3pm'],
-						[13, '4pm'],
-						[14, '5pm']
-					],
-					font: {
-						color: '#999',
-						size: 9
-					}
-				}
-			});
-		});
+    $(document).ready(function () {
+      //$('#js-page-content').smartPanel();
+
+      var $dashboardData = null;
+
+      $.ajax({
+        type: "POST",
+        url: "Home/GetData",
+        dataType: 'json',
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8'
+      })
+        .done(response => {
+          if (response.success) {
+            $dashboardData = response.result;
+
+            var dataSetPie = new Array();
+            var strFloyPieDes = '';
+
+            $.each($dashboardData.StatisticStatus, function (i, item) {
+              if (item.Status === 'SOLD') {
+                dataSetPie.push({
+                  label: '', //item.Status,
+                  data: item.Qty,
+                  color: color.success._500
+                });
+                strFloyPieDes += '<div class="d-flex mt-2 mb-1 fs-xs text-success">' + item.Status + ' ( ' + item.Qty + ' - ' + item.Per + '%)' + '</div >'
+                  + '<div class="progress progress-xs mb-3" >'
+                  + '  <div class="progress-bar bg-success-500" role="progressbar" style="width: ' + item.Per + '%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>'
+                  + '</div>';
+              }
+              else if (item.Status === 'SUBMIT') {
+                dataSetPie.push({
+                  label: '', //item.Status,
+                  data: item.Qty,
+                  color: color.primary._500
+                });
+                strFloyPieDes += '<div class="d-flex mt-2 mb-1 fs-xs text-primary">' + item.Status + ' ( ' + item.Qty + ' - ' + item.Per + '%)' + '</div >'
+                  + '<div class="progress progress-xs mb-3" >'
+                  + '  <div class="progress-bar bg-primary-500" role="progressbar" style="width: ' + item.Per + '%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>'
+                  + '</div>';
+              }
+              else if (item.Status === 'LOST') {
+                dataSetPie.push({
+                  label: '', //item.Status,
+                  data: item.Qty,
+                  color: color.danger._500
+                });
+                strFloyPieDes += '<div class="d-flex mt-2 mb-1 fs-xs text-danger">' + item.Status + ' ( ' + item.Qty + ' - ' + item.Per + '%)' + '</div >'
+                  + '<div class="progress progress-xs mb-3" >'
+                  + '  <div class="progress-bar bg-danger-500" role="progressbar" style="width: ' + item.Per + '%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>'
+                  + '</div>';
+              }
+              else if (item.Status === 'On - going') {
+                dataSetPie.push({
+                  label: '', //item.Status,
+                  data: item.Qty,
+                  color: color.info._500
+                });
+                strFloyPieDes += '<div class="d-flex mt-2 mb-1 fs-xs text-info">' + item.Status + ' ( ' + item.Qty + ' - ' + item.Per + '%)' + '</div >'
+                  + '<div class="progress progress-xs mb-3" >'
+                  + '  <div class="progress-bar bg-info-500" role="progressbar" style="width: ' + item.Per + '%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>'
+                  + '</div>';
+              }
+              else if (item.Status === 'Pending') {
+                dataSetPie.push({
+                  label: '', //item.Status,
+                  data: item.Qty,
+                  color: color.fusion._500
+                });
+                strFloyPieDes += '<div class="d-flex mt-2 mb-1 fs-xs text-fusion">' + item.Status + ' ( ' + item.Qty + ' - ' + item.Per + '%)' + '</div >'
+                  + '<div class="progress progress-xs mb-3" >'
+                  + '  <div class="progress-bar bg-fusion-500" role="progressbar" style="width: ' + item.Per + '%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>'
+                  + '</div>';
+              }
+            });
+            $.plot($("#flotPie"), dataSetPie, {
+              series:
+              {
+                pie:
+                {
+                  innerRadius: 0.5,
+                  show: true,
+                  radius: 1,
+                  label:
+                  {
+                    show: true,
+                    radius: 2 / 3,
+                    threshold: 0.1
+                  }
+                }
+              },
+              legend:
+              {
+                show: false
+              }
+            });
+            $("#flotPieDes").append(strFloyPieDes);
+
+            var strRank = '';
+            var rank = 0;
+            $.each($dashboardData.StatisticRank, function (i, item) {
+              if (item.Period === 'QUARTER') {
+                strRank += '<tr>'
+                  + ' <th scope="row">' + (rank += 1) + '</th>'
+                  + ' <td>' + item.Man + '</td>'
+                  + ' <td>' + item.Qty + '</td>'
+                  + ' <td>' + item.Per + '%</td>'
+                  + '</tr>';
+              }
+            });
+            $("#rank-body").append(strRank);
+
+
+
+            var dataMonth = new Array();
+            var dataTotal = new Array();
+            var dataTopMan = new Array();
+            var dataLevel = new Array();
+            var indx = 0;
+            var maxValue = 0;
+            $.each($dashboardData.StatisticYear, function (i, item) {
+              dataMonth.push([indx, item.Month + '/' + item.Year]);
+              indx += 1;
+              dataTopMan.push([indx, item.TopOfSale]);
+              dataTotal.push([indx, item.Amount]);
+              if (item.Amount > maxValue)
+                maxValue = item.Amount;
+            });
+            var level = (Math.floor(maxValue / 500)) + 1;
+            for (i = 0; i <= level; i++) {
+              dataLevel.push([i * 500, i * 500]);
+            }
+
+            $.plot('#flotBar1', [{
+              data: dataTotal,
+              bars: {
+                show: true,
+                lineWidth: 0,
+                fillColor: color.primary._50,
+                barWidth: .3,
+                order: 'left'
+              }
+            }, {
+              data: dataTopMan,
+              bars: {
+                show: true,
+                lineWidth: 0,
+                fillColor: color.success._500,
+                barWidth: .3,
+                align: 'right'
+              }
+            }], {
+              grid: {
+                borderWidth: 0,
+              },
+              yaxis: {
+                min: 0,
+                max: (level * 500),
+                tickColor: 'rgba(0,0,0,0.05)',
+                ticks: dataLevel,
+                font: {
+                  color: '#444',
+                  size: 10
+                }
+              },
+              xaxis: {
+                mode: 'categories',
+                tickColor: 'rgba(0,0,0,0.05)',
+                ticks: dataMonth,
+                font: {
+                  color: '#999',
+                  size: 9
+                }
+              }
+            });
+
+          } else {
+            $.messager.alert("Error", response.err, "error");
+          }
+        })
+        .fail((jqXHR, textStatus, errorThrown) => {
+          $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+        });
+
+    });
   </script>
 }
