@@ -50,7 +50,7 @@
             </div>
             <div class="col-md-3 mb-3">
               <label class="form-label" asp-for="Asignee">  </label>
-              <input type="text" class="form-control" asp-for="Asignee">
+              @Html.DropDownList("Asignee", (IEnumerable<SelectListItem>)ViewBag.Users, new { @class = "form-control", required = "required" })
               <div class="invalid-feedback" asp-validation-for="Asignee">
               </div>
             </div>

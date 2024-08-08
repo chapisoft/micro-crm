@@ -122,7 +122,9 @@
       remoteFilter: true,
       singleSelect: true,
       method: 'post',
-      onClickCellContact: onClickCellContact,
+      onClickCell: (index, field) => {
+        onClickCellContact(index, field);
+      },
       clientPaging: false,
       pagination: true,
       striped: true,
@@ -210,7 +212,7 @@
         {    /*Id*/
           field: 'Id',
           title: 'Code',
-          minidth: 80,
+          width: 120,
           hidden: false,
           editor: {
             type: 'textbox',
@@ -222,11 +224,11 @@
         {    /*Name*/
           field: 'Name',
           title: '@Html.DisplayNameFor(model => model.Name)',
-          minidth: 200,
+          width: 200,
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.Name)', required: true, validType: 'length[0,128]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.Name)', required: true}
           },
           sortable: true,
           resizable: true
@@ -238,7 +240,7 @@
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.Title)', required: true, validType: 'length[0,128]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.Title)', required: true }
           },
           sortable: true,
           resizable: true
@@ -254,6 +256,48 @@
           },
           sortable: true,
           resizable: true
+        },
+        {    /*Asignee*/
+          field: 'Asignee',
+          title: '@Html.DisplayNameFor(model => model.Asignee)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Asignee)', required: false, validType: 'length[0,50]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Source*/
+          field: 'Source',
+          title: '@Html.DisplayNameFor(model => model.Source)',
+          width: 80,
+          hidden: false,
+          @*editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Source)', required: false, validType: 'length[0,20]' }
+          },*@
+          sortable: true,
+          resizable: true,
+          formatter: function (value, row, index) {
+            if (row.Source == 0) {
+              return "Email"
+            }
+            else if (row.Source == 1) {
+              return "Exhibition"
+            }
+            else if (row.Source == 2) {
+              return "Incoming phone"
+            }
+            else if (row.Source == 3) {
+              return "Website"
+            }
+            else if (row.Source == 4) {
+              return "Transfer"
+            }
+          }
         },
         {    /*BusinessPhone*/
           field: 'BusinessPhone',
@@ -298,7 +342,7 @@
     })
       .datagrid('enableFilter', [
       ])
-      .datagrid('load', '/Contacts/GetData?companyId=' + $comId);
+      .datagrid('load', '/Contacts/GetData');
 
     $('#panel-contact .datagrid').css('width', '100%');
     $('#panel-contact .datagrid-wrap').css('width', '100%');
@@ -343,10 +387,17 @@
   function appendContact() {
     contact = {
       Id: null,
+      CompanyId: $comId,
       Name: '',
-      PhoneNumber: '',
-      Contact: '',
-      Address: '-'
+      Title: '',
+      Department: '',
+      BusinessPhone: '',
+      Ext: '',
+      Phone: '',
+      Email: '',
+      Address: '',
+      Asignee: '',
+      Source: '',
     };
     if (!EDITINLINEContact) {
       //The Added window pops up
@@ -481,6 +532,28 @@
   function onClickCellContact(index, field) {
 
     contact = $dgContact.datagrid('getRows')[index];
+    $contactId = contact.Id;
+    $contact = contact;
+    const url = '/LeadsManage/SetContact?contactId=' + $contactId;
+    $.get(url).done(res => {
+      if (res.success) {
+
+        // Project
+        showProjects();
+
+        // Activity
+        showActivities();
+
+        // Quotation
+        showQuotations();
+
+        // Sale
+        showSales();
+
+      } else {
+        $.messager.alert("Error", res.err, "error");
+      }
+    });
     const _actions = ['action', 'ck'];
     if (!EDITINLINEContact || $.inArray(field, _actions) >= 0) {
       return;

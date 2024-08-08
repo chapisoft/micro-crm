@@ -22,28 +22,40 @@
             </div>
           </div>
           <div class="form-row">
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label class="form-label" asp-for="Department">  </label>
               <input type="text" class="form-control" asp-for="Department" maxlength="128">
               <div class="invalid-feedback" asp-validation-for="Department">
               </div>
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label class="form-label" asp-for="BusinessPhone">  </label>
               <input type="text" class="form-control" asp-for="BusinessPhone" maxlength="50">
               <div class="invalid-feedback" asp-validation-for="BusinessPhone">
               </div>
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label class="form-label" asp-for="Ext">  </label>
               <input type="text" class="form-control" asp-for="Ext" maxlength="10">
               <div class="invalid-feedback" asp-validation-for="Ext">
               </div>
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
               <label class="form-label" asp-for="Email">  </label>
               <input type="text" class="form-control" asp-for="Email" maxlength="50">
               <div class="invalid-feedback" asp-validation-for="Email">
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label" asp-for="Asignee">  </label>
+              @Html.DropDownList("Asignee", (IEnumerable<SelectListItem>)ViewBag.Users, new { @class = "form-control", required = "required" })
+              <div class="invalid-feedback" asp-validation-for="Asignee">
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label" asp-for="Source">  </label>
+              @Html.DropDownList("Source", (IEnumerable<SelectListItem>)ViewBag.Source, new { @class = "form-control", required = "required" })
+              <div class="invalid-feedback" asp-validation-for="Source">
               </div>
             </div>
           </div>

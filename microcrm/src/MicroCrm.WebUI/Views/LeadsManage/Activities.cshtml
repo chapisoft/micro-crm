@@ -130,7 +130,7 @@
       height: 400,
       pageSize: 10,
       pageList: [10, 20, 50],
-      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }],
       onBeforeloadActivity: function () {
         $('.enable-loader').removeClass('enable-loader')
       },
@@ -210,11 +210,11 @@
         {    /*ContactId*/
           field: 'ContactId',
           title: '@Html.DisplayNameFor(model => model.ContactId)',
-          width: 200,
+          width: 80,
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.ContactId)', required: true, validType: 'length[0,128]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.ContactId)', required: true }
           },
           sortable: true,
           resizable: true
@@ -238,7 +238,7 @@
           hidden: false,
           editor: {
             type: 'textbox',
-            options: { prompt: '@Html.DescriptionFor(model => model.Title)', required: true, validType: 'length[0,12]' }
+            options: { prompt: '@Html.DescriptionFor(model => model.Title)', required: true }
           },
           sortable: true,
           resizable: true
@@ -246,7 +246,7 @@
         {    /*Channel*/
           field: 'Channel',
           title: '@Html.DisplayNameFor(model => model.Channel)',
-          width: 200,
+          width: 80,
           hidden: false,
           @*editor: {
             type: 'textbox',
@@ -288,7 +288,7 @@
         {    /*Content*/
           field: 'Content',
           title: '@Html.DisplayNameFor(model => model.Content)',
-          width: 120,
+          width: 250,
           hidden: false,
           editor: {
             type: 'textbox',
@@ -347,10 +347,12 @@
   function appendActivity() {
     activity = {
       Id: null,
-      Name: '',
-      PhoneNumber: '',
-      Activity: '',
-      Address: '-'
+      Name: $contact.Name,
+      Title: $contact.Title,
+      Department: $contact.Department,
+      BusinessPhone: $contact.BusinessPhone,
+      Ext: $contact.Ext,
+      Email: $contact.Email,
     };
     if (!EDITINLINEActivity) {
       //The Added window pops up
@@ -512,8 +514,6 @@
   }
 
   function openActivityDetailWindow(data) {
-    const activityid = (data.Id || 0);
-    console.log(data);
     $('#activity-modal').modal('toggle');
     $('#activity-form').jsonToForm(data)
 

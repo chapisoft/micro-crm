@@ -62,7 +62,7 @@ namespace MicroCrm.WebUI.Controllers
     {
       try
       {
-        string username = ViewBag.GivenName;
+        string username = ViewBag.User;
         string role = ViewBag.Role;
         Dashboard result = new Dashboard();
         List<StatisticYear> year = null;

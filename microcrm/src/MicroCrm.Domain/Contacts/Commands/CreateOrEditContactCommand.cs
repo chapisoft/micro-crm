@@ -21,5 +21,6 @@ namespace MicroCrm.Application.Contacts.Commands
     public string Email { get; set; }
     public string Address { get; set; }
     public string Asignee { get; set; }
+    public virtual int? Source { get; set; }
   }
 }

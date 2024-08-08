@@ -255,6 +255,8 @@
   <script>
     var $dgWidth = 0;
     var $comId = 0;
+    var $contact = null;
+    var $contactId = 0;
     var $aqId = 0;
     //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
@@ -433,13 +435,12 @@
             {
               field: 'action',
               title: 'Operate',
-              width: 120,
+              width: 80,
               sortable: false,
               resizable: true,
               formatter: (value, row, index) => {
                 if (!row.editing && (!row.Private || '@role.ToLower()' == 'admin' || '@role.ToLower()' == 'manager')) {
                   return `<div class="btn-group">\
-                              <button name="actionbutton" data-cmd="operation"  data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Operation" ><i class="fal fa-ballot-check"></i> </button>\
                               <button name="actionbutton" data-cmd="edit"  data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Edit Details" ><i class="fal fa-edit"></i> </button>\
                               <button name="actionbutton" data-cmd="delete" data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
                         </div>`;
@@ -610,8 +611,6 @@
             this.editItem(id, index);
           } else if (action == 'delete') {
             this.deleteRow(id);
-          } else if (action == 'operation') {
-            this.operationItem(id, index);
           }
 
         });
@@ -649,11 +648,6 @@
         this.showDetailWindow(this.item);
       }
 
-      operationItem(id, index) {
-        this.item = this.$dg.datagrid('getRows')[index];
-        this.showDetailCompany(this.item);
-      }
-
       reloadData() {
         this.$dg.datagrid('unselectAll');
         this.$dg.datagrid('uncheckAll');
@@ -662,7 +656,15 @@
 
       appendItem() {
         this.item = {
-          Address: '-',
+          Name: '',
+          FullName: '',
+          Code: '',
+          Address: '',
+          Contact: '',
+          PhoneNumber: '',
+          PostCode: '',
+          Note: '',
+          Private: 0,
           RegisterDate: moment().format('YYYY-MM-DD HH:mm:ss'),
         };
         if (!this.EDITINLINE) {
@@ -744,8 +746,10 @@
       }
 
       onClickCell(index, field) {
-        console.log('onClickCell')
         this.item = this.$dg.datagrid('getRows')[index];
+
+        this.showDetailCompany(this.item);
+
         const _actions = ['action', 'ck'];
         if (!this.EDITINLINE || $.inArray(field, _actions) >= 0) {
           return;
@@ -765,6 +769,7 @@
             this.$dg.datagrid('selectRow', index);
           }
         }
+        $contactId = 0;
       }
 
       endEditing() {
@@ -848,20 +853,29 @@
         this.$formview.form('load', data);
 
         $comId = this.id
-        // Contact
-        showContacts();
+        $contactId = 0;
+        const url = '/LeadsManage/SetCompany?companyId=' + $comId;
+        $.get(url).done(res => {
+          if (res.success) {
+            // Contact
+            showContacts();
 
-        // Project
-        showProjects();
+            // Project
+            showProjects();
 
-        // Activity
-        showActivities();
+            // Activity
+            showActivities();
 
-        // Quotation
-        showQuotations();
+            // Quotation
+            showQuotations();
 
-        // Sale
-        showSales();
+            // Sale
+            showSales();
+          } else {
+            $.messager.alert("Error", res.err, "error");
+          }
+        });
+
       }
 
       deleteItem() {

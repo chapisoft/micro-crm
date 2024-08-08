@@ -51,15 +51,11 @@ namespace MicroCrm.WebUI.Controllers
       return PartialView();
     }
     //data source
-    public async Task<JsonResult> GetData(int companyId = 0, int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
+    public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
     //public async Task<JsonResult> GetData(ContactPaginationQuery request)
     {
       try
       {
-        if (companyId > 0)
-          HttpContext.Session.SetInt32("CompanyId", companyId);
-
-
         var filters = PredicateBuilder.FromFilter<Contact>(filterRules);
         var total = await this.contactService
                              .Query(filters).CountAsync();

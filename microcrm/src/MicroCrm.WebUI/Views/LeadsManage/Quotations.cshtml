@@ -124,7 +124,9 @@
       remoteFilter: true,
       singleSelect: true,
       method: 'post',
-      onClickCellQuotation: onClickCellQuotation,
+      onClickCell: (index, field) => {
+        onClickCellQuotation(index, field);
+      },
       clientPaging: false,
       pagination: true,
       striped: true,
@@ -132,7 +134,7 @@
       height: 400,
       pageSize: 10,
       pageList: [10, 20, 50],
-      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }],
       onBeforeloadQuotation: function () {
         $('.enable-loader').removeClass('enable-loader')
       },
@@ -193,13 +195,12 @@
         {
           field: 'action',
           title: 'Operate',
-          width: 120,
+          width: 80,
           sortable: false,
           resizable: true,
           formatter: function showdetailsformatter(value, row, index) {
             if (!row.editing) {
               return `<div class="btn-group">\
-                            <button onclick="showAqDetail('${row.Id}',  ${index})" class="btn btn-primary btn-icon waves-effect waves-themed" title="Operation" ><i class="fal fa-ballot-check"></i> </button>\
                             <button onclick="showDetailsWindowQuotation('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
                             <button onclick="deleteRowsQuotation(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
                       </div>`;
@@ -410,7 +411,7 @@
     $('#panel-quotation .datagrid-view').css('width', '100%');
     $('#panel-quotation .datagrid-view').css('height', '400px');
     $('#panel-quotation .datagrid-view1').css('width', '185px');
-    $('#panel-quotation .datagrid-view2').css('width', $dgWidth - 285);
+    $('#panel-quotation .datagrid-view2').css('width', $dgWidth - 245);
 
     closeAqDetail()
   }
@@ -441,7 +442,7 @@
     openQuotationDetailWindow(quotation, 'Modified');
   }
   //Pop-up details Message
-  function showAqDetail(id, index) {
+  function showAqDetail(index) {
     const quotation = $dgQuotation.datagrid('getRows')[index];
     openAqDetailWindow(quotation, 'Modified');
   }
@@ -589,6 +590,8 @@
   }
   //Enable Edit Status
   function onClickCellQuotation(index, field) {
+
+    showAqDetail(index);
 
     quotation = $dgQuotation.datagrid('getRows')[index];
     const _actions = ['action', 'ck'];
