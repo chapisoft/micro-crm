@@ -61,7 +61,7 @@
       height: 400,
       pageSize: 10,
       pageList: [10, 20, 50],
-      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }, { "field": "Status", "op": "equal", "value": "4" }],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "Status", "op": "equal", "value": "4" }],
       onBeforeloadSale: function () {
         $('.enable-loader').removeClass('enable-loader')
       },

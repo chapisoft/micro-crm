@@ -88,8 +88,8 @@
       </div>
       <div class="modal-body">
         <div class="panel-container show">
-          <div class="panel-content">
-            <partial name="AddOrEditProject" />
+          <div class="panel-content" id="panel-project-detail">
+            @*<partial name="AddOrEditProject" />*@
           </div>
         </div>
       </div>
@@ -130,8 +130,9 @@
       height: 400,
       pageSize: 10,
       pageList: [10, 20, 50],
-      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }],
-      onBeforeloadProject: function () {
+      //filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }],
+      onBeforeload: function () {
         $('.enable-loader').removeClass('enable-loader')
       },
       onLoadSuccess: function (data) {
@@ -570,10 +571,15 @@
   }
 
   function openProjectDetailWindow(data) {
-    const projectid = (data.Id || 0);
-    console.log(data);
     $('#project-modal').modal('toggle');
-    $('#project-form').jsonToForm(data)
-
+    //$('#project-form').jsonToForm(data)
+    $.ajax({
+      url: '@Url.Action("AddOrEditProject", "LeadsManage")',
+      type: 'GET',
+      cache: false,
+      data: { id: data.Id }
+    }).done(function (result) {
+      $('#panel-project-detail').html(result);
+    });
   }
 </script>

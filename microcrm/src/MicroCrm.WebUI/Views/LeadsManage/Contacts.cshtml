@@ -534,26 +534,26 @@
     contact = $dgContact.datagrid('getRows')[index];
     $contactId = contact.Id;
     $contact = contact;
-    const url = '/LeadsManage/SetContact?contactId=' + $contactId;
-    $.get(url).done(res => {
-      if (res.success) {
+    //const url = '/LeadsManage/SetContact?contactId=' + $contactId;
+    //$.get(url).done(res => {
+    //  if (res.success) {
 
-        // Project
-        showProjects();
+    //  } else {
+    //    $.messager.alert("Error", res.err, "error");
+    //  }
+    //});
 
-        // Activity
-        showActivities();
+    // Project
+    showProjects();
 
-        // Quotation
-        showQuotations();
+    // Activity
+    showActivities();
 
-        // Sale
-        showSales();
+    // Quotation
+    showQuotations();
 
-      } else {
-        $.messager.alert("Error", res.err, "error");
-      }
-    });
+    // Sale
+    showSales();
     const _actions = ['action', 'ck'];
     if (!EDITINLINEContact || $.inArray(field, _actions) >= 0) {
       return;

@@ -90,8 +90,8 @@
       </div>
       <div class="modal-body">
         <div class="panel-container show">
-          <div class="panel-content">
-            <partial name="AddOrEditQuotation" />
+          <div class="panel-content" id="panel-quotation-detail">
+            @*<partial name="AddOrEditQuotation" />*@
           </div>
         </div>
       </div>
@@ -134,8 +134,9 @@
       height: 400,
       pageSize: 10,
       pageList: [10, 20, 50],
-      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }],
-      onBeforeloadQuotation: function () {
+      //filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }],
+      onBeforeload: function () {
         $('.enable-loader').removeClass('enable-loader')
       },
       onLoadSuccess: function (data) {
@@ -621,10 +622,16 @@
   }
 
   function openQuotationDetailWindow(data) {
-    const quotationid = (data.Id || 0);
-    console.log(data);
     $('#quotation-modal').modal('toggle');
-    $('#quotation-form').jsonToForm(data)
+    //$('#quotation-form').jsonToForm(data)
+    $.ajax({
+      url: '@Url.Action("AddOrEditQuotation", "LeadsManage")',
+      type: 'GET',
+      cache: false,
+      data: { id: data.Id }
+    }).done(function (result) {
+      $('#panel-quotation-detail').html(result);
+    });
   }
   function openAqDetailWindow(data) {
     $aqId = (data.Id || 0);

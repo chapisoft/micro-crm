@@ -312,7 +312,7 @@
     class company {
       constructor() {
         //this.$dg = $('#companies_datagrid');
-        this.EDITINLINE = true;
+        this.EDITINLINE = false;
         this.MODELSTATE = null;
         this.item = null;
         this.editIndex = undefined;
@@ -596,8 +596,6 @@
 
       bindActionEvents() {
         $('button[name="actionbutton"]').off('click').on('click', $('button[name="actionbutton"]'), (e) => {
-          console.log('-------')
-          console.log(e)
           let $button = null;
           if ($(e.target).is(':button')) {
             $button = $(e.target);

@@ -88,8 +88,8 @@
       </div>
       <div class="modal-body">
         <div class="panel-container show">
-          <div class="panel-content">
-            <partial name="AddOrEditActivity" />
+          <div class="panel-content" id="panel-activity-detail">
+            @*<partial name="AddOrEditActivity" />*@
           </div>
         </div>
       </div>
@@ -130,7 +130,8 @@
       height: 400,
       pageSize: 10,
       pageList: [10, 20, 50],
-      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }],
+      //filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }],
       onBeforeloadActivity: function () {
         $('.enable-loader').removeClass('enable-loader')
       },
@@ -345,15 +346,28 @@
   }
   //Added records
   function appendActivity() {
-    activity = {
-      Id: null,
-      Name: $contact.Name,
-      Title: $contact.Title,
-      Department: $contact.Department,
-      BusinessPhone: $contact.BusinessPhone,
-      Ext: $contact.Ext,
-      Email: $contact.Email,
-    };
+    if ($contact != null) {
+      activity = {
+        Id: null,
+        Name: $contact.Name,
+        Title: $contact.Title,
+        Department: $contact.Department,
+        BusinessPhone: $contact.BusinessPhone,
+        Ext: $contact.Ext,
+        Email: $contact.Email,
+      };
+    }
+    else {
+      activity = {
+        Id: null,
+        Name: '',
+        Title: '',
+        Department: '',
+        BusinessPhone: '',
+        Ext: '',
+        Email: '',
+      };
+    }
     if (!EDITINLINEActivity) {
       //The Added window pops up
       openActivityDetailWindow(activity, 'Added');
@@ -515,7 +529,15 @@
 
   function openActivityDetailWindow(data) {
     $('#activity-modal').modal('toggle');
-    $('#activity-form').jsonToForm(data)
+    //$('#activity-form').jsonToForm(data)
+    $.ajax({
+      url: '@Url.Action("AddOrEditActivity", "LeadsManage")',
+      type: 'GET',
+      cache: false,
+      data: { id: data.Id }
+    }).done(function (result) {
+      $('#panel-activity-detail').html(result);
+    });
 
   }
 </script>

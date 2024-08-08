@@ -116,9 +116,9 @@ namespace MicroCrm.WebUI.Controllers
         var companyId = HttpContext.Session.GetInt32("CompanyId");
         if (companyId != null)
           request.CompanyId = companyId.Value;
-        var contactId = HttpContext.Session.GetInt32("ContactId");
-        if (contactId != null)
-          request.ContactId = contactId.Value;
+        //var contactId = HttpContext.Session.GetInt32("ContactId");
+        //if (contactId != null)
+        //  request.ContactId = contactId.Value;
         await this.mediator.Send(request);
         return Json(new { success = true });
       }

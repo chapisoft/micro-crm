@@ -9,6 +9,14 @@
     <input type="hidden" asp-for="Id" />
     <div class="form-row">
       <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="ContactId">  </label>
+        @Html.DropDownList("ContactId", (IEnumerable<SelectListItem>)ViewBag.Contacts, new { @class = "form-control", required = "required" })
+        <div class="invalid-feedback" asp-validation-for="ContactId">
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-6 mb-3">
         <label class="form-label" asp-for="Name">  </label>
         <input type="text" class="form-control" asp-for="Name" required maxlength="150">
         <div class="invalid-feedback" asp-validation-for="Name">
