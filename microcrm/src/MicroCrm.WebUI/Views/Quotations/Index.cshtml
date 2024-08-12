@@ -1,0 +1,786 @@
+﻿@model MicroCrm.Domain.Models.Quotation
+@{
+  ViewData["Title"] = "Quotation Manage";
+  ViewData["PageName"] = "quotations_index";
+  ViewData["Heading"] = "<i class='fal fa-window text-primary'></i> Quotation Manage";
+  ViewData["Category1"] = "CRM";
+  ViewData["PageDescription"] = "";
+}
+<style>
+  .datagrid-body .datagrid-cell, .datagrid-footer .datagrid-cell {
+    text-wrap: wrap;
+  }
+</style>
+
+<div class="row">
+  <div class="col-lg-12 col-xl-12">
+    <div id="panel-quotation" class="panel">
+      <div class="panel-container enable-loader show">
+        <div class="loader"><i class="fal fa-spinner-third fa-spin-4x fs-xxl"></i></div>
+        <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade ">
+          <div class="row no-gutters align-items-center">
+            <div class="col">
+              <div class="btn-group btn-group-sm">
+                <button name="searchbutton" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Search </button>
+                <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-animated">
+                  <button name="searchmemenu" class="dropdown-item js-waves-on"> My Records </button>
+                  <div class="dropdown-divider"></div>
+                  <button name="searchcustommenu" class="dropdown-item js-waves-on"> Customize Search </button>
+                </div>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button name="appendbutton" class="btn btn-default">
+                  <span class="fal fa-plus mr-1"></span> Add
+                </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button name="deletebutton" disabled class="btn btn-default">
+                  <span class="fal fa-times mr-1"></span> Delete
+                </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button name="savebutton" disabled class="btn btn-default">
+                  <span class="fal fa-save mr-1"></span> Save
+                </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button name="cancelbutton" disabled class="btn btn-default">
+                  <span class="fal fa-ban mr-1"></span> Cancel
+                </button>
+              </div>
+
+              <div class="btn-group btn-group-sm hidden-xs">
+                <button type="button" name="importbutton" class="btn btn-default"><span class="fal fa-cloud-upload mr-1"></span> Import </button>
+                <button type="button" class="btn btn-default  dropdown-toggle dropdown-toggle-split waves-effect waves-themed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-animated">
+                  <a class="dropdown-item js-waves-on" name="downloadmenu" href="javascript:void()">
+                    <span class="fal fa-download"></span> Download the template
+                  </a>
+                </div>
+              </div>
+              <div class="btn-group btn-group-sm hidden-xs">
+                <button name="exportbutton" class="btn btn-default">
+                  <span class="fal fa-file-export mr-1"></span>  Export
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="panel-content">
+            <div class="table-responsive">
+              <table id="quotations_datagrid">
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<partial name="AqDetails" />
+
+<!--Quotation Edit Modal -->
+<div class="modal fade" id="quotation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          Quotation Information
+          <small class="m-0 text-muted">
+
+          </small>
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><i class="fal fa-times"></i></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="panel-container show">
+          <div class="panel-content" id="panel-quotation-detail">
+            @*<partial name="AddOrEditQuotation" />*@
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="container hidden" id="panel-quotation-print">
+</div>
+
+@await Component.InvokeAsync("ImportExcel", new ImportExcelOptions
+{
+  entity = "Quotation",
+  folder = "Quotations",
+  url = "/Quotations",
+  tpl = "Quotation.xlsx",
+  callback = "reload()"
+})
+
+@section HeadBlock {
+
+  <link href="~/css/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.css" rel="stylesheet" asp-append-version="true" />
+  <link href="~/js/easyui/themes/insdep/easyui.css" rel="stylesheet" asp-append-version="true" />
+  <link href="~/css/formplugins/summernote/summernote.css" rel="stylesheet" asp-append-version="true" />
+
+  <link href="~/css/formplugins/select2/select2.bundle.css" rel="stylesheet" media="screen, print">
+  <link href="~/css/page-invoice.css" rel="stylesheet" media="screen, print">
+}
+@section ScriptsBlock {
+
+  <script src="~/js/plugin/jquery.validation/jquery.validate.js" asp-append-version="true"></script>
+  <script src="~/js/plugin/jquery.validation/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
+  <script src="~/js/plugin/jquery.form.binding/jquery-json-form-binding.js" asp-append-version="true"></script>
+  <script src="~/js/dependency/numeral/numeral.min.js" asp-append-version="true"></script>
+  <script src="~/js/dependency/moment/moment.js" asp-append-version="true"></script>
+  <script src="~/js/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/jquery.easyui.min.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/plugins/datagrid-filter.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/plugins/columns-ext.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/plugins/columns-reset.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/locale/easyui-lang-en.js" asp-append-version="true"></script>
+  <script src="~/js/easyui/jquery.easyui.component.js" asp-append-version="true"></script>
+  <script src="~/js/plugin/filesaver/FileSaver.js" asp-append-version="true"></script>
+  <script src="~/js/plugin/jquery.serializejson/jquery.serializejson.js" asp-append-version="true"></script>
+  <script src="~/js/jquery.custom.extend.js" asp-append-version="true"></script>
+  <script src="~/js/jquery.extend.formatter.js" asp-append-version="true"></script>
+  <script src="~/js/formplugins/summernote/summernote.js" asp-append-version="true"></script>
+  <script src="~/js/formplugins/select2/select2.bundle.js" asp-append-version="true"></script>
+  <script src="~/js/formplugins/inputmask/inputmask.bundle.js" asp-append-version="true"></script>
+
+  <script>
+      //Full Screen Event
+      document.addEventListener('panel.onfullscreen', () => {
+        $dgAqDetail.treegrid('resize');
+      });
+      var $dg = $('#quotations_datagrid');
+      var $aqId = 0;
+      var $dgWidth = $('#panel-quotations .datagrid-view').width();
+      var EDITINLINE = false;
+      var MODELSTATE = null;
+      var item = null;
+      var editIndex = undefined;
+      var $id = null;
+      // AqDetail
+      var $dgAqDetail = $('#aqDetails_datagrid');
+      $dgAqDetail.css('width', '100%');
+      var EDITINLINEAqDetail = false;
+      var aqDetail = null;
+    var editIndexAqDetail = undefined;
+
+    class quotation {
+      constructor() {
+        this.init();
+      }
+      init() {
+        this.$searchbutton = $('button[name="searchbutton"]');
+        this.$appendbutton = $('button[name="appendbutton"]');
+        this.$deletebutton = $('button[name="deletebutton"]');
+        this.$savebutton = $('button[name="savebutton"]');
+        this.$cancelbutton = $('button[name="cancelbutton"]');
+        this.$importbutton = $('button[name="importbutton"]');
+        this.$downloadmenu = $('a[name="downloadmenu"]');
+        this.$exportbutton = $('button[name="exportbutton"]');
+        this.$searchmemenu = $('a[name="searchmemenu"]');
+        this.$searchcustommenu = $('a[name="searchcustommenu"]');
+        this.$saveitembutton = $('button[name="saveitembutton"]');
+        this.$deleteitembutton = $('button[name="deleteitembutton"]');
+        this.$detailwindow = $("#companydetailwindow");
+        this.$form = $('#company_form');
+        this.$formview = $('#company_view');
+
+        document.addEventListener('panel.onfullscreen', () => {
+          this.$dg.datagrid('resize');
+        })
+        this.$searchbutton.on('click', reload.bind(this));
+        this.$appendbutton.on('click', append.bind(this));
+        this.$deletebutton.on('click', remove.bind(this));
+        this.$savebutton.on('click', acceptChanges.bind(this));
+        this.$cancelbutton.on('click', rejectChanges.bind(this));
+        this.$exportbutton.on('click', exportExcel.bind(this));
+        this.$importbutton.on('click', () => {
+          importExcel.upload();
+        });
+        this.$downloadmenu.on('click', () => {
+          importExcel.downloadtemplate();
+        })
+        //this.$saveitembutton.on('click', this.saveItem.bind(this));
+        this.$deleteitembutton.on('click', deleteRows.bind(this));
+
+        $dg.datagrid({
+          rownumbers: true,
+          checkOnSelect: false,
+          selectOnCheck: false,
+          idField: 'Id',
+          sortName: 'Id',
+          sortOrder: 'desc',
+          remoteFilter: true,
+          singleSelect: true,
+          method: 'post',
+          onClickCell: (index, field) => {
+            onClickCell(index, field);
+          },
+          clientPaging: false,
+          pagination: true,
+          striped: true,
+          //width: 1000,
+          height: 400,
+          pageSize: 10,
+          pageList: [10, 20, 50],
+          //filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }],
+          //filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }],
+          filterRules: [],
+          onBeforeLoad: () => {
+            $('.enable-loader').removeClass('enable-loader')
+          },
+          onLoadSuccess: (data) => {
+            editIndex = undefined;
+            $("button[name*='deletebutton']").prop('disabled', true);
+            $("button[name*='savebutton']").prop('disabled', true);
+            $("button[name*='cancelbutton']").prop('disabled', true);
+          },
+          onCheckAll: (rows) => {
+            if (rows.length > 0) {
+              $("button[name*='deletebutton']").prop('disabled', false);
+            }
+          },
+          onUncheckAll: () => {
+            $("button[name*='deletebutton']").prop('disabled', true);
+          },
+          onCheck: () => {
+            $("button[name*='deletebutton']").prop('disabled', false);
+          },
+          onUncheck: () => {
+            const checked = $(this).datagrid('getChecked').length > 0;
+            $("button[name*='deletebutton']").prop('disabled', !checked);
+          },
+          onSelect: (index, row) => {
+            item = row;
+          },
+          onBeginEdit: (index, row) => {
+            //const editors = $(this).datagrid('getEditors', index);
+
+          },
+          onEndEdit: (index, row) => {
+            editIndex = undefined;
+          },
+          onBeforeEdit: (index, row) => {
+            editIndex = index;
+            row.editing = true;
+            $("button[name*='deletebutton']").prop('disabled', false);
+            $("button[name*='cancelbutton']").prop('disabled', false);
+            $("button[name*='savebutton']").prop('disabled', false);
+            $(this).datagrid('refreshRow', index);
+          },
+          onAfterEdit: (index, row) => {
+            row.editing = false;
+            editIndex = undefined;
+            $(this).datagrid('refreshRow', index);
+          },
+          onCancelEdit: (index, row) => {
+            row.editing = false;
+            editIndex = undefined;
+            $("button[name*='deletebutton']").prop('disabled', true);
+            $("button[name*='savebutton']").prop('disabled', true);
+            $("button[name*='cancelbutton']").prop('disabled', true);
+            $(this).datagrid('refreshRow', index);
+          },
+          frozenColumns: [[
+            { field: 'ck', checkbox: true },
+            {
+              field: 'action',
+              title: 'Operate',
+              width: 80,
+              sortable: false,
+              resizable: true,
+              formatter: function showdetailsformatter(value, row, index) {
+                if (!row.editing) {
+                  return `<div class="btn-group">\
+                            <button onclick="showDetailsWindow('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
+                            <button onclick="print('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Print" ><i class="fal fa-print"></i> </button>\
+                            <button onclick="deleteRows(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
+                      </div>`;
+                } else {
+                  return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
+                }
+              }
+            }
+          ]],
+          columns: [[
+            {    /*Name*/
+              field: 'Name',
+              title: '@Html.DisplayNameFor(model => model.Name)',
+              width: 200,
+              hidden: false,
+              editor: {
+                type: 'textbox',
+                options: { prompt: '@Html.DescriptionFor(model => model.Name)', required: true, validType: 'length[0,128]' }
+              },
+              sortable: true,
+              resizable: true
+            },
+            {    /*Title*/
+              field: 'Title',
+              title: '@Html.DisplayNameFor(model => model.Title)',
+              width: 250,
+              hidden: false,
+              editor: {
+                type: 'textbox',
+                options: { prompt: '@Html.DescriptionFor(model => model.Title)', required: true, validType: 'length[0,128]' }
+              },
+              sortable: true,
+              resizable: true
+            },
+        @*{    /*Department*/
+          field: 'Department',
+          title: '@Html.DisplayNameFor(model => model.Department)',
+          width: 200,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Department)', required: false, validType: 'length[0,50]' }
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*BusinessPhone*/
+          field: 'BusinessPhone',
+          title: '@Html.DisplayNameFor(model => model.BusinessPhone)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.BusinessPhone)', required: false, validType: 'length[0,20]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Ext*/
+          field: 'Ext',
+          title: '@Html.DisplayNameFor(model => model.Ext)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Ext)', required: false, validType: 'length[0,5]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Phone*/
+          field: 'Phone',
+          title: '@Html.DisplayNameFor(model => model.Phone)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Phone)', required: false, validType: 'length[0,20]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Email*/
+          field: 'Email',
+          title: '@Html.DisplayNameFor(model => model.Email)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Email)', required: false, validType: 'length[0,120]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        },*@
+            {    /*StartDate*/
+              field: 'StartDate',
+              title: '@Html.DisplayNameFor(model => model.StartDate)',
+              width: 120,
+              align: 'right',
+              hidden: false,
+              editor: {
+                type: 'datebox',
+                options: { prompt: '@Html.DescriptionFor(model => model.StartDate)', required: false }
+              },
+              formatter: dateformatter,
+              sortable: true,
+              resizable: true,
+
+            },
+            {    /*EndDate*/
+              field: 'EndDate',
+              title: '@Html.DisplayNameFor(model => model.EndDate)',
+              width: 120,
+              align: 'right',
+              hidden: false,
+              editor: {
+                type: 'datebox',
+                options: { prompt: '@Html.DescriptionFor(model => model.EndDate)', required: false }
+              },
+              formatter: dateformatter,
+              sortable: true,
+              resizable: true,
+
+            },
+            {    /*Amount*/
+              field: 'Amount',
+              title: '@Html.DisplayNameFor(model => model.Amount)',
+              width: 150,
+              align: 'right',
+              hidden: false,
+              editor: {
+                type: 'textbox',
+                options: { prompt: '@Html.DescriptionFor(model => model.Amount)', required: false }
+              },
+              formatter: numberformatter,
+              sortable: true,
+              resizable: true,
+
+            },
+            {    /*Note*/
+              field: 'Note',
+              title: '@Html.DisplayNameFor(model => model.Note)',
+              width: 120,
+              hidden: false,
+              editor: {
+                type: 'textbox',
+                options: { prompt: '@Html.DescriptionFor(model => model.Note)', required: false, validType: 'length[0,250]' }
+              },
+              sortable: true,
+              resizable: true,
+
+            },
+            {    /*Status*/
+              field: 'Status',
+              title: '@Html.DisplayNameFor(model => model.Status)',
+              width: 120,
+              hidden: false,
+          @*editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Status)', required: false, validType: 'length[0,20]' }
+          },*@
+              sortable: true,
+              resizable: true,
+              formatter: function (value, row, index) {
+                if (row.Status == 0) {
+                  return "Pending"
+                }
+                else if (row.Status == 1) {
+                  return "On - going"
+                }
+                else if (row.Status == 2) {
+                  return "LOST"
+                }
+                else if (row.Channel == 3) {
+                  return "SUBMIT"
+                }
+                else {
+                  return "SOLD"
+                }
+
+              }
+            },
+            {    /*ApprovedBy*/
+              field: 'ApprovedBy',
+              title: '@Html.DisplayNameFor(model => model.ApprovedBy)',
+              width: 120,
+              hidden: false,
+              editor: {
+                type: 'textbox',
+                options: { prompt: '@Html.DescriptionFor(model => model.ApprovedBy)', required: false, validType: 'length[0,20]' }
+              },
+              sortable: true,
+              resizable: true,
+
+            }
+          ]]
+        })
+          .datagrid('enableFilter', [
+          ])
+          .datagrid('load', '/Quotations/GetData');
+
+        closeAqDetail()
+      }
+
+    }
+
+      //Download ExcelImport Template
+      //Execute Export to download Excel
+      function exportExcel() {
+        const filterRules = JSON.stringify($dg.datagrid('options').filterRules);
+        console.log(filterRules);
+        $.messager.progress({ title: 'Please wait', msg: 'Export in progress...' });
+        let formData = new FormData();
+        formData.append('filterRules', filterRules);
+        formData.append('sort', 'Id');
+        formData.append('order', 'asc');
+        $.postDownload('/Quotations/exportExcel', formData).then(res => {
+          $.messager.progress('close');
+          toastr.success('Export successful!');
+        }).catch(err => {
+          //console.log(err);
+          $.messager.progress('close');
+          $.messager.alert('Export failed', err.statusText, 'error');
+        });
+
+      }
+
+      //Pop-up details Message
+      function showDetailsWindow(id, index) {
+        const item = $dg.datagrid('getRows')[index];
+        openDetailWindow(item, 'Modified');
+    }
+
+    //Print
+    function print(id, index) {
+      const item = $dg.datagrid('getRows')[index];
+      @*$.ajax({
+          url: '@Url.Action("Print", "Quotations")',
+          type: 'GET',
+          cache: false,
+        data: { id: item.Id }
+        }).done(function (result) {
+          $('#panel-quotation-print').html(result);
+          $('#panel-quotation').hide();
+          $('#panel-aqDetail').hide();
+          $('#panel-quotation-print').show();
+        });*@
+      window.open("Print/Index?id=" + id, '_blank'); // open in actual window
+    }
+
+    function closePrint() {
+      $('#panel-quotation').show();
+      $('#panel-aqDetail').show();
+      $('#panel-quotation-print').hide();
+    }
+
+      //Pop-up details Message
+      function showAqDetail(index) {
+        const item = $dg.datagrid('getRows')[index];
+        openAqDetailWindow(item, 'Modified');
+      }
+
+      function reload() {
+        $dg.datagrid('uncheckAll');
+        $dg.datagrid('reload');
+      }
+
+      //Added records
+      function append() {
+        item = {
+          Id: null,
+          Name: '',
+          PhoneNumber: '',
+          Quotation: '',
+          Address: '-'
+        };
+        if (!EDITINLINE) {
+          //The Added window pops up
+          openDetailWindow(item, 'Added');
+        } else {
+          if (endEditing()) {
+            //Initialize the default value for the Required field
+            $dg.datagrid('insertRow',
+              {
+                index: 0,
+                row: item
+              });
+            editIndex = 0;
+            $dg.datagrid('selectRow', editIndex)
+              .datagrid('beginEdit', editIndex);
+            hook = true;
+          }
+        }
+      }
+
+      //Delete Edit Row
+      function remove() {
+        if (this.$dg.datagrid('getChecked').length <= 0 && EDITINLINE) {
+          if (editIndex !== undefined) {
+            const delindex = editIndex;
+            $dg.datagrid('cancelEdit', delindex)
+              .datagrid('deleteRow', delindex);
+            hook = true;
+            $("button[name*='savebutton']").prop('disabled', false);
+            $("button[name*='cancelbutton']").prop('disabled', false);
+          } else {
+            const rows = $dg.datagrid('getChecked');
+            rows.slice().reverse().forEach(row => {
+              const rowindex = $dg.datagrid('getRowIndex', row);
+              $dg.datagrid('deleteRow', rowindex);
+              hook = true;
+            });
+          }
+        } else {
+          deleteChecked();
+        }
+      }
+
+      //Delete the selected row
+      function deleteChecked() {
+        const checked = $dg.datagrid('getChecked').filter(item => item.Id != null && item.Id > 0).map(item => {
+          return item.Id;
+        });;
+        if (checked.length > 0) {
+          deleteRows(checked);
+        } else {
+          $.messager.alert('Success', 'Please select the record to be deleted first!', 'question');
+        }
+      }
+
+      //Execute Delete
+      function deleteRows(selected) {
+        $.messager.confirm('Confirm', `Are you sure you want to delete these <span class='badge badge-icon position-relative'>${selected.length} </span> rows?`, result => {
+          if (result) {
+            $.post('/Quotations/deleteChecked', { id: selected })
+              .done(response => {
+                if (response.success) {
+                  toastr.error(`Successfully delete [${selected.length}] rows of records`);
+                  reload();
+                } else {
+                  $.messager.alert('Error', response.err, 'error');
+                }
+              })
+              .fail((jqXHR, textStatus, errorThrown) => {
+                $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+              });
+          }
+        });
+      }
+
+      //CloseEditStatus
+      function endEditing() {
+
+        if (editIndex === undefined) {
+          return true;
+        }
+        if (this.$dg.datagrid('validateRow', editIndex)) {
+          $dg.datagrid('endEdit', editIndex);
+          return true;
+        } else {
+          const invalidinput = $('input.validatebox-invalid', $dg.datagrid('getPanel'));
+          const fieldnames = invalidinput.map((index, item) => {
+            return $(item).attr('placeholder') || $(item).attr('id');
+          });
+          $.messager.alert('Success', `${Array.from(fieldnames)} The input is incorrect.`, 'error');
+          return false;
+        }
+      }
+
+      //Submit Accept backend database
+      function acceptChanges() {
+        if (endEditing()) {
+          if ($dg.datagrid('getChanges').length > 0) {
+            const inserted = $dg.datagrid('getChanges', 'inserted').map(item => {
+              item.TrackingState = 1;
+              return item;
+            });
+            const updated = $dg.datagrid('getChanges', 'updated').map(item => {
+              item.TrackingState = 2
+              return item;
+            });
+            const deleted = $dg.datagrid('getChanges', 'deleted').map(item => {
+              item.TrackingState = 3
+              return item;
+            });
+            //Filter Deleted Duplicates
+            const changed = inserted.concat(updated.filter(item => {
+              return !deleted.includes(item);
+            })).concat(deleted);
+            //$.messager.progress({ title: 'Please wait', msg: 'Accepting data...', interval: 200 });
+            $.post('/Quotations/acceptChanges', { quotations: changed })
+              .done(response => {
+                //$.messager.progress('close');
+                //console.log(response);
+                if (response.success) {
+                  toastr.success('Saved successfully');
+                  $dg.datagrid('acceptChanges');
+                  reload();
+                  hook = false;
+                } else {
+                  $.messager.alert('Error', response.err, 'error');
+                }
+              })
+              .fail((jqXHR, textStatus, errorThrown) => {
+                //$.messager.progress('close');
+                $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+              });
+          }
+        }
+      }
+
+      //Enable Edit Status
+      function onClickCell(index, field) {
+
+        showAqDetail(index);
+
+        item = $dg.datagrid('getRows')[index];
+        const _actions = ['action', 'ck'];
+        if (!EDITINLINE || $.inArray(field, _actions) >= 0) {
+          return;
+        }
+
+        if (editIndex !== index) {
+          if (endEditing()) {
+            $dg.datagrid('selectRow', index)
+              .datagrid('beginEdit', index);
+            hook = true;
+            editIndex = index;
+            const ed = $dg.datagrid('getEditor', { index: index, field: field });
+            if (ed) {
+              ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+            }
+          } else {
+            $dg.datagrid('selectRow', editIndex);
+          }
+        }
+      }
+
+      function rejectChanges() {
+        $dg.datagrid('rejectChanges');
+        editIndex = undefined;
+        hook = false;
+      }
+
+      function openDetailWindow(data) {
+        $('#quotation-modal').modal('toggle');
+        $id = data.Id;
+        //$('#quotation-form').jsonToForm(data)
+        $.ajax({
+          url: '@Url.Action("AddOrEdit", "Quotations")',
+          type: 'GET',
+          cache: false,
+          data: { id: data.Id }
+        }).done(function (result) {
+          $('#panel-quotation-detail').html(result);
+        });
+      }
+
+      function openAqDetailWindow(data) {
+        $aqId = (data.Id || 0);
+        showAqDetails();
+      }
+
+    function closeAqDetail() {
+      $('#panel-aqDetail').hide();
+      $('#panel-quotation').show();
+    }
+
+    $(() => {
+      var myquotation = new quotation();
+    })
+
+  </script>
+}

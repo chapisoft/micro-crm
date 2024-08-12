@@ -36,6 +36,18 @@
               </div>
             </div>
             <div class="col-md-6 mb-3">
+              <label class="form-label" asp-for="ShipFee">  </label>
+              <input type="text" class="form-control" asp-for="ShipFee" maxlength="12">
+              <div class="invalid-feedback" asp-validation-for="ShipFee">
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label" asp-for="Margin">  </label>
+              <input type="text" class="form-control" asp-for="Margin" maxlength="12">
+              <div class="invalid-feedback" asp-validation-for="Margin">
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
               <label class="form-label" asp-for="Discount">  </label>
               <input type="text" class="form-control" asp-for="Discount" maxlength="12">
               <div class="invalid-feedback" asp-validation-for="Discount">
@@ -48,15 +60,27 @@
               </div>
             </div>
             <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="Amount">  </label>
-              <input type="text" class="form-control" asp-for="Amount" maxlength="12">
-              <div class="invalid-feedback" asp-validation-for="Amount">
+              <label class="form-label" asp-for="ImportTax">  </label>
+              <input type="text" class="form-control" asp-for="ImportTax" maxlength="12">
+              <div class="invalid-feedback" asp-validation-for="ImportTax">
               </div>
             </div>
             <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="AmountIncVat">  </label>
-              <input type="text" class="form-control" asp-for="AmountIncVat" maxlength="12">
-              <div class="invalid-feedback" asp-validation-for="AmountIncVat">
+              <label class="form-label" asp-for="OtherFee">  </label>
+              <input type="text" class="form-control" asp-for="OtherFee" maxlength="12">
+              <div class="invalid-feedback" asp-validation-for="OtherFee">
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label" asp-for="Exchange">  </label>
+              <input type="text" class="form-control" asp-for="Exchange" maxlength="12">
+              <div class="invalid-feedback" asp-validation-for="OtherFee">
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label" asp-for="Amount">  </label>
+              <input type="text" class="form-control" asp-for="Amount" maxlength="12" disabled>
+              <div class="invalid-feedback" asp-validation-for="Amount">
               </div>
             </div>
           </div>

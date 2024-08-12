@@ -1,5 +1,5 @@
 $(function() {
-	// 初始化Theme
+	// initializationTheme
 	var initTheme = function(themeName) {
 		if(themeName == null) {
 			themeName = $('#themeCss').attr('href').split('/').pop().split('.css')[0];

@@ -17,32 +17,86 @@ using URF.Core.Abstractions;
 using MediatR;
 using MicroCrm.Application.Quotations.Queries;
 using MicroCrm.Application.Quotations.Commands;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using MicroCrm.WebUI.Data.Models;
+using MicroCrm.WebUI.Data;
 
 namespace MicroCrm.WebUI.Controllers
 {
   public class QuotationsController : Controller
   {
     private readonly IMediator mediator;
-    private readonly IQuotationService quotationService;
+    private readonly IQuotationService _quotationService;
+    private readonly IContactService _contactService;
+    private readonly ICompanyService _companyService;
+    private readonly IProductService _productService;
+    private readonly IAqDetailService _aqDetailService;
     private readonly IUnitOfWork unitOfWork;
     private readonly ILogger<QuotationsController> _logger;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly ApplicationDbContext _dbContext;
     public QuotationsController(
           IMediator mediator,
           IQuotationService quotationService,
+          IContactService contactService,
+          ICompanyService companyService,
+          IProductService productService,
+          IAqDetailService aqDetailService,
           IUnitOfWork unitOfWork,
           IWebHostEnvironment webHostEnvironment,
+              ApplicationDbContext dbContext,
           ILogger<QuotationsController> logger)
     {
       this.mediator = mediator;
-      this.quotationService = quotationService;
+      _quotationService = quotationService;
+      _contactService = contactService;
+      _companyService = companyService;
+      _productService = productService;
+      _aqDetailService = aqDetailService;
+      _dbContext = dbContext;
       this.unitOfWork = unitOfWork;
-      this._logger = logger;
-      this._webHostEnvironment = webHostEnvironment;
+      _logger = logger;
+      _webHostEnvironment = webHostEnvironment;
     }
 
     // GET: Quotations
-    public IActionResult Index() => View();
+    public async Task<IActionResult> Index()
+    {
+      var selectlist = new List<SelectListItem>();
+      string filterRules = "";
+      var filters = PredicateBuilder.FromFilter<Company>(filterRules);
+      var datalist = (await _companyService.Query(filters)
+                           .OrderBy(n => n.OrderBy($"{"Id"}  {"desc"}"))
+                           .SelectAsync())
+                           .Select(n => new
+                           {
+                             Id = n.Id,
+                             FullName = n.FullName
+                           }).ToList();
+      foreach (var item in datalist)
+      {
+          selectlist.Add(new SelectListItem() { Text = item.FullName, Value = item.Id.ToString() });
+      }
+      ViewBag.Companies = selectlist;
+
+      selectlist = new List<SelectListItem>();
+      var filters1 = PredicateBuilder.FromFilter<Product>(filterRules);
+      var datalist1 = (await _productService.Query(filters1)
+                           .OrderBy(n => n.OrderBy($"{"Id"}  {"desc"}"))
+                           .SelectAsync())
+                           .Select(n => new
+                           {
+                             Id = n.Id,
+                             Name = n.Name
+                           }).ToList();
+      foreach (var item in datalist1)
+      {
+        selectlist.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString() });
+      }
+      ViewBag.Products = selectlist;
+
+      return View();
+    }
 
     // GET: Quotations
     public virtual ActionResult List(int id)
@@ -53,11 +107,12 @@ namespace MicroCrm.WebUI.Controllers
     public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
     //public async Task<JsonResult> GetData(QuotationPaginationQuery request)
     {
-      try {
+      try
+      {
         var filters = PredicateBuilder.FromFilter<Quotation>(filterRules);
-        var total = await this.quotationService
+        var total = await _quotationService
                              .Query(filters).CountAsync();
-        var pagerows = (await this.quotationService
+        var pagerows = (await _quotationService
                              .Query(filters)
                            .OrderBy(n => n.OrderBy($"{sort} {order}"))
                            .Skip((page - 1) * rows).Take(rows).SelectAsync())
@@ -71,6 +126,79 @@ namespace MicroCrm.WebUI.Controllers
       {
         return Json(new { success = false, err = e.Message });
       }
+    }
+
+    public async Task<IActionResult> AddOrEdit(int id = 0, int companyId = 0, int contactId = 0)
+    {
+      Quotation model = new Quotation();
+
+      if (id > 0)
+        model = _quotationService.Queryable().FirstOrDefault(e => e.Id.Equals(id));
+
+      var selectlist = new List<SelectListItem>();
+      string filterRules = "";
+      var filters = PredicateBuilder.FromFilter<Company>(filterRules);
+      var datalist = (await _companyService.Query(filters)
+                           .OrderBy(n => n.OrderBy($"{"Id"}  {"desc"}"))
+                           .SelectAsync())
+                           .Select(n => new
+                           {
+                             Id = n.Id,
+                             FullName = n.FullName
+                           }).ToList();
+      foreach (var item in datalist)
+      {
+        selectlist.Add(new SelectListItem() { Text = item.FullName, Value = item.Id.ToString() });
+      }
+      ViewBag.Companies = selectlist;
+
+      selectlist = new List<SelectListItem>();
+      if (companyId > 0)
+      {
+        var datalist1 = _contactService.Queryable().Where(e => e.CompanyId.Equals(companyId))
+                           .OrderBy(n => n.Name)
+                           .Select(n => new { Id = n.Id, Name = n.Name, Title = n.Title, Department = n.Department }).ToList();
+        foreach (var item in datalist1)
+        {
+          selectlist.Add(new SelectListItem() { Text = item.Name + " (" + item.Title + "-" + item.Department + ")", Value = item.Id.ToString() });
+        }
+      }
+      else if (model.CompanyId > 0)
+      {
+        var datalist1 = _contactService.Queryable().Where(e => e.CompanyId.Equals(model.CompanyId))
+                           .OrderBy(n => n.Name)
+                           .Select(n => new { Id = n.Id, Name = n.Name, Title = n.Title, Department = n.Department }).ToList();
+        foreach (var item in datalist1)
+        {
+          selectlist.Add(new SelectListItem() { Text = item.Name + " (" + item.Title + "-" + item.Department + ")", Value = item.Id.ToString() });
+        }
+      }
+      ViewBag.Contacts = selectlist;
+
+      var role = (string)ViewBag.Role;
+      selectlist = new List<SelectListItem>();
+      selectlist.Add(new SelectListItem() { Text = "Pending", Value = "0" });
+      selectlist.Add(new SelectListItem() { Text = "On - going", Value = "1" });
+      selectlist.Add(new SelectListItem() { Text = "LOST", Value = "2" });
+      selectlist.Add(new SelectListItem() { Text = "SUBMIT", Value = "3" });
+      if (role.ToLower() == "admin")
+        selectlist.Add(new SelectListItem() { Text = "SOLD", Value = "4" });
+      ViewBag.ProjectStatus = selectlist;
+
+      if (contactId > 0)
+      {
+        var contact = _contactService.Queryable().FirstOrDefault(e => e.Id.Equals(contactId));
+        if(contact != null)
+        {
+          model.Department = contact.Department;
+          model.BusinessPhone = contact.BusinessPhone;
+          model.Ext = contact.Ext;
+          model.Phone = contact.Phone;
+          model.Email = contact.Email;
+        }
+      }
+
+        return PartialView(model);
     }
 
     [HttpPost]
@@ -112,12 +240,6 @@ namespace MicroCrm.WebUI.Controllers
       //}
       try
       {
-        var companyId = HttpContext.Session.GetInt32("CompanyId");
-        if (companyId != null)
-          request.CompanyId = companyId.Value;
-        //var contactId = HttpContext.Session.GetInt32("ContactId");
-        //if (contactId != null)
-        //  request.ContactId = contactId.Value;
         await this.mediator.Send(request);
         return Json(new { success = true });
       }
@@ -127,14 +249,14 @@ namespace MicroCrm.WebUI.Controllers
       }
     }
 
-      //Delete current record
-      //GET: Quotations/Delete/:id
-      [HttpGet]
+    //Delete current record
+    //GET: Quotations/Delete/:id
+    [HttpGet]
     public async Task<JsonResult> Delete(int id)
     {
       try
       {
-        await this.quotationService.DeleteAsync(id);
+        await _quotationService.DeleteAsync(id);
         await this.unitOfWork.SaveChangesAsync();
         return Json(new { success = true });
       }
@@ -153,7 +275,7 @@ namespace MicroCrm.WebUI.Controllers
       //{
       //  foreach (var key in id)
       //  {
-      //    await this.quotationService.DeleteAsync(key);
+      //    await _quotationService.DeleteAsync(key);
       //  }
       //  await this.unitOfWork.SaveChangesAsync();
       //  return Json(new { success = true });
@@ -185,7 +307,7 @@ namespace MicroCrm.WebUI.Controllers
           foreach (var item in quotations)
           {
 
-            this.quotationService.ApplyChanges(item);
+            _quotationService.ApplyChanges(item);
           }
           var result = await this.unitOfWork.SaveChangesAsync();
           return Json(new { success = true, result });
@@ -208,12 +330,13 @@ namespace MicroCrm.WebUI.Controllers
     {
       var fileName = "quotations_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xlsx";
       var filters = PredicateBuilder.FromFilter<Quotation>(filterRules);
-      var stream = await this.quotationService.Export(filters, sort, order);
+      var stream = await _quotationService.Export(filters, sort, order);
       return File(stream, "application/vnd.ms-excel", fileName);
     }
     //UploadImportExcel
     [HttpPost]
-    public async Task<JsonResult> ImportExcel(List<IFormFile> uploadfiles) {
+    public async Task<JsonResult> ImportExcel(List<IFormFile> uploadfiles)
+    {
       try
       {
         var total = 0m;
@@ -227,9 +350,9 @@ namespace MicroCrm.WebUI.Controllers
             var stream = new MemoryStream();
             await formFile.CopyToAsync(stream);
             stream.Seek(0, SeekOrigin.Begin);
-                  await this.quotationService.ImportData(stream);
-            total =await this.unitOfWork.SaveChangesAsync();
-    
+            await _quotationService.ImportData(stream);
+            total = await this.unitOfWork.SaveChangesAsync();
+
           }
         }
 
@@ -238,9 +361,10 @@ namespace MicroCrm.WebUI.Controllers
         var elapsedTime = watch.ElapsedMilliseconds.ToString();
         return Json(new { success = true, total, elapsedTime });
       }
-      catch (Exception e) {
+      catch (Exception e)
+      {
         this.Response.StatusCode = 500;
-        return Json(new { success = false, err=e.GetBaseException().Message });
+        return Json(new { success = false, err = e.GetBaseException().Message });
       }
     }
     //Download the template
@@ -265,6 +389,11 @@ namespace MicroCrm.WebUI.Controllers
       {
         throw new FileNotFoundException($"File {file} does not exist!");
       }
+    }
+    public async Task<IActionResult> Print(int id)
+    {
+      PrintQuotation model = new PrintQuotation();
+      return PartialView(model);
     }
   }
 }

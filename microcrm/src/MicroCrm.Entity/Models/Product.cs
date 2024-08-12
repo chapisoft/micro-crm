@@ -22,5 +22,9 @@ namespace MicroCrm.Domain.Models
     [Display(Name = "Price", Description = "Price", Prompt = "Price")]
     [Column(TypeName = "decimal(18, 2)")]
     public virtual  decimal UnitPrice { get; set; }
+    [Display(Name = "ImagePath", Description = "ImagePath", Prompt = "ImagePath")]
+    public virtual string ImagePath { get; set; }
+    [Display(Name = "Description", Description = "Description", Prompt = "Description")]
+    public virtual string Description { get; set; }
   }
 }

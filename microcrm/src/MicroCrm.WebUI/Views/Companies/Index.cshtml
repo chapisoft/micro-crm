@@ -89,7 +89,7 @@
     </div>
   </div>
 </div>
-<!-- 弹出窗体form表单 -->
+<!-- Pop-up form -->
 <div id="companydetailwindow" class="easyui-window"
      title="Detailed data"
      data-options="modal:true,
@@ -754,7 +754,7 @@
         if (this.$form.form('enableValidation').form('validate')) {
           let company = this.$form.serializeJSON();
           let url = '/Companies/Edit';
-          //判断是Added或是修改方法
+          //Determine whether it is added or modified method
           if (this.MODELSTATE === 'Added') {
             url = '/Companies/Create';
           }
@@ -787,7 +787,7 @@
             });
         }
       }
-      //Close窗口
+      //Close window
       closedetailwindow() {
         this.$detailwindow.window('close');
       }

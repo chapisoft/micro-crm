@@ -3737,10 +3737,10 @@
                 }
             },
             currency: {
-                prefix: "$ ",
+                //prefix: "$ ",
                 groupSeparator: ",",
                 alias: "numeric",
-                placeholder: "0",
+                //placeholder: "0",
                 autoGroup: true,
                 digits: 2,
                 digitsOptional: false,

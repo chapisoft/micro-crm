@@ -10,11 +10,11 @@
         <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade ">
           <div class="row no-gutters align-items-center">
             <div class="col">
-              <div class="btn-group btn-group-sm">
+              @*<div class="btn-group btn-group-sm">
                 <button name="closebutton" onclick="closeAqDetail()" class="btn btn-default">
                   <span class="fal fa-arrow-left mr-1"></span> Back
                 </button>
-              </div>
+              </div>*@
               <div class="btn-group btn-group-sm">
                 <button onclick="appendAqDetail()" class="btn btn-default">
                   <span class="fal fa-plus mr-1"></span> Add
@@ -265,7 +265,7 @@
           resizable: true,
 
         },
-        {    /*ShipFee*/
+        @*{    /*ShipFee*/
           field: 'ShipFee',
           title: '@Html.DisplayNameFor(model => model.ShipFee)',
           width: 150,
@@ -279,7 +279,7 @@
           sortable: true,
           resizable: true,
 
-        },
+        },*@
         {    /*Margin*/
           field: 'Margin',
           title: '@Html.DisplayNameFor(model => model.Margin)',
@@ -325,7 +325,7 @@
           resizable: true,
 
         },
-        {    /*ImportTax*/
+        @*{    /*ImportTax*/
           field: 'ImportTax',
           title: '@Html.DisplayNameFor(model => model.ImportTax)',
           width: 150,
@@ -354,7 +354,7 @@
           sortable: true,
           resizable: true,
 
-        },
+        },*@
         {    /*Amount*/
           field: 'Amount',
           title: '@Html.DisplayNameFor(model => model.Amount)',
@@ -384,7 +384,7 @@
     $('#panel-aqDetail .datagrid-view2').css('width', $dgWidth - 250);
 
     $('#panel-aqDetail').show();
-    $('#panel-quotation').hide();
+/*    $('#panel-quotation').hide();*/
   }
   //Download ExcelImport Template
 

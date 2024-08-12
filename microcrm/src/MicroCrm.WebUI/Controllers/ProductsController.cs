@@ -11,37 +11,45 @@ using MicroCrm.Domain.Models;
 using MicroCrm.Service;
 using MicroCrm.WebUI.Extensions;
 using URF.Core.Abstractions;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using MediatR;
+using Newtonsoft.Json;
+using MicroCrm.Application.Photos.Commands;
 
 namespace MicroCrm.WebUI.Controllers
 {
   public class ProductsController : Controller
   {
-    private  readonly IProductService productService;
-    private readonly IUnitOfWork unitOfWork;
+    private readonly IProductService _productService;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ProductsController> _logger;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IMediator _mediator;
     public ProductsController(IProductService productService,
           IUnitOfWork unitOfWork,
           IWebHostEnvironment webHostEnvironment,
+          IMediator mediator,
           ILogger<ProductsController> logger)
     {
-      this.productService = productService;
-      this.unitOfWork = unitOfWork;
-      this._logger = logger;
-      this._webHostEnvironment = webHostEnvironment;
+      _productService = productService;
+      _unitOfWork = unitOfWork;
+      _mediator = mediator;
+      _logger = logger;
+      _webHostEnvironment = webHostEnvironment;
     }
 
     // GET: Products
-    public IActionResult Index()=> View();
+    public IActionResult Index() => View();
     //data source
     public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
     {
       try
       {
         var filters = PredicateBuilder.FromFilter<Product>(filterRules);
-        var total = await this.productService
+        var total = await _productService
                              .Query(filters).CountAsync();
-        var pagerows = (await this.productService
+        var pagerows = (await _productService
                              .Query(filters)
                            .OrderBy(n => n.OrderBy($"{sort} {order}"))
                            .Skip((page - 1) * rows).Take(rows).SelectAsync())
@@ -49,9 +57,10 @@ namespace MicroCrm.WebUI.Controllers
         var pagelist = new { total = total, rows = pagerows };
         return Json(pagelist);
       }
-      catch(Exception e) {
+      catch (Exception e)
+      {
         throw e;
-        }
+      }
 
     }
     //Edit 
@@ -63,11 +72,11 @@ namespace MicroCrm.WebUI.Controllers
       {
         try
         {
-          this.productService.Update(product);
-          var result = await this.unitOfWork.SaveChangesAsync();
+          _productService.Update(product);
+          var result = await _unitOfWork.SaveChangesAsync();
           return Json(new { success = true, result = result });
         }
-         catch (Exception e)
+        catch (Exception e)
         {
           return Json(new { success = false, err = e.GetBaseException().Message });
         }
@@ -83,16 +92,16 @@ namespace MicroCrm.WebUI.Controllers
     //新建
     [HttpPost]
     [ValidateAntiForgeryToken]
-   
-    public async Task<JsonResult> Create([Bind("Name,Model,Unit,UnitPrice")] Product product)
+
+    public async Task<JsonResult> Create([Bind("Name,Model,Unit,UnitPrice,Description")] Product product)
     {
       if (ModelState.IsValid)
       {
         try
         {
-          this.productService.Insert(product);
-       await this.unitOfWork.SaveChangesAsync();
-          return Json(new { success = true});
+          _productService.Insert(product);
+          await _unitOfWork.SaveChangesAsync();
+          return Json(new { success = true });
         }
         catch (Exception e)
         {
@@ -103,7 +112,7 @@ namespace MicroCrm.WebUI.Controllers
         //return RedirectToAction("Index");
       }
       else
-       {
+      {
         var modelStateErrors = string.Join(",", this.ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(n => n.ErrorMessage)));
         return Json(new { success = false, err = modelStateErrors });
         //DisplayErrorMessage(modelStateErrors);
@@ -117,11 +126,11 @@ namespace MicroCrm.WebUI.Controllers
     {
       try
       {
-        await this.productService.DeleteAsync(id);
-        await this.unitOfWork.SaveChangesAsync();
+        await _productService.DeleteAsync(id);
+        await _unitOfWork.SaveChangesAsync();
         return Json(new { success = true });
       }
-     
+
       catch (Exception e)
       {
         return Json(new { success = false, err = e.GetBaseException().Message });
@@ -135,9 +144,9 @@ namespace MicroCrm.WebUI.Controllers
       {
         foreach (var key in id)
         {
-          await this.productService.DeleteAsync(key);
+          await _productService.DeleteAsync(key);
         }
-        await this.unitOfWork.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
         return Json(new { success = true });
       }
       catch (Exception e)
@@ -155,9 +164,9 @@ namespace MicroCrm.WebUI.Controllers
         {
           foreach (var item in products)
           {
-            this.productService.ApplyChanges(item);
+            _productService.ApplyChanges(item);
           }
-          var result = await this.unitOfWork.SaveChangesAsync();
+          var result = await _unitOfWork.SaveChangesAsync();
           return Json(new { success = true, result });
         }
         catch (Exception e)
@@ -178,7 +187,7 @@ namespace MicroCrm.WebUI.Controllers
     {
       var fileName = "Product" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xlsx";
       var filters = PredicateBuilder.FromFilter<Product>(filterRules);
-      var stream = await this.productService.Export(filters, sort, order);
+      var stream = await _productService.Export(filters, sort, order);
       return File(stream, "application/vnd.ms-excel", fileName);
     }
     //Importexcel
@@ -208,10 +217,10 @@ namespace MicroCrm.WebUI.Controllers
             {
               Directory.CreateDirectory(path);
             }
-         
-            await this.productService.ImportData(file.OpenReadStream());
-            total =await this.unitOfWork.SaveChangesAsync();
-      
+
+            await _productService.ImportData(file.OpenReadStream());
+            total = await _unitOfWork.SaveChangesAsync();
+
             if (autosave)
             {
               var filepath = Path.Combine(path, filename);
@@ -228,23 +237,25 @@ namespace MicroCrm.WebUI.Controllers
         watch.Stop();
         return Json(new { success = true, total = total, elapsedTime = watch.ElapsedMilliseconds });
       }
-      catch (Exception e) {
+      catch (Exception e)
+      {
         Response.StatusCode = 500;
         this._logger.LogError(e, "ExcelImportFail");
-        return this.Json(new { success = false,  err = e.GetBaseException().Message });
+        return this.Json(new { success = false, err = e.GetBaseException().Message });
       }
-        }
+    }
     //Download the template
-    public async Task<IActionResult> Download(string file) {
-       
+    public async Task<IActionResult> Download(string file)
+    {
+
       this.Response.Cookies.Append("fileDownload", "true");
       var path = Path.Combine(this._webHostEnvironment.ContentRootPath, file);
       var downloadFile = new FileInfo(path);
       if (downloadFile.Exists)
       {
-       var fileName = downloadFile.Name;
-       var mimeType = MimeTypeConvert.FromExtension(downloadFile.Extension);
-       var fileContent = new byte[Convert.ToInt32(downloadFile.Length)];
+        var fileName = downloadFile.Name;
+        var mimeType = MimeTypeConvert.FromExtension(downloadFile.Extension);
+        var fileContent = new byte[Convert.ToInt32(downloadFile.Length)];
         using (var fs = downloadFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
         {
           await fs.ReadAsync(fileContent, 0, Convert.ToInt32(downloadFile.Length));
@@ -256,6 +267,59 @@ namespace MicroCrm.WebUI.Controllers
         throw new FileNotFoundException($"File {file} does not exist!");
       }
     }
-
+    public async Task<JsonResult> SetProduct(int id = 0)
+    {
+      try
+      {
+        if (id > 0)
+          HttpContext.Session.SetInt32("ProductId", id);
+        return Json(new { success = true });
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.Message });
+      }
     }
+
+    [HttpPost]
+    public async Task<JsonResult> Upload(List<IFormFile> file, string name, string tag)
+    {
+      var id = HttpContext.Session.GetInt32("ProductId");
+      if (id > 0)
+      {
+        try
+        {
+          Product product = _productService.Queryable().FirstOrDefault(e => e.Id.Equals(id));
+          if (product == null)
+            return Json(new { success = false, err = "Product invalid" });
+          var fi = file[0];
+          var path = Path.Combine(_webHostEnvironment.WebRootPath, "photos\\products");
+          var filename = fi.FileName;
+          var stream = new MemoryStream();
+          await fi.CopyToAsync(stream);
+          stream.Seek(0, SeekOrigin.Begin);
+          var request = new AddPhotoCommand()
+          {
+            FileName = filename,
+            Stream = stream,
+            Path = path,
+            Size = stream.Length
+          };
+          await _mediator.Send(request);
+
+          product.ImagePath = "photos/products/" + filename;
+          _productService.Update(product);
+          var result = await _unitOfWork.SaveChangesAsync();
+          return Json(new { success = true, result = product.ImagePath });
+        }
+        catch (Exception e)
+        {
+          return Json(new { success = false, err = e.GetBaseException().Message });
+        }
+      }
+      else
+        return Json(new { success = false, err = "Product invalid" });
+    }
+
+  }
 }

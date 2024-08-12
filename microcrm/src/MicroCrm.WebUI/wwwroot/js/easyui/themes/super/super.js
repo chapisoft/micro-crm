@@ -1,4 +1,4 @@
-/*easyui样式初始化*/
+/*easyui样式initialization*/
 $.fn.tabs.defaults.tabHeight = 32; //tab标签条高度
 $.fn.linkbutton.defaults.height = 32; //按钮高度
 $.fn.menu.defaults.itemHeight = 28; //menu高度

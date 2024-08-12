@@ -9,7 +9,7 @@
     QQ交流群：184075694 （优先发布SaveTheme及内测包）
 */
 
-/*初始化部分开始*/
+/*initialization部分开始*/
 html,body{ height:100%;}
 body{
 	/*font-family:verdana,helvetica,arial,sans-serif;*/
@@ -80,7 +80,7 @@ i, cite, em, var, address, dfn {/*斜体*/
   -moz-osx-font-smoothing: grayscale;
 }
 
-/*初始化部分结束*/
+/*initialization部分结束*/
 
 /*头部公共框架*/
 #theme-login-layout .layout-panel-north .layout-body,

@@ -88,7 +88,72 @@
     </div>
   </div>
 </div>
-<!-- 弹出窗体form表单 -->
+
+@*<div class="modal fade" id="uploadfilesmodal" role="dialog" aria-hidden="true" style="z-index: 9999;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            Photo upload
+          </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"><i class="fal fa-times"></i></span>
+          </button>
+        </div>
+        <div class="modal-body pb-0 pt-0">
+          <div id="slimscroll">
+            <div id="file_empty_div" class="plfile_empty_div">
+              <span style="color: Dodgerblue;"><i class="fal fa-exclamation-circle"></i></span> Please use the [Select File] button to select the file.
+            </div>
+            <ul id="filelist"></ul>
+          </div>
+          <div id="plupload_max_size_alert" class="alert alert-primary mb-0  fw-300 fs-sm p-2  d-none" role="alert">
+            <strong>Success</strong> Please keep the uploaded file size within 20MB.
+          </div>
+          <input id="fileupload" type="file" name="fileupload" multiple style="display: none" />
+
+        </div>
+        <div class="modal-footer">
+          <button id="selectuploadfilesbtn" type="button" class="btn btn-info">Select a document</button>
+          <button id="postuploadfilesbtn" type="button" class="btn btn-primary">Upload</button>
+        </div>
+      </div>
+    </div>
+  </div>*@
+
+<div class="modal fade" id="photoviewmodal" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          Preview photos
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><i class="fal fa-times"></i></span>
+        </button>
+      </div>
+      <div class="modal-body pb-0 pt-0">
+        <div class="card" id="photo_card">
+          <div id="photo-container">
+          </div>
+          @*<img id="photo_img" class="card-img-top" />*@
+          @*<canvas id="photo-canvas" style="width:456px;height:400px"></canvas>*@
+          <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text" id="detectedresult"></p>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button onclick="predict()" id="detectbutton" disabled type="button" class="btn btn-info">Detect</button>
+        <button onclick="test()" id="testbutton" disabled type="button" class="btn btn-primary">Test</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pop-up form -->
 <div id="productdetailwindow" class="easyui-window"
      title="Detailed data"
      data-options="modal:true,
@@ -100,7 +165,7 @@
                     onBeforeClose:function(){
                       var that = $(this);
                       if(producthasmodified()){
-                        $.messager.confirm('Confirm','Do you want to abandon the record of Accept modification?',function(r){
+                        $.messager.confirm('Confirm','Do you want to cancel?',function(r){
                         if (r){
                           var opts = that.panel('options');
                           var onBeforeClose = opts.onBeforeClose;
@@ -121,7 +186,7 @@
                     },
                     onMaximize:function(){
                     }
-                    " style="width:820px;height:420px;display:none">
+                    " style="width: 1024px; height: 800px; display: none; z-index: 900;">
   <!-- toolbar -->
   <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade sticky-top">
     <div class="d-flex flex-row-reverse pr-4">
@@ -155,10 +220,11 @@
           @Html.AntiForgeryToken()
           <!--Primary Key-->
           @Html.HiddenFor(model => model.Id)
+          @Html.HiddenFor(model => model.Description)
           <fieldset class="form-group">
             <!-- begin row -->
             <!--Name-->
-            <div class="row h-100 justify-content-center align-items-center">
+            <div class="row h-100">
               <label class="col-md-2 pr-1 form-label text-right"><span class="text-danger">*</span> @Html.DisplayNameFor(model => model.Name)</label>
               <div class="col-md-4 mb-1 pl-1">
                 <input id="@Html.IdFor(model => model.Name)"
@@ -168,10 +234,7 @@
                        class="easyui-textbox"
                        style="width:100%"
                        type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Name)',
-								 required:true,
-                                 validType: 'length[0,128]'
-                                 " />
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Name)', required:true, validType: 'length[0,128]'" />
               </div>
               <label class="col-md-2 pr-1 form-label text-right ">@Html.DisplayNameFor(model => model.Model)</label>
               <div class="col-md-4 mb-1 pl-1">
@@ -182,9 +245,7 @@
                        class="easyui-textbox"
                        style="width:100%"
                        type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Model)',
-								 required:true,validType: 'length[0,60]'
-                                 " />
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Model)', required:true,validType: 'length[0,60]'" />
               </div>
               <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Unit)</label>
               <div class="col-md-4 mb-1 pl-1">
@@ -195,10 +256,7 @@
                        class="easyui-textbox"
                        style="width:100%"
                        type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Unit)',
-								 required:false,
-                                 validType: 'length[0,10]'
-                                 " />
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Unit)', required:false, validType: 'length[0,10]'" />
               </div>
               <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.UnitPrice)</label>
               <div class="col-md-4 mb-1 pl-1">
@@ -209,11 +267,39 @@
                        class="easyui-numberbox"
                        style="width:100%"
                        type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.UnitPrice)',
-								 required:true, formatter:numberformatter,parser:parsernumber
-                                 " />
+                       data-options="prompt:'@Html.DescriptionFor(model => model.UnitPrice)', required:true, formatter:numberformatter,parser:parsernumber" />
               </div>
-
+              <label class="col-md-2 pr-1 form-label text-right">Image</label>
+              <div class="col-md-10 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.ImagePath)"
+                       name="@Html.NameFor(model => model.ImagePath)"
+                       value="@Html.ValueFor(model => model.ImagePath)"
+                       tabindex="0"
+                       class="easyui-textbox"
+                       type="text" />
+                <image id="imgProduct" src='' style="width: 80px;"></image>
+                <button onclick="openuploadfile()" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Upload Image"><i class="fal fa-cloud-upload"></i> </button>
+                <div id="div-uploadfiles" style="display: none;">
+                  <div id="slimscroll">
+                    <div id="file_empty_div" class="plfile_empty_div">
+                      <span style="color: Dodgerblue;"><i class="fal fa-exclamation-circle"></i></span> Please use the [Select File] button to select the file.
+                    </div>
+                    <ul id="filelist"></ul>
+                  </div>
+                  <div id="plupload_max_size_alert" class="alert alert-primary mb-0  fw-300 fs-sm p-2  d-none" role="alert">
+                    <strong>Success</strong> Please keep the uploaded file size within 20MB.
+                  </div>
+                  <input id="fileupload" type="file" name="fileupload" multiple style="display: none" />
+                  <div class="btn-group btn-group-sm">
+                    <button id="selectuploadfilesbtn" class="btn btn-info waves-effect waves-themed">Select file</button>
+                    <button id="postuploadfilesbtn" class="btn btn-info waves-effect waves-themed">Upload</button>
+                  </div>
+                </div>
+              </div>
+              <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Description)</label>
+              <div class="col-md-10 mb-1 pl-1">
+                <div class="js-summernote" id="txtDescription"></div>
+              </div>
             </div>
           </fieldset>
         </form>
@@ -222,21 +308,21 @@
   </div>
 </div>
 
-
 @await Component.InvokeAsync("ImportExcel", new ImportExcelOptions
 {
   entity = "Product",
   folder = "Products",
   url = "/Products",
   tpl = "Product.xlsx",
-  callback="reload()"
+  callback = "reload()"
 
 })
 
 @section HeadBlock {
-  
+
   <link href="~/css/formplugins/bootstrap-daterangepicker/bootstrap-daterangepicker.css" rel="stylesheet" asp-append-version="true" />
   <link href="~/js/easyui/themes/insdep/easyui.css" rel="stylesheet" asp-append-version="true" />
+  <link href="~/css/formplugins/summernote/summernote.css" rel="stylesheet" asp-append-version="true" />
 }
 @section ScriptsBlock {
   <script src="~/js/dependency/numeral/numeral.min.js" asp-append-version="true"></script>
@@ -250,15 +336,22 @@
   <script src="~/js/plugin/jquery.serializejson/jquery.serializejson.js" asp-append-version="true"></script>
   <script src="~/js/jquery.custom.extend.js" asp-append-version="true"></script>
   <script src="~/js/jquery.extend.formatter.js" asp-append-version="true"></script>
+  <script src="~/js/formplugins/summernote/summernote.js" asp-append-version="true"></script>
+
+  <script src="~/js/plugin/plupload/plupload.full.min.js"></script>
+  <script src="~/js/plugin/plupload/jquery.plupload.queue/jquery.plupload.queue.min.js"></script>
+  <script src="~/js/plugin/plupload/jquery.ui.plupload/jquery.ui.plupload.min.js"></script>
+
   <script>
     //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
       $dg.treegrid('resize');
     });
-        var $dg = $('#companies_datagrid');
-        var EDITINLINE = true;
-        var product = null;
+    var $dg = $('#companies_datagrid');
+    var EDITINLINE = false;
+    var product = null;
     var editIndex = undefined;
+
     //Download ExcelImport Template
 
     //Execute Export to download Excel
@@ -292,8 +385,12 @@
             //Added records
     function appendItem() {
       product = {
-        Address: '-',
-        RegisterDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+        Name: '',
+        Model: '',
+        Unit: '',
+        UnitPrice: '',
+        ImagePath: '',
+        Description: ''
       };
       if (!EDITINLINE) {
         //The Added window pops up
@@ -454,9 +551,37 @@
       hook = false;
     }
     $(document).ready(function () {
+      //$('#div-uploadfiles').hide();
+      //init summernote
+      $('.js-summernote').summernote({
+        height: 400,
+        tabsize: 2,
+        placeholder: "Type here...",
+        dialogsFade: true,
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['strikethrough', 'superscript', 'subscript']],
+          ['font', ['bold', 'italic', 'underline', 'clear']],
+          ['fontsize', ['fontsize']],
+          ['fontname', ['fontname']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']]
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ],
+        callbacks: {
+          onChange: function (contents, $editable) {
+            hook = true;
+            $('button[name*=\'saveitembutton\']').prop('disabled', false);
+          }
+        }
+      });
+
       //Define the datagrid structure
       $dg.datagrid({
-        rownumbers: true,
+        //rownumbers: true,
         checkOnSelect: false,
         selectOnCheck: false,
         idField: 'Id',
@@ -528,8 +653,28 @@
           $("button[name*='cancelbutton']").prop('disabled', true);
           $(this).datagrid('refreshRow', index);
         },
-        frozenColumns: [[
-          /*Enable CheckBox selection function*/
+        //frozenColumns: [[
+        //  /*Enable CheckBox selection function*/
+        //  { field: 'ck', checkbox: true },
+        //  {
+        //    field: 'action',
+        //    title: 'Operate',
+        //    width: 85,
+        //    sortable: false,
+        //    resizable: true,
+        //    formatter: function showdetailsformatter(value, row, index) {
+        //      if (!row.editing) {
+        //        return `<div class="btn-group">\
+        //                                                 <button onclick="showDetailsWindow('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
+        //                                                 <button onclick="deleteRows(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
+        //                                            </div>`;
+        //      } else {
+        //        return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
+        //      }
+        //    }
+        //  }
+        //]],
+        columns: [[
           { field: 'ck', checkbox: true },
           {
             field: 'action',
@@ -547,9 +692,7 @@
                 return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
               }
             }
-          }
-        ]],
-        columns: [[
+          },
           {    /*Name*/
             field: 'Name',
             title: '<span class="text-danger">*<span> @Html.DisplayNameFor(model => model.Name)',
@@ -562,7 +705,7 @@
             sortable: true,
             resizable: true
           },
-          {    /*规格型号*/
+          {    /*Model*/
             field: 'Model',
             title: '@Html.DisplayNameFor(model => model.Model)',
             width: 120,
@@ -574,7 +717,7 @@
             sortable: true,
             resizable: true
           },
-          {    /*单位*/
+          {    /*Unit*/
             field: 'Unit',
             title: '@Html.DisplayNameFor(model => model.Unit)',
             width: 200,
@@ -586,39 +729,80 @@
             sortable: true,
             resizable: true
           },
-          {    /*单价*/
+          {    /*UnitPrice*/
             field: 'UnitPrice',
             title: '@Html.DisplayNameFor(model => model.UnitPrice)',
             width: 120,
             hidden: false,
             editor: {
               type: 'numberbox',
-              options: { prompt: '@Html.DescriptionFor(model => model.UnitPrice)', required: true}
+              options: { prompt: '@Html.DescriptionFor(model => model.UnitPrice)', required: true }
             },
             sortable: true,
             resizable: true,
             formatter: numberformatter
+          },
+          {    /*ImagePath*/
+            field: 'ImagePath',
+            title: '@Html.DisplayNameFor(model => model.ImagePath)',
+            width: 200,
+            hidden: false,
+            @*editor: {
+              type: 'numberbox',
+              options: { prompt: '@Html.DescriptionFor(model => model.ImagePath)'}
+            },*@
+            formatter: function showdetailsformatter(value, row, index) {
+              if (!row.editing) {
+                return `<image src='${row.ImagePath}' style="width: 80px;"></image>`;
+                //return `<span>${row.ImagePath}</span><div class="btn-group float-right"">\
+                //        <button onclick="openuploadfilemodal('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Upload Image"><i class="fal fa-cloud-upload"></i> </button>
+                //        </div>`;
+              }
+            },
+            sortable: false,
+            resizable: true
+          },
+          {    /*Description*/
+            field: 'Description',
+            title: '@Html.DisplayNameFor(model => model.Description)',
+            width: 200,
+            hidden: true,
+            editor: {
+              type: 'numberbox',
+              options: { prompt: '@Html.DescriptionFor(model => model.Description)' }
+            },
+            sortable: false,
+            resizable: true
           }
         ]]
       })
         .datagrid('enableFilter', [
         ])
         .datagrid('load', '/Products/GetData');
-    }
-    );
+    });
 
   </script>
   <script type="text/javascript">
-    //判断AddedEditStatus
+    //Determine Added Edit Status
     var MODELSTATE = 'Added';
     var productid = null;
     function openProductDetailWindow(data, state) {
       MODELSTATE = state;
       initproductdetailview();
       productid = (data.Id || 0);
-      $("#productdetailwindow").window("open");
-      $('#product_form').form('reset');
-      $('#product_form').form('load', data);
+      const url = '/Products/SetProduct?id=' + productid;
+      $('#imgProduct').attr("src", data.ImagePath);
+      $.get(url).done(res => {
+        if (res.success) {
+          console.log(data);
+          $("#productdetailwindow").window("open");
+          $('#product_form').form('reset');
+          $('#product_form').form('load', data);
+          $('.js-summernote').summernote("code", data.Description);
+        } else {
+          $.messager.alert("Error", res.err, "error");
+        }
+      });
     }
     //Delete current record
     function deleteproductitem() {
@@ -637,13 +821,14 @@
         }
       });
     }
-    //async Accept数据
+    //async accept data
     async function saveproductitem() {
       const $productform = $('#product_form');
       if ($productform.form('enableValidation').form('validate')) {
         let product = $productform.serializeJSON();
+        product.Description = $('.js-summernote').summernote("code");
         let url = '/Products/Edit';
-        //判断是Added或是修改方法
+        //Determine whether it is added or modified method
         if (MODELSTATE === 'Added') {
           url = '/Products/Create';
         }
@@ -677,20 +862,142 @@
           });
       }
     }
-    //Close窗口
+    //Close window
     function closeproductdetailwindow() {
       $('#productdetailwindow').window('close');
     }
 
-    //判断是否有没有Accept的记录
+    //Determine whether there is a record of Accept
     function producthasmodified() {
       return hook;
     }
 
 
     function initproductdetailview() {
-      //判断是否Show功能按钮
+      //Determine whether to show the function button
 
     }
+
+    function openuploadfile() {
+      $('#div-uploadfiles').toggle();
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+      $('#slimscroll').slimScroll({
+        height: '100px',
+        railVisible: true,
+        alwaysVisible: false,
+      });
+      var uploader = new plupload.Uploader({
+        runtimes: 'html5,flash,silverlight,html4',
+        filters: {
+          max_file_size: "20mb"
+        },
+        browse_button: 'selectuploadfilesbtn', // this can be an id of a DOM element or the DOM element itself
+        url: '/Products/Upload'
+      });
+      uploader.init();
+      //Verify file size
+      plupload.addFileFilter('max_file_size', function (maxSize, file, cb) {
+        var undef;
+        if (file.size !== undef && maxSize && file.size > plupload.parseSize(maxSize)) {
+          this.trigger('Error', {
+            code: plupload.FILE_SIZE_ERROR,
+            message: plupload.translate('File size error.'),
+            file: file
+          });
+          cb(false);
+        } else {
+          cb(true);
+        }
+      });
+      //initialization
+      uploader.bind('Init', function (up) {
+        $('#plupload_max_size_alert').addClass('d-none');
+      });
+      //Setting post parameters
+      uploader.bind('BeforeUpload', function (up) {
+        up.settings.multipart_params.tags = '';
+      });
+      //Click Select a document
+      uploader.bind('Browse', function () {
+        $('#plupload_max_size_alert').addClass('d-none');
+      });
+      //Multi-part Upload
+      uploader.bind('ChunkUploaded', function (up, file, info) {
+        console.log(up, file, info)
+      });
+      //Catching Errors
+      uploader.bind('Error', function (up, error) {
+        console.log(up, error)
+        if (error.code == -600) {
+          $('#plupload_max_size_alert').removeClass('d-none')
+        } else {
+          bootbox.alert(`Error:${error.message}`);
+        }
+      });
+      //Add Files
+      uploader.bind('FilesAdded', function (up, files) {
+        $('#file_empty_div').hide()
+        var html = '';
+        plupload.each(files, function (file) {
+          html += ` <li id="${file.id}"  >
+                                            <span class="plupload_filename">${file.name}</span>
+                                            <span id="filesize" class="plupload_filesize">(size:${plupload.formatSize(file.size)})</span>
+                                            <span id="plfilesize" class="plupload_d-none">${plupload.formatSize(file.size)}</span>
+                                            <span id="remove" class="plupload_fileremove">
+                                                        <a href="javascript:void(0);" class="btn btn-outline-info btn-xs btn-icon waves-effect waves-themed">
+                                                            <i class="fal fa-times"></i>
+                                                        </a>
+                                            </span>
+                                            <span id="progress" class="plupload_fileprogress"></span>
+                                            </li>`
+          //html += '<li id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></li>';
+        });
+        document.getElementById('filelist').innerHTML += html;
+      });
+      //Delete files in the queue
+      $(document).on('click', '#remove', function (e) {
+        var li = $(this).closest('li');
+        var fileid = li.attr('id');
+        uploader.removeFile(fileid);
+        li.remove()
+        if ($('ul#filelist li').length == 0) {
+          $('#file_empty_div').show();
+        }
+      });
+      //Show progress
+      uploader.bind('UploadProgress', function (up, file) {
+        $(`li#${file.id} > .plupload_fileprogress`).text(file.percent + " %")
+
+      });
+      uploader.bind('BeforeChunkUpload', function (up, file) {
+        //console.log('BeforeChunkUpload', up, file)
+
+      });
+
+      //Complete Upload
+      uploader.bind('UploadComplete', function (up, files) {
+        var filename = up.files[0].name;
+        $('#productdetailwindow #ImagePath').val('photos/products/' + filename);
+        $("#productdetailwindow input[name='ImagePath']").val('photos/products/' + filename);
+        $('#imgProduct').attr("src", 'photos/products/' + filename);
+        //$("#productdetailwindow input[name='ImagePath']").parent().closest('input').val('photos/products/' + filename);
+        $('#plupload_max_size_alert').addClass('d-none');
+        $('#uploadfilesmodal').modal('toggle')
+        uploader.files.forEach(function (item) {
+          uploader.removeFile(item);
+          $(`ul#filelist #${item.id}`).remove();
+        });
+        $('#file_empty_div').show();
+        $('#div-uploadfiles').hide();
+        //reload()
+      });
+      //Start Upload
+      $('#postuploadfilesbtn').click(function () {
+        uploader.start();
+      });
+    });
   </script>
 }
