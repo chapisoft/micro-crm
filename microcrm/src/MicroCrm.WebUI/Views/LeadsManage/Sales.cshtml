@@ -1,6 +1,8 @@
 ﻿@model MicroCrm.Domain.Models.Project
 @{
-  Layout = null;
+    Layout = null;
+    var role = (string)ViewBag.Role;
+    string username = (string)ViewBag.User;
 }
 <div class="row">
   <div class="col-lg-12 col-xl-12">
@@ -89,7 +91,7 @@
       onSelect: function (index, row) {
         sale = row;
       },
-      frozenColumns: [[
+      columns: [[
         { field: 'ck', checkbox: true },
         {
           field: 'action',
@@ -104,9 +106,7 @@
               return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
             }
           }
-        }
-      ]],
-      columns: [[
+        },
         {    /*Name*/
           field: 'Name',
           title: '@Html.DisplayNameFor(model => model.Name)',

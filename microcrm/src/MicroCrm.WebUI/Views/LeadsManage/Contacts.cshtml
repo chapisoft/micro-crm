@@ -1,6 +1,8 @@
 ﻿@model MicroCrm.Domain.Models.Contact
 @{
   Layout = null;
+  var role = (string)ViewBag.Role;
+  string username = (string)ViewBag.User;
 }
 <div class="row">
   <div class="col-lg-12 col-xl-12">
@@ -42,16 +44,16 @@
                 </div>
               </div>
               @*<div class="btn-group btn-group-sm hidden-xs">
-                <button type="button" onclick="importExcel.upload()" class="btn btn-default"><span class="fal fa-cloud-upload mr-1"></span> Import </button>
-                <button type="button" class="btn btn-default  dropdown-toggle dropdown-toggle-split waves-effect waves-themed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <div class="dropdown-menu dropdown-menu-animated">
-                  <a class="dropdown-item js-waves-on" href="javascript:importExcel.downloadtemplate()">
-                    <span class="fal fa-download"></span> Download the template
-                  </a>
-                </div>
-              </div>*@
+                  <button type="button" onclick="importExcel.upload()" class="btn btn-default"><span class="fal fa-cloud-upload mr-1"></span> Import </button>
+                  <button type="button" class="btn btn-default  dropdown-toggle dropdown-toggle-split waves-effect waves-themed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-animated">
+                    <a class="dropdown-item js-waves-on" href="javascript:importExcel.downloadtemplate()">
+                      <span class="fal fa-download"></span> Download the template
+                    </a>
+                  </div>
+                </div>*@
               <div class="btn-group btn-group-sm hidden-xs">
                 <button onclick="exportExcelContact()" class="btn btn-default">
                   <span class="fal fa-file-export mr-1"></span>  Export
@@ -188,7 +190,7 @@
         $("button[name*='cancelbutton']").prop('disabled', true);
         $(this).datagrid('refreshRow', index);
       },
-      frozenColumns: [[
+      columns: [[
         { field: 'ck', checkbox: true },
         {
           field: 'action',
@@ -197,7 +199,7 @@
           sortable: false,
           resizable: true,
           formatter: function showdetailsformatter(value, row, index) {
-            if (!row.editing) {
+            if (!row.editing && ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()')) {
               return `<div class="btn-group">\
                                                          <button onclick="showDetailsWindowContact('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
                                                          <button onclick="deleteRowsContact(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
@@ -206,9 +208,7 @@
               return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
             }
           }
-        }
-      ]],
-      columns: [[
+        },
         {    /*Id*/
           field: 'Id',
           title: 'Code',
@@ -304,9 +304,16 @@
           title: '@Html.DisplayNameFor(model => model.BusinessPhone)',
           width: 120,
           hidden: false,
-          editor: {
+          @*editor: {
             type: 'textbox',
             options: { prompt: '@Html.DescriptionFor(model => model.BusinessPhone)', required: false, validType: 'length[0,50]' }
+          },*@
+          formatter: function showdetailsformatter(value, row, index) {
+            if ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()') {
+              return row.BusinessPhone;
+            } else {
+              return (row.BusinessPhone !== undefined && row.BusinessPhone.length > 4) ? row.BusinessPhone.substring(4) + "xxx" : "";
+            }
           },
           sortable: true,
           resizable: true,
@@ -317,9 +324,16 @@
           title: '@Html.DisplayNameFor(model => model.Ext)',
           width: 120,
           hidden: false,
-          editor: {
+          @*editor: {
             type: 'textbox',
             options: { prompt: '@Html.DescriptionFor(model => model.Ext)', required: false, validType: 'length[0,20]' }
+          },*@
+          formatter: function showdetailsformatter(value, row, index) {
+            if ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()') {
+              return row.Ext;
+            } else {
+              return "xxx";
+            }
           },
           sortable: true,
           resizable: true,
@@ -330,13 +344,19 @@
           title: '@Html.DisplayNameFor(model => model.Email)',
           width: 120,
           hidden: false,
-          editor: {
+          @*editor: {
             type: 'textbox',
             options: { prompt: '@Html.DescriptionFor(model => model.Email)', required: false, validType: 'length[0,50]' }
+          },*@
+          formatter: function showdetailsformatter(value, row, index) {
+            if ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()') {
+              return row.Email;
+            } else {
+              return (row.Email !== undefined && row.Email.length > 6) ? row.Email.substring(6) + "xxx" : "";
+            }
           },
           sortable: true,
           resizable: true,
-
         }
       ]]
     })
@@ -349,7 +369,7 @@
     $('#panel-contact .datagrid-view').css('width', '100%');
     $('#panel-contact .datagrid-view').css('height', '400px');
     $('#panel-contact .datagrid-view1').css('width', '155px');
-    $('#panel-contact .datagrid-view2').css('width', $dgWidth - 250);
+    $('#panel-contact .datagrid-view2').css('width', $dgWidth);
 
     closeAqDetail()
   }

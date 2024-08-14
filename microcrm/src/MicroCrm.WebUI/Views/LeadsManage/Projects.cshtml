@@ -1,6 +1,8 @@
 ﻿@model MicroCrm.Domain.Models.Project
 @{
-  Layout = null;
+    Layout = null;
+    var role = (string)ViewBag.Role;
+    string username = (string)ViewBag.User;
 }
 <div class="row">
   <div class="col-lg-12 col-xl-12">
@@ -187,7 +189,7 @@
         $("button[name*='cancelbutton']").prop('disabled', true);
         $(this).datagrid('refreshRow', index);
       },
-      frozenColumns: [[
+      columns: [[
         { field: 'ck', checkbox: true },
         {
           field: 'action',
@@ -196,22 +198,20 @@
           sortable: false,
           resizable: true,
           formatter: function showdetailsformatter(value, row, index) {
-            if (!row.editing) {
+            if (!row.editing && ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()')) {
               return `<div class="btn-group">\
-                                                         <button onclick="showDetailsWindowProject('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
-                                                         <button onclick="deleteRowsProject(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
-                                                    </div>`;
+                            <button onclick="showDetailsWindowProject('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
+                            <button onclick="deleteRowsProject(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
+                      </div>`;
             } else {
               return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
             }
           }
-        }
-      ]],
-      columns: [[
+        },
         {    /*Name*/
           field: 'Name',
           title: '@Html.DisplayNameFor(model => model.Name)',
-          minWidth: 200,
+          width: 200,
           hidden: false,
           editor: {
             type: 'textbox',
@@ -368,7 +368,7 @@
     $('#panel-project .datagrid-view').css('width', '100%');
     $('#panel-project .datagrid-view').css('height', '400px');
     $('#panel-project .datagrid-view1').css('width', '155px');
-    $('#panel-project .datagrid-view2').css('width', $dgWidth - 250);
+    $('#panel-project .datagrid-view2').css('width', $dgWidth);
 
     closeAqDetail()
   }

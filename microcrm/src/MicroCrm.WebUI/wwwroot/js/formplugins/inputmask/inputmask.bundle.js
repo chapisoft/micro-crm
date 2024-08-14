@@ -3736,36 +3736,37 @@
                     }
                 }
             },
-            currency: {
-                //prefix: "$ ",
-                groupSeparator: ",",
-                alias: "numeric",
-                //placeholder: "0",
-                autoGroup: true,
-                digits: 2,
-                digitsOptional: false,
-                clearMaskOnLostFocus: false
-            },
-            decimal: {
-                alias: "numeric"
-            },
-            integer: {
-                alias: "numeric",
-                digits: 0,
-                radixPoint: ""
-            },
-            percentage: {
-                alias: "numeric",
-                digits: 2,
-                digitsOptional: true,
-                radixPoint: ".",
-                placeholder: "0",
-                autoGroup: false,
-                min: 0,
-                max: 100,
-                suffix: " %",
-                allowMinus: false
-            }
+          currency: {
+            //prefix: "$ ",
+            groupSeparator: ",",
+            alias: "numeric",
+            //placeholder: "0",
+            autoGroup: true,
+            digits: 2,
+            digitsOptional: false,
+            radixPoint: ".",
+            clearMaskOnLostFocus: false
+          },
+          decimal: {
+            alias: "numeric"
+          },
+          integer: {
+            alias: "numeric",
+            digits: 0,
+            radixPoint: ""
+          },
+          percentage: {
+            alias: "numeric",
+            digits: 2,
+            digitsOptional: true,
+            radixPoint: ".",
+            placeholder: "0",
+            autoGroup: false,
+            min: 0,
+            max: 100,
+            suffix: "%",
+            allowMinus: false
+          }
         });
         return Inputmask;
     });

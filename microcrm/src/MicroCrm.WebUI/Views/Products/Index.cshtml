@@ -278,7 +278,7 @@
                        class="easyui-textbox"
                        type="text" />
                 <image id="imgProduct" src='' style="width: 80px;"></image>
-                <button onclick="openuploadfile()" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Upload Image"><i class="fal fa-cloud-upload"></i> </button>
+                <button onclick="openuploadfile()" type="button" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Upload Image"><i class="fal fa-cloud-upload"></i> </button>
                 <div id="div-uploadfiles" style="display: none;">
                   <div id="slimscroll">
                     <div id="file_empty_div" class="plfile_empty_div">
@@ -291,8 +291,8 @@
                   </div>
                   <input id="fileupload" type="file" name="fileupload" multiple style="display: none" />
                   <div class="btn-group btn-group-sm">
-                    <button id="selectuploadfilesbtn" class="btn btn-info waves-effect waves-themed">Select file</button>
-                    <button id="postuploadfilesbtn" class="btn btn-info waves-effect waves-themed">Upload</button>
+                    <button id="selectuploadfilesbtn" type="button" class="btn btn-info waves-effect waves-themed">Select file</button>
+                    <button id="postuploadfilesbtn" type="button" class="btn btn-info waves-effect waves-themed">Upload</button>
                   </div>
                 </div>
               </div>
@@ -753,7 +753,7 @@
             },*@
             formatter: function showdetailsformatter(value, row, index) {
               if (!row.editing) {
-                return `<image src='${row.ImagePath}' style="width: 80px;"></image>`;
+                return `<image src='${row.ImagePath}' onerror="this.onerror=null; this.src='img/no-image.png'" style="width: 80px;"></image>`;
                 //return `<span>${row.ImagePath}</span><div class="btn-group float-right"">\
                 //        <button onclick="openuploadfilemodal('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Upload Image"><i class="fal fa-cloud-upload"></i> </button>
                 //        </div>`;

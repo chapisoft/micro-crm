@@ -1,13 +1,15 @@
 ﻿@model MicroCrm.Domain.Models.Quotation
 @{
-  Layout = null;
+    Layout = null;
+    var role = (string)ViewBag.Role;
+    string username = (string)ViewBag.User;
 }
 <div class="row">
   <div class="col-lg-12 col-xl-12">
     <div id="panel-quotation" class="panel">
       <div class="panel-container enable-loader show">
         <div class="loader"><i class="fal fa-spinner-third fa-spin-4x fs-xxl"></i></div>
-        <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade ">
+        <!--<div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade ">
           <div class="row no-gutters align-items-center">
             <div class="col">
               <div class="btn-group btn-group-sm">
@@ -40,7 +42,7 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item js-waves-on" href="javascript:void()"> Customize Search </a>
                 </div>
-              </div>
+              </div>-->
               @*<div class="btn-group btn-group-sm hidden-xs">
                 <button type="button" onclick="importExcel.upload()" class="btn btn-default"><span class="fal fa-cloud-upload mr-1"></span> Import </button>
                 <button type="button" class="btn btn-default  dropdown-toggle dropdown-toggle-split waves-effect waves-themed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -52,14 +54,14 @@
                   </a>
                 </div>
               </div>*@
-              <div class="btn-group btn-group-sm hidden-xs">
+              <!--<div class="btn-group btn-group-sm hidden-xs">
                 <button onclick="exportExcelQuotation()" class="btn btn-default">
                   <span class="fal fa-file-export mr-1"></span>  Export
                 </button>
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
         <div class="panel-content">
           <div class="table-responsive">
             <table id="quotations_datagrid">
@@ -191,8 +193,8 @@
         $("button[name*='cancelbutton']").prop('disabled', true);
         $(this).datagrid('refreshRow', index);
       },
-      frozenColumns: [[
-        { field: 'ck', checkbox: true },
+      columns: [[
+        @*{ field: 'ck', checkbox: true },
         {
           field: 'action',
           title: 'Operate',
@@ -200,7 +202,7 @@
           sortable: false,
           resizable: true,
           formatter: function showdetailsformatter(value, row, index) {
-            if (!row.editing) {
+            if (!row.editing && ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()')) {
               return `<div class="btn-group">\
                             <button onclick="showDetailsWindowQuotation('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
                             <button onclick="deleteRowsQuotation(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
@@ -209,9 +211,22 @@
               return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
             }
           }
-        }
-      ]],
-      columns: [[
+        },*@
+        {    /*Code*/
+          field: 'Id',
+          title: 'Code',
+          width: 100,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Id)' }
+          },
+          formatter: function showdetailsformatter(value, row, index) {
+            return "QVAD-" + row.Id;
+          },
+          sortable: true,
+          resizable: true
+        },
         {    /*Name*/
           field: 'Name',
           title: '@Html.DisplayNameFor(model => model.Name)',
@@ -412,7 +427,7 @@
     $('#panel-quotation .datagrid-view').css('width', '100%');
     $('#panel-quotation .datagrid-view').css('height', '400px');
     $('#panel-quotation .datagrid-view1').css('width', '185px');
-    $('#panel-quotation .datagrid-view2').css('width', $dgWidth - 245);
+    $('#panel-quotation .datagrid-view2').css('width', $dgWidth);
 
     closeAqDetail()
   }

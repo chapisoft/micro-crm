@@ -1,0 +1,276 @@
+﻿@model MicroCrm.Domain.Models.Product
+@{
+  Layout = null;
+}
+<form id="product_form" class="needs-validation" asp-action="AddOrEdit" novalidate>
+  <div class="panel-content">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Description" />
+    <div class="form-row">
+      <div class="col-md-12 mb-3">
+        <label class="form-label" asp-for="Name">  </label>
+        <input type="text" class="form-control" asp-for="Name" required maxlength="50">
+        <div class="invalid-feedback" asp-validation-for="PartNo">
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label class="form-label" asp-for="Model">  </label>
+        <input type="text" class="form-control" asp-for="Model" maxlength="128">
+        <div class="invalid-feedback" asp-validation-for="Model">
+        </div>
+      </div>
+      <div class="col-md-4 mb-3">
+        <label class="form-label" asp-for="Unit">  </label>
+        <input type="text" placeholder="" class="form-control" asp-for="Unit">
+        <div class="invalid-feedback" asp-validation-for="Unit">
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="UnitPrice">  </label>
+        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" class="form-control currency" asp-for="UnitPrice">
+        <div class="invalid-feedback" asp-validation-for="UnitPrice">
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="ImagePath">  </label>
+        <input type="text" placeholder="" class="form-control" asp-for="ImagePath">
+        <div class="invalid-feedback" asp-validation-for="ImagePath">
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Image</label>
+        <image id="imgProduct" src='' onerror="this.onerror=null; this.src='img/no-image.png'" style="width: 80px;"></image>
+        <button onclick="openuploadfile()" type="button" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Upload Image"><i class="fal fa-cloud-upload"></i> </button>
+        <div id="div-uploadfiles" style="display: none;">
+          <div id="slimscroll">
+            <div id="file_empty_div" class="plfile_empty_div">
+              <span style="color: Dodgerblue;"><i class="fal fa-exclamation-circle"></i></span> Please use the [Select File] button to select the file.
+            </div>
+            <ul id="filelist"></ul>
+          </div>
+          <div id="plupload_max_size_alert" class="alert alert-primary mb-0  fw-300 fs-sm p-2  d-none" role="alert">
+            <strong>Success</strong> Please keep the uploaded file size within 20MB.
+          </div>
+          <input id="fileupload" type="file" name="fileupload" multiple style="display: none" />
+          <div class="btn-group btn-group-sm">
+            <button id="selectuploadfilesbtn" type="button" class="btn btn-info waves-effect waves-themed">Select file</button>
+            <button id="postuploadfilesbtn" type="button" class="btn btn-info waves-effect waves-themed">Upload</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 mb-3">
+        <label class="form-label" asp-for="Description">  </label>
+        <div class="js-summernote" id="txtDescription"></div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row align-items-center p-2">
+    <button class="btn btn-primary ml-auto" type="submit">Submit</button>
+  </div>
+</form>
+
+<script>
+
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function () {
+    'use strict';
+
+    window.addEventListener('load', function () {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = $('#product_form');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          } else {
+            event.preventDefault();
+            event.stopPropagation();
+            //var request = $('#product_form').serializeJSON();
+            //console.log(request)
+            //$.post('/AqDetails/AddOrEdit', {
+            //  __RequestVerificationToken: request.__RequestVerificationToken,
+            //  request
+            //}).done(res => {
+            //  if (res.success) {
+            //    $('#aqDetail-modal').modal('toggle');
+            //    reloadAqDetail();
+            //    toastr.success("Saved successfully");
+            //  }
+            //  else {
+            //    //$.messager.alert('Error', res.err)
+            //  }
+            //});
+            const $productform = $('#product_form');
+            if ($productform.form('enableValidation').form('validate')) {
+              let product = $productform.serializeJSON();
+              product.Description = $('.js-summernote').summernote("code");
+              let url = '/Products/Edit';
+              //Determine whether it is added or modified method
+              if (MODELSTATE === 'Added') {
+                url = '/Products/Create';
+              }
+              var token = $('input[name="__RequestVerificationToken"]', $productform).val();
+              //$.messager.progress({ title: 'Please wait', msg: 'Accepting data...', interval: 200 });
+              $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                  __RequestVerificationToken: token,
+                  product: product
+                },
+                dataType: 'json',
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8'
+              })
+                .done(response => {
+                  //$.messager.progress('close');
+                  if (response.success) {
+                    $('#productdetail-modal').modal('toggle');
+                    reloadAqDetail();
+                    toastr.success("Saved successfully");
+                  } else {
+                    $.messager.alert("Error", response.err, "error");
+                  }
+                })
+                .fail((jqXHR, textStatus, errorThrown) => {
+                  //$.messager.progress('close');
+                  $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+                });
+            }
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+
+      $('.select2').select2();
+      $('.integer').inputmask();
+      $('.currency').inputmask();
+
+    }, false);
+  })();
+
+  function openuploadfile() {
+    $('#div-uploadfiles').toggle();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+
+    $('#slimscroll').slimScroll({
+      height: '100px',
+      railVisible: true,
+      alwaysVisible: false,
+    });
+    var uploader = new plupload.Uploader({
+      runtimes: 'html5,flash,silverlight,html4',
+      filters: {
+        max_file_size: "20mb"
+      },
+      browse_button: 'selectuploadfilesbtn', // this can be an id of a DOM element or the DOM element itself
+      url: '/Products/Upload'
+    });
+    uploader.init();
+    //Verify file size
+    plupload.addFileFilter('max_file_size', function (maxSize, file, cb) {
+      var undef;
+      if (file.size !== undef && maxSize && file.size > plupload.parseSize(maxSize)) {
+        this.trigger('Error', {
+          code: plupload.FILE_SIZE_ERROR,
+          message: plupload.translate('File size error.'),
+          file: file
+        });
+        cb(false);
+      } else {
+        cb(true);
+      }
+    });
+    //initialization
+    uploader.bind('Init', function (up) {
+      $('#plupload_max_size_alert').addClass('d-none');
+    });
+    //Setting post parameters
+    uploader.bind('BeforeUpload', function (up) {
+      up.settings.multipart_params.tags = '';
+    });
+    //Click Select a document
+    uploader.bind('Browse', function () {
+      $('#plupload_max_size_alert').addClass('d-none');
+    });
+    //Multi-part Upload
+    uploader.bind('ChunkUploaded', function (up, file, info) {
+      console.log(up, file, info)
+    });
+    //Catching Errors
+    uploader.bind('Error', function (up, error) {
+      console.log(up, error)
+      if (error.code == -600) {
+        $('#plupload_max_size_alert').removeClass('d-none')
+      } else {
+        bootbox.alert(`Error:${error.message}`);
+      }
+    });
+    //Add Files
+    uploader.bind('FilesAdded', function (up, files) {
+      $('#file_empty_div').hide()
+      var html = '';
+      plupload.each(files, function (file) {
+        html += ` <li id="${file.id}"  >
+                                            <span class="plupload_filename">${file.name}</span>
+                                            <span id="filesize" class="plupload_filesize">(size:${plupload.formatSize(file.size)})</span>
+                                            <span id="plfilesize" class="plupload_d-none">${plupload.formatSize(file.size)}</span>
+                                            <span id="remove" class="plupload_fileremove">
+                                                        <a href="javascript:void(0);" class="btn btn-outline-info btn-xs btn-icon waves-effect waves-themed">
+                                                            <i class="fal fa-times"></i>
+                                                        </a>
+                                            </span>
+                                            <span id="progress" class="plupload_fileprogress"></span>
+                                            </li>`
+        //html += '<li id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></li>';
+      });
+      document.getElementById('filelist').innerHTML += html;
+    });
+    //Delete files in the queue
+    $(document).on('click', '#remove', function (e) {
+      var li = $(this).closest('li');
+      var fileid = li.attr('id');
+      uploader.removeFile(fileid);
+      li.remove()
+      if ($('ul#filelist li').length == 0) {
+        $('#file_empty_div').show();
+      }
+    });
+    //Show progress
+    uploader.bind('UploadProgress', function (up, file) {
+      $(`li#${file.id} > .plupload_fileprogress`).text(file.percent + " %")
+
+    });
+    uploader.bind('BeforeChunkUpload', function (up, file) {
+      //console.log('BeforeChunkUpload', up, file)
+
+    });
+
+    //Complete Upload
+    uploader.bind('UploadComplete', function (up, files) {
+      var filename = up.files[0].name;
+      $('#productdetailwindow #ImagePath').val('photos/products/' + filename);
+      $("#productdetailwindow input[name='ImagePath']").val('photos/products/' + filename);
+      $('#imgProduct').attr("src", 'photos/products/' + filename);
+      //$("#productdetailwindow input[name='ImagePath']").parent().closest('input').val('photos/products/' + filename);
+      $('#plupload_max_size_alert').addClass('d-none');
+      $('#uploadfilesmodal').modal('toggle')
+      uploader.files.forEach(function (item) {
+        uploader.removeFile(item);
+        $(`ul#filelist #${item.id}`).remove();
+      });
+      $('#file_empty_div').show();
+      $('#div-uploadfiles').hide();
+      //reload()
+    });
+    //Start Upload
+    $('#postuploadfilesbtn').click(function () {
+      uploader.start();
+    });
+  });
+</script>

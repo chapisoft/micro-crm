@@ -157,25 +157,42 @@
   <script src="~/js/formplugins/select2/select2.bundle.js" asp-append-version="true"></script>
   <script src="~/js/formplugins/inputmask/inputmask.bundle.js" asp-append-version="true"></script>
 
+  <script src="~/js/plugin/plupload/plupload.full.min.js"></script>
+  <script src="~/js/plugin/plupload/jquery.plupload.queue/jquery.plupload.queue.min.js"></script>
+  <script src="~/js/plugin/plupload/jquery.ui.plupload/jquery.ui.plupload.min.js"></script>
+
   <script>
-      //Full Screen Event
-      document.addEventListener('panel.onfullscreen', () => {
-        $dgAqDetail.treegrid('resize');
-      });
-      var $dg = $('#quotations_datagrid');
-      var $aqId = 0;
-      var $dgWidth = $('#panel-quotations .datagrid-view').width();
-      var EDITINLINE = false;
-      var MODELSTATE = null;
-      var item = null;
-      var editIndex = undefined;
-      var $id = null;
-      // AqDetail
-      var $dgAqDetail = $('#aqDetails_datagrid');
-      $dgAqDetail.css('width', '100%');
-      var EDITINLINEAqDetail = false;
-      var aqDetail = null;
+    //Full Screen Event
+    document.addEventListener('panel.onfullscreen', () => {
+      $dgAqDetail.treegrid('resize');
+    });
+    var $dg = $('#quotations_datagrid');
+    var $aqId = 0;
+    var $dgWidth = $('#panel-quotations .datagrid-view').width();
+    var EDITINLINE = false;
+    var MODELSTATE = null;
+    var item = null;
+    var editIndex = undefined;
+    var $id = null;
+    // AqDetail
+    var $dgAqDetail = $('#aqDetails_datagrid');
+    $dgAqDetail.css('width', '100%');
+    var EDITINLINEAqDetail = false;
+    var aqDetail = null;
     var editIndexAqDetail = undefined;
+
+    //Determine Added Edit Status
+    var MODELSTATE = 'Added';
+    var productid = null;
+    function openProductDetailWindow(data, state) {
+      MODELSTATE = state;
+      productid = (data.Id || 0);
+      $('#imgProduct').attr("src", data.ImagePath);
+      console.log(data);
+      $('#productdetail-modal').modal('toggle');
+      $('#product_form-form').jsonToForm(data)
+      $('.js-summernote').summernote("code", data.Description);
+    }
 
     class quotation {
       constructor() {
@@ -316,6 +333,21 @@
             }
           ]],
           columns: [[
+            {    /*Code*/
+              field: 'Id',
+              title: 'Code',
+              width: 100,
+              hidden: false,
+              editor: {
+                type: 'textbox',
+                options: { prompt: '@Html.DescriptionFor(model => model.Id)' }
+              },
+              formatter: function showdetailsformatter(value, row, index) {
+                return "QVAD-" + row.Id;
+              },
+              sortable: true,
+              resizable: true
+            },
             {    /*Name*/
               field: 'Name',
               title: '@Html.DisplayNameFor(model => model.Name)',
@@ -780,6 +812,26 @@
 
     $(() => {
       var myquotation = new quotation();
+      //init summernote
+      $('.js-summernote').summernote({
+        height: 400,
+        tabsize: 2,
+        placeholder: "Type here...",
+        dialogsFade: true,
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['strikethrough', 'superscript', 'subscript']],
+          ['font', ['bold', 'italic', 'underline', 'clear']],
+          ['fontsize', ['fontsize']],
+          ['fontname', ['fontname']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']]
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+      });
     })
 
   </script>

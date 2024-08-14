@@ -284,41 +284,29 @@ namespace MicroCrm.WebUI.Controllers
     [HttpPost]
     public async Task<JsonResult> Upload(List<IFormFile> file, string name, string tag)
     {
-      var id = HttpContext.Session.GetInt32("ProductId");
-      if (id > 0)
+      try
       {
-        try
+        var fi = file[0];
+        var path = Path.Combine(_webHostEnvironment.WebRootPath, "photos\\products");
+        var filename = fi.FileName;
+        var stream = new MemoryStream();
+        await fi.CopyToAsync(stream);
+        stream.Seek(0, SeekOrigin.Begin);
+        var request = new AddPhotoCommand()
         {
-          Product product = _productService.Queryable().FirstOrDefault(e => e.Id.Equals(id));
-          if (product == null)
-            return Json(new { success = false, err = "Product invalid" });
-          var fi = file[0];
-          var path = Path.Combine(_webHostEnvironment.WebRootPath, "photos\\products");
-          var filename = fi.FileName;
-          var stream = new MemoryStream();
-          await fi.CopyToAsync(stream);
-          stream.Seek(0, SeekOrigin.Begin);
-          var request = new AddPhotoCommand()
-          {
-            FileName = filename,
-            Stream = stream,
-            Path = path,
-            Size = stream.Length
-          };
-          await _mediator.Send(request);
+          FileName = filename,
+          Stream = stream,
+          Path = path,
+          Size = stream.Length
+        };
+        await _mediator.Send(request);
 
-          product.ImagePath = "photos/products/" + filename;
-          _productService.Update(product);
-          var result = await _unitOfWork.SaveChangesAsync();
-          return Json(new { success = true, result = product.ImagePath });
-        }
-        catch (Exception e)
-        {
-          return Json(new { success = false, err = e.GetBaseException().Message });
-        }
+        return Json(new { success = true, result = "photos/products/" + filename });
       }
-      else
-        return Json(new { success = false, err = "Product invalid" });
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.GetBaseException().Message });
+      }
     }
 
   }

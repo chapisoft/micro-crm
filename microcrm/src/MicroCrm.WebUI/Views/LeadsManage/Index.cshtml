@@ -258,6 +258,7 @@
     var $contact = null;
     var $contactId = 0;
     var $aqId = 0;
+    var $role = 0;
     //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
       $dgActivity.treegrid('resize');
@@ -430,7 +431,7 @@
             this.$cancelbutton.prop('disabled', true);
             this.$dg.datagrid('refreshRow', index);
           },
-          frozenColumns: [[
+          columns: [[
             { field: 'ck', checkbox: true },
             {
               field: 'action',
@@ -448,9 +449,7 @@
                   return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
                 }
               }
-            }
-          ]],
-          columns: [[
+            },
             {
               field: 'Name',
               title: '<span class="required">@Html.DisplayNameFor(model => model.Company.Name)</span>',
@@ -745,6 +744,8 @@
 
       onClickCell(index, field) {
         this.item = this.$dg.datagrid('getRows')[index];
+
+        $role = (!this.item.Private || '@role.ToLower()' == 'admin' || '@role.ToLower()' == 'manager');
 
         this.showDetailCompany(this.item);
 

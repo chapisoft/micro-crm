@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="col-md-6 mb-3">
-        <button class="form-control btn btn-info btn-sm btn-icon waves-effect waves-themed" type="button" style="min-width: 40px;" title="Add Product"><i class="fal fa-folder-plus"></i> </button>
+        <button class="form-control btn btn-info btn-sm btn-icon waves-effect waves-themed" onclick="appendProduct()" type="button" style="min-width: 40px;" title="Add Product"><i class="fal fa-folder-plus"></i> </button>
       </div>
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="PartNo">  </label>
@@ -33,55 +33,55 @@
     <div class="form-row">
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="Qty">  </label>
-        <input type="text" placeholder="" data-inputmask="'alias': 'integer'" class="form-control integer"  asp-for="Qty">
+        <input type="text" placeholder="" data-inputmask="'alias': 'integer'" class="form-control integer" asp-for="Qty">
         <div class="invalid-feedback" asp-validation-for="Qty">
         </div>
       </div>
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="Price">  </label>
-        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" class="form-control currency" asp-for="Price">
+        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" onchange="calculatePrice()" class="form-control currency" asp-for="Price">
         <div class="invalid-feedback" asp-validation-for="Price">
         </div>
       </div>
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="ShipFee">  </label>
-        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" class="form-control currency" asp-for="ShipFee">
+        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" onchange="calculatePrice()" class="form-control currency" asp-for="ShipFee">
         <div class="invalid-feedback" asp-validation-for="ShipFee">
         </div>
       </div>
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="Margin">  </label>
-        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" class="form-control currency" asp-for="Margin">
+        <input type="text" placeholder="" data-inputmask="'alias': 'percentage'" onchange="calculatePrice()" class="form-control currency" asp-for="Margin">
         <div class="invalid-feedback" asp-validation-for="Margin">
         </div>
       </div>
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="Discount">  </label>
-        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" class="form-control currency" asp-for="Discount">
+        <input type="text" placeholder="" data-inputmask="'alias': 'percentage'" onchange="calculatePrice()" class="form-control currency" asp-for="Discount">
         <div class="invalid-feedback" asp-validation-for="Discount">
         </div>
       </div>
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="Vat">  </label>
-        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" class="form-control currency" asp-for="Vat">
+        <input type="text" placeholder="" data-inputmask="'alias': 'percentage'" onchange="calculatePrice()" class="form-control currency" asp-for="Vat">
         <div class="invalid-feedback" asp-validation-for="Vat">
         </div>
       </div>
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="ImportTax">  </label>
-        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" class="form-control currency" asp-for="ImportTax">
+        <input type="text" placeholder="" data-inputmask="'alias': 'percentage'" onchange="calculatePrice()" class="form-control currency" asp-for="ImportTax">
         <div class="invalid-feedback" asp-validation-for="ImportTax">
         </div>
       </div>
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="OtherFee">  </label>
-        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" class="form-control currency" asp-for="OtherFee">
+        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" onchange="calculatePrice()" class="form-control currency" asp-for="OtherFee">
         <div class="invalid-feedback" asp-validation-for="OtherFee">
         </div>
       </div>
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="Exchange">  </label>
-        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" class="form-control currency" asp-for="Exchange">
+        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" onchange="calculatePrice()" class="form-control currency" asp-for="Exchange">
         <div class="invalid-feedback" asp-validation-for="OtherFee">
         </div>
       </div>
@@ -91,6 +91,10 @@
         <div class="invalid-feedback" asp-validation-for="Amount">
         </div>
       </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Formula</label>
+        <label class="form-label">Amount = (((Price + ShipFee) / Margin (%) / ImportTax (%) ) * Vat (%) * Exchange) + OtherFee</label>
+      </div>
     </div>
 
 
@@ -99,6 +103,7 @@
     <button class="btn btn-primary ml-auto" type="submit">Submit</button>
   </div>
 </form>
+
 <script>
 
   // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -118,6 +123,35 @@
             event.preventDefault();
             event.stopPropagation();
             var request = $('#aqDetail-form').serializeJSON();
+            request.Margin = request.Margin.replaceAll("%", "");
+            request.Discount = request.Discount.replaceAll("%", "");
+            request.Vat = request.Vat.replaceAll("%", "");
+            request.ImportTax = request.ImportTax.replaceAll("%", "");
+
+            var obj = $('#aqDetail-form').serializeJSON();
+            obj.Price = obj.Price.replaceAll(",", "");
+            if (obj.Price.substr(obj.Price.length - 1) == ".")
+              obj.Price = obj.Price.replaceAll(".", "");
+            obj.ShipFee = obj.ShipFee.replaceAll(",", "");
+            if (obj.ShipFee.substr(obj.ShipFee.length - 1) == ".")
+              obj.ShipFee = obj.ShipFee.replaceAll(".", "");
+            obj.Exchange = obj.Exchange.replaceAll(",", "");
+            if (obj.Exchange.substr(obj.Exchange.length - 1) == ".")
+              obj.Exchange = obj.Exchange.replaceAll(".", "");
+            obj.OtherFee = obj.OtherFee.replaceAll(",", "");
+            if (obj.OtherFee.substr(obj.OtherFee.length - 1) == ".")
+              obj.OtherFee = obj.OtherFee.replaceAll(".", "");
+
+            obj.Price = parseFloat(obj.Price);
+            obj.ShipFee = parseFloat(obj.ShipFee);
+            obj.Margin = parseFloat(obj.Margin) == 0 ? 1 : parseFloat(obj.Margin) / 100;
+            obj.Discount = parseFloat(obj.Discount) == 0 ? 1 : parseFloat(obj.Discount) / 100;
+            obj.Vat = parseFloat(obj.Vat) == 0 ? 1 : parseFloat(obj.Vat) / 100;
+            obj.ImportTax = parseFloat(obj.ImportTax) == 0 ? 1 : parseFloat(obj.ImportTax) / 100;
+            obj.OtherFee = parseFloat(obj.OtherFee);
+            obj.Exchange = parseFloat(obj.Exchange);
+
+            request.Amount = Math.floor((((obj.Price + obj.ShipFee) / obj.Margin / obj.ImportTax) * obj.Vat * obj.Exchange) + obj.OtherFee);
             console.log(request)
             $.post('/AqDetails/AddOrEdit', {
               __RequestVerificationToken: request.__RequestVerificationToken,
@@ -149,6 +183,48 @@
     var selectedVal = document.getElementById("ProductId").value;
     console.log(selectedVal)
   };
+  //Added records
+  function appendProduct() {
+    product = {
+      Name: '',
+      Model: '',
+      Unit: '',
+      UnitPrice: '',
+      ImagePath: '',
+      Description: ''
+    };
+    //The Added window pops up
+    openProductDetailWindow(product, 'Added');
+  }
+
+  function calculatePrice() {
+    var obj = $('#aqDetail-form').serializeJSON();
+    obj.Price = obj.Price.replaceAll(",", "");
+    if (obj.Price.substr(obj.Price.length - 1) == ".")
+      obj.Price = obj.Price.replaceAll(".", "");
+    obj.ShipFee = obj.ShipFee.replaceAll(",", "");
+    if (obj.ShipFee.substr(obj.ShipFee.length - 1) == ".")
+      obj.ShipFee = obj.ShipFee.replaceAll(".", "");
+    obj.Exchange = obj.Exchange.replaceAll(",", "");
+    if (obj.Exchange.substr(obj.Exchange.length - 1) == ".")
+      obj.Exchange = obj.Exchange.replaceAll(".", "");
+    obj.OtherFee = obj.OtherFee.replaceAll(",", "");
+    if (obj.OtherFee.substr(obj.OtherFee.length - 1) == ".")
+      obj.OtherFee = obj.OtherFee.replaceAll(".", "");
+
+    obj.Price = parseFloat(obj.Price);
+    obj.ShipFee = parseFloat(obj.ShipFee);
+    obj.Margin = parseFloat(obj.Margin) == 0 ? 1 : parseFloat(obj.Margin) / 100;
+    obj.Discount = parseFloat(obj.Discount) == 0 ? 1 : parseFloat(obj.Discount) / 100;
+    obj.Vat = parseFloat(obj.Vat) == 0 ? 1 : parseFloat(obj.Vat) / 100;
+    obj.ImportTax = parseFloat(obj.ImportTax) == 0 ? 1 : parseFloat(obj.ImportTax) / 100;
+    obj.OtherFee = parseFloat(obj.OtherFee);
+    obj.Exchange = parseFloat(obj.Exchange);
+    obj.Amount = parseFloat(obj.Amount);
+
+    obj.Amount = Math.floor((((obj.Price + obj.ShipFee) / obj.Margin / obj.ImportTax) * obj.Vat * obj.Exchange) + obj.OtherFee);
+    $("#Amount").val(obj.Amount);
+  }
 </script>
 
 
