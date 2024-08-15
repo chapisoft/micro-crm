@@ -2,138 +2,89 @@
 
 @section HeadBlock {
   <link rel="stylesheet" media="screen, print" href="~/css/page-invoice.css">
-  <style>
-    .privacy td {
-      font-size: 14px;
-    }
-  </style>
 }
 <div class="container">
   <div data-size="A4">
+    <table class="table table-clean">
+      <tbody>
+        <tr>
+          <td class="text-center" rowspan="4">
+            <image style="margin-left: 40px; width: 240px;" src="img/logo-ad.jpg"></image>
+          </td>
+          <td class="text-center">
+            <h3 class="m-0">CÔNG TY TNHH THIẾT BỊ KHKT AN DƯƠNG</h3>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-center">
+            <span class="m-0">610-611, Tòa nhà Discovery Central, 67 Trần Phú, Ba Đình, Hà Nội</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-center">
+            <span class="m-0">ĐT: +2438612612	Fax:+ 24 62782597</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-center">
+            <span class="m-0">www.adgroup.vn</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <h4 class="text-center">BÁO GIÁ</h4>
+      <p class="text-left bold">Kính gửi:Quý khách hàng</p>
+      <p class="text-left bold">Công ty TNHH Thiết bị KHKT An Dương xin trân trọng gửi tới tơí quý công ty bản chào hàng cho thiết bị sau:</p>
+      <p class="text-right bold">QVAD-@Model.Info.Id/@Model.Info.StartDate.Year</p>
+      <p class="text-right">Ngày @Model.Info.StartDate.Day tháng @Model.Info.StartDate.Month năm @Model.Info.StartDate.Year</p>
+    </div>
     <div class="row">
       <div class="col-sm-12">
-        <h3 class="fw-300 display-4 fw-500 color-primary-600 keep-print-font pt-4 l-h-n m-0 text-center">
-          BÁO GIÁ
-        </h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-4 d-flex">
-        <div class="table-responsive">
-          <table class="table table-clean table-sm align-self-end">
-            <tbody>
-              <tr>
-                <td>Báo giá số:</td>
-                <td><strong>QVAD-@Model.Info.Id</strong></td>
-              </tr>
-              <tr>
-                <td>Nội dung:</td>
-                <td>@Model.Info.Name</td>
-              </tr>
-              <tr>
-                <td>Ngày hiệu lực:</td>
-                <td>@Model.Info.StartDate</td>
-              </tr>
-              <tr>
-                <td><strong>Ngày hết hạn:</strong></td>
-                <td><strong>@Model.Info.EndDate</strong></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="col-sm-4 ml-sm-auto">
-        <div class="table-responsive">
-          <table class="table table-sm table-clean">
-            <tbody>
-              <tr>
-                <td>
-                  <strong>Khách hàng:</strong>
-                </td>
-                <td>
-                  <strong>@Model.Company.Name</strong>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Địa chỉ:
-                </td>
-                <td>
-                    @Model.Company.Address
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Điện thoại:
-                </td>
-                <td>
-                  @Model.Info.BusinessPhone
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Email:
-                </td>
-                <td>
-                  @Model.Info.Email
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <p>Công ty TNHH Thiết bị KHKT An Dương xin chân trọng gửi tới quí Công ty bản chào hàng cho các thiết bị sau:</p>
-      <div class="col-sm-12">
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="text-center border-top-0 table-scale-border-bottom fw-700"></th>
-                <th class="border-top-0 table-scale-border-bottom fw-700">Part No</th>
-                <th class="border-top-0 table-scale-border-bottom fw-700">Mô tả</th>
-                <th class="text-right border-top-0 table-scale-border-bottom fw-700">Đơn giá</th>
-                <th class="text-center border-top-0 table-scale-border-bottom fw-700">Số lượng</th>
-                <th class="text-right border-top-0 table-scale-border-bottom fw-700">Thành tiền</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach (var item in Model.Details)
-              {
-                <tr>
-                  <td class="text-center fw-700">@(Model.Details.IndexOf(item)+1)</td>
-                  <td class="text-left fw-700">@item.PartNo</td>
-                  <td class="text-left fw-700">@item.ItemName</td>
-                  <td class="text-right fw-700">@item.Amount.ToString("N0")</td>
-                  <td class="text-center fw-700">@item.Qty.ToString("N0")</td>
-                  <td class="text-right fw-700">@((item.Qty*item.Amount).ToString("N0"))</td>
-                </tr>
-                <tr>
-                  <td class="text-center"></td>
-                  <td class="text-left"><image src='@item.Image' style="width: 120px;"></image></td>
-                  <td class="text-left">@Html.Raw(item.Description)</td>
-                  <td class="text-right"></td>
-                  <td class="text-center"></td>
-                  <td class="text-right"></td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-4 ml-sm-auto">
-        <table class="table table-clean">
+        <table class="table table-content border">
+          <thead>
+            <tr class="border-top">
+              <th class="text-center bold">#</th>
+              <th class="text-center bold">QTY</th>
+              <th class="text-center bold">UNIT</th>
+              <th class="text-center bold w-50">ITEM</th>
+              <th class="text-center bold">PRICE (VND)</th>
+              <th class="text-center bold">AMOUT (VND)</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr>
-              <td class="text-left keep-print-font">
-                <h4 class="m-0 fw-700 h2 keep-print-font color-primary-700">Tổng tiền</h4>
-              </td>
-              <td class="text-right keep-print-font">
-                <h4 class="m-0 fw-700 h2 keep-print-font text-danger">@Model.Info.Amount.ToString("N0")</h4>
-              </td>
+            @foreach (var item in Model.Details)
+            {
+              <tr>
+                <td class="text-center">@(Model.Details.IndexOf(item)+1)</td>
+                <td class="text-center">@item.Qty.ToString("N0")</td>
+                <td class="text-center">@item.Unit</td>
+                <td class="text-left">[@item.PartNo]  @item.ItemName</td>
+                <td class="text-right">@(item.Amount.ToString("N0"))</td>
+                <td class="text-right">@((item.Qty*item.Amount).ToString("N0"))</td>
+              </tr>
+              @*<tr>
+                  <td class="text-center"></td>
+                  <td class="text-center"></td>
+                  <td class="text-center"></td>
+                  <td class="text-left">@Html.Raw(item.Description)</td>
+                  <td class="text-left">
+                    <br /><image src='@item.Image' style="width: 120px;"></image>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center border-tr"></td>
+                  <td class="text-center border-tr"></td>
+                  <td class="text-center border-tr"></td>
+                  <td class="text-right border-tr" style="padding-right: 30px !important;">
+                    <span class="bold">TỔNG BÁO GIÁ ĐẾN NƠI SỬ DỤNG @(item.Vat > 0 ? "(ĐÃ GỒM VAT)" : "(CHƯA GỒM VAT)")</span>
+                  </td>
+                  <td class="text-right border-tr"><span class="bold">@((item.Qty*item.Amount).ToString("N0"))</span></td>
+                </tr>*@
+            }
+            <tr class="border-top">
+              <td colspan="5" class="text-right"><span class="bold">TOTAL AMOUNT</span></td>
+              <td class="text-right"><span class="bold">@((Model.Details.Sum(e=> e.Qty * e.Amount)).ToString("N0"))</span></td>
             </tr>
           </tbody>
         </table>
@@ -141,64 +92,106 @@
     </div>
     <div>
       <div class="col-sm-12">
-        <h4 class="py-5 text-primary" style="text-decoration: underline; font-style: italic; font-size: 24px; margin: 20px; padding: 0 !important;">
+        <p class="bold" style="text-decoration: underline; font-style:italic; font-size: 12px; margin: 20px; padding: 0 !important;">
           Điều kiện thương mại
-        </h4>
+        </p>
         <table class="table table-clean table-sm align-self-end row privacy">
           <tbody>
             <tr>
               <td>1</td>
-              <td>Giá báo tại Hà nội  bằng VND  đã  bao gồm   thuế GTGT và thuế nhập khẩu.</td>
+              <td>Giá báo tại Hà Nội bằng Đồng Việt nam @(Model.Details.Count(e=>e.Vat == 0) > 0 ? "chưa bao gồm" : "đã bao gồm") VAT</td>
             </tr>
             <tr>
               <td>2</td>
               <td>
-                Lắp đặt và hướng dẫn sử dụng  bởi công ty TNHH Thiết bị KHKT An Dương
-                tại Hà nội và  Tp HCM. Các nơi khác có thể thêm phí vận chuyển tuỳ địa phương.
+                Lắp đặt và hướng dẫn sử dụng bởi công ty TNHH Thiết bị KHKT An Dương tại nơi sử dụng
               </td>
             </tr>
             <tr>
               <td>3</td>
               <td>
-                Thời gian bảo hành:  12  tháng theo tiêu chuẩn nhà sản xuất.
+                Thời gian bảo hành theo tiêu chuẩn nhà sản xuất : 12 tháng
               </td>
             </tr>
             <tr>
               <td>4</td>
               <td>
-                Thời gian giao hàng: 10- 24 tuần.
+                Thời gian giao hàng: 10-12 tuần
               </td>
             </tr>
             <tr>
               <td>5</td>
               <td>
-                Thanh toán: 50% sau khi ký hợp đồng, 50% Khi có thông báo giao hàng và kiểm tra hàng hóa.
-                Thanh toán bằng Đồng Việt nam theo tỉ giá ngân hàng tại thời điểm thanh toán vào tài khoản sau:
+                Thanh toán: Theo thỏa thuận với Chủ đầu tư
               </td>
             </tr>
             <tr>
               <td>6</td>
               <td>
-                Công Ty TNHH Thiết Bị Khoa Học Kỹ Thuật An Dương
-                TK số: 19025499123012 (VND) Tại Ngân hàng Techcombank- CN Hà Thành, Hà nội
+                Thanh toán bằng Đồng Việt nam theo tỉ giá ngân hàng tại thời điểm thanh toán
               </td>
             </tr>
             <tr>
               <td>7</td>
               <td>
-                Giá trị của bản báo giá: 30 ngày kể từ ngày ký.
+                Công Ty TNHH Thiết Bị Khoa Học Kỹ Thuật An Dương
               </td>
             </tr>
             <tr>
               <td></td>
               <td style="padding-top: 60px;">
-                <strong style="font-size: 16px; margin-left: 60px;">Công ty TNHH Thiết Bị KHKT An Dương</strong>
+                <strong class="bold" style="margin-left: 60px;">TK số: 19025499123012 (VND) Tại Ngân hàng Techcombank- CN Hai Bà Trưng, Hà nội</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>
+                Giá trị của bản báo giá: 12 tháng kể từ ngày ký.
               </td>
             </tr>
             <tr>
               <td></td>
-              <td>
-                <image style="margin-left: 120px; width: 160px;" src="photos/ad-sign.png"></image>
+              <td class="text-center bold" style="padding-top: 30px !important; ">Công ty TNHH Thiết Bị KHKT An Dương</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-center">
+                <image style="padding-top: 30px !important; width: 160px; " src="img/sign-ad.png"></image>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <h3 class="m-0 text-left page-break" style="font-size: 13px; margin-top: 30px !important;">ANNEX</h3>
+    <h1 class="m-0 text-center" style="margin: 30px !important;">BẢNG MÔ TẢ THÔNG TIN SẢN PHẨM</h1>
+    @foreach (var item in Model.Details)
+    {
+      <div class="row row-head">
+        <label class="col-sm-2 text-right bold">Tên sản phẩm</label>
+        <div class="col-sm-4 bold">@item.ItemName</div>
+        <label class="col-sm-2 text-right bold">Mã sản phẩm</label>
+        <div class="col-sm-4 bold">@item.PartNo</div>
+      </div>
+      <div class="row row-head">
+        <div class="col-sm-2">
+          <image src='@item.Image' style="width: 120px;"></image>
+        </div>
+        <div class="col-sm-9">@Html.Raw(item.Description)</div>
+      </div>
+    }
+    <div style="margin: 50px;">
+      <div class="col-sm-12">
+        <table class="table table-clean table-sm row privacy">
+          <tbody>
+            <tr>
+              <td class="text-center bold" style="padding-top: 30px !important; ">Công ty TNHH Thiết Bị KHKT An Dương</td>
+            </tr>
+            <tr>
+              <td class="text-center">
+                <image style="padding-top: 30px !important; width: 160px; " src="img/sign-ad.png"></image>
               </td>
             </tr>
           </tbody>

@@ -128,7 +128,7 @@
                   //$.messager.progress('close');
                   if (response.success) {
                     $('#productdetail-modal').modal('toggle');
-                    reloadAqDetail();
+                    $('#aqDetail-modal').modal('toggle');
                     toastr.success("Saved successfully");
                   } else {
                     $.messager.alert("Error", response.err, "error");
@@ -254,10 +254,10 @@
     //Complete Upload
     uploader.bind('UploadComplete', function (up, files) {
       var filename = up.files[0].name;
-      $('#productdetailwindow #ImagePath').val('photos/products/' + filename);
-      $("#productdetailwindow input[name='ImagePath']").val('photos/products/' + filename);
+      $('#product_form #ImagePath').val('photos/products/' + filename);
+      $("#product_form input[name='ImagePath']").val('photos/products/' + filename);
       $('#imgProduct').attr("src", 'photos/products/' + filename);
-      //$("#productdetailwindow input[name='ImagePath']").parent().closest('input').val('photos/products/' + filename);
+      //$("#product_form input[name='ImagePath']").parent().closest('input').val('photos/products/' + filename);
       $('#plupload_max_size_alert').addClass('d-none');
       $('#uploadfilesmodal').modal('toggle')
       uploader.files.forEach(function (item) {

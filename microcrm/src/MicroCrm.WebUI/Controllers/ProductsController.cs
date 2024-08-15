@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using MediatR;
 using Newtonsoft.Json;
 using MicroCrm.Application.Photos.Commands;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MicroCrm.WebUI.Controllers
 {
@@ -100,8 +101,25 @@ namespace MicroCrm.WebUI.Controllers
         try
         {
           _productService.Insert(product);
-          await _unitOfWork.SaveChangesAsync();
-          return Json(new { success = true });
+          var result = await _unitOfWork.SaveChangesAsync();
+
+          //var selectlist = new List<SelectListItem>();
+          //var filters1 = PredicateBuilder.FromFilter<Product>("");
+          //var datalist1 = (await _productService.Query(filters1)
+          //                     .OrderBy(n => n.OrderBy($"{"Id"}  {"desc"}"))
+          //                     .SelectAsync())
+          //                     .Select(n => new
+          //                     {
+          //                       Id = n.Id,
+          //                       Name = n.Name
+          //                     }).ToList();
+          //foreach (var item in datalist1)
+          //{
+          //  selectlist.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString() });
+          //}
+          //ViewBag.Products = selectlist;
+
+          return Json(new { success = true, result = result });
         }
         catch (Exception e)
         {
@@ -302,6 +320,20 @@ namespace MicroCrm.WebUI.Controllers
         await _mediator.Send(request);
 
         return Json(new { success = true, result = "photos/products/" + filename });
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.GetBaseException().Message });
+      }
+    }
+
+    public async Task<JsonResult> GetById(int id)
+    {
+      try
+      {
+        var pro = _productService.Queryable().FirstOrDefault(e => e.Id.Equals(id));
+
+        return Json(new { success = true, result = JsonConvert.SerializeObject(pro) });
       }
       catch (Exception e)
       {

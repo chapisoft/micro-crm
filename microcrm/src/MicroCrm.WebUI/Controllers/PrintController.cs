@@ -62,6 +62,7 @@ namespace MicroCrm.WebUI.Controllers
           var pro = _productService.Queryable().FirstOrDefault(e => e.Id.Equals(aq.ProductId));
           item.Description = pro.Description;
           item.Image = pro.ImagePath;
+          item.Unit = pro.Unit;
           list.Add(item);
         }
         model.Details = list;

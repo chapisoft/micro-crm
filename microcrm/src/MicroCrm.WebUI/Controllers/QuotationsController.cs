@@ -20,6 +20,7 @@ using MicroCrm.Application.Quotations.Commands;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MicroCrm.WebUI.Data.Models;
 using MicroCrm.WebUI.Data;
+using MicroCrm.Application.AqDetails.Commands;
 
 namespace MicroCrm.WebUI.Controllers
 {
@@ -78,22 +79,6 @@ namespace MicroCrm.WebUI.Controllers
           selectlist.Add(new SelectListItem() { Text = item.FullName, Value = item.Id.ToString() });
       }
       ViewBag.Companies = selectlist;
-
-      selectlist = new List<SelectListItem>();
-      var filters1 = PredicateBuilder.FromFilter<Product>(filterRules);
-      var datalist1 = (await _productService.Query(filters1)
-                           .OrderBy(n => n.OrderBy($"{"Id"}  {"desc"}"))
-                           .SelectAsync())
-                           .Select(n => new
-                           {
-                             Id = n.Id,
-                             Name = n.Name
-                           }).ToList();
-      foreach (var item in datalist1)
-      {
-        selectlist.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString() });
-      }
-      ViewBag.Products = selectlist;
 
       return View();
     }
@@ -201,6 +186,44 @@ namespace MicroCrm.WebUI.Controllers
         return PartialView(model);
     }
 
+    public async Task<IActionResult> AddOrEditAqDetail(int id = 0, int aqId = 0)
+    {
+      AqDetail model = new AqDetail();
+
+      if (id > 0)
+        model = _aqDetailService.Queryable().FirstOrDefault(e => e.Id.Equals(id));
+      else if (aqId > 0)
+        model.QaId = aqId;
+
+      var selectlist = new List<SelectListItem>();
+      var filters1 = PredicateBuilder.FromFilter<Product>("");
+      var datalist1 = (await _productService.Query(filters1)
+                           .OrderBy(n => n.OrderBy($"{"Id"}  {"desc"}"))
+                           .SelectAsync())
+                           .Select(n => new
+                           {
+                             Id = n.Id,
+                             Name = n.Name
+                           }).ToList();
+      foreach (var item in datalist1)
+      {
+        selectlist.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString() });
+      }
+      ViewBag.Products = selectlist;
+
+      var role = (string)ViewBag.Role;
+      selectlist = new List<SelectListItem>();
+      selectlist.Add(new SelectListItem() { Text = "Pending", Value = "0" });
+      selectlist.Add(new SelectListItem() { Text = "On - going", Value = "1" });
+      selectlist.Add(new SelectListItem() { Text = "LOST", Value = "2" });
+      selectlist.Add(new SelectListItem() { Text = "SUBMIT", Value = "3" });
+      if (role.ToLower() == "admin")
+        selectlist.Add(new SelectListItem() { Text = "SOLD", Value = "4" });
+      ViewBag.ProjectStatus = selectlist;
+
+      return PartialView(model);
+    }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     //public async Task<IActionResult> AddOrEdit(Quotation request)
@@ -238,6 +261,21 @@ namespace MicroCrm.WebUI.Controllers
       //  var modelStateErrors = string.Join(",", this.ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(n => n.ErrorMessage)));
       //  return Json(new { success = false, err = modelStateErrors });
       //}
+      try
+      {
+        await this.mediator.Send(request);
+        return Json(new { success = true });
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.Message });
+      }
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AddOrEditAqDetail(CreateOrEditAqDetailCommand request)
+    {
       try
       {
         await this.mediator.Send(request);

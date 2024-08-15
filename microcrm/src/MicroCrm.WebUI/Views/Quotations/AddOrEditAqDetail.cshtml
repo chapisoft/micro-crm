@@ -3,14 +3,14 @@
   Layout = null;
 }
 
-<form id="aqDetail-form" class="needs-validation" asp-action="AddOrEdit" novalidate>
+<form id="aqDetail-form" class="needs-validation" asp-action="AddOrEditAqDetail" novalidate>
   <div class="panel-content">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="QaId" />
     <div class="form-row">
       <div class="col-md-6 mb-3">
-        @Html.DropDownList("ProductId", (IEnumerable<SelectListItem>)ViewBag.Products, new { @class = "select2 form-control", @onchange = "getVal()", required = "required" })
+        @Html.DropDownList("ProductId", (IEnumerable<SelectListItem>)ViewBag.Products, (Model != null && Model.ProductId != null ? Model.ProductId.ToString() : ""), new { @class = "select2 form-control", @onchange = "selectProduct()", required = "required" })
         <div class="invalid-feedback" asp-validation-for="ProductId">
         </div>
       </div>
@@ -100,11 +100,19 @@
 
   </div>
   <div class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row align-items-center p-2">
-    <button class="btn btn-primary ml-auto" type="submit">Submit</button>
+    <button class="btn btn-primary ml-auto"  type="button" onclick="saveAqDetail()">Submit</button>
   </div>
 </form>
 
 <script>
+
+  $(document).ready(function () {
+    $(function () {
+      $('.select2').select2();
+      $('.integer').inputmask();
+      $('.currency').inputmask();
+    });
+  });
 
   // Example starter JavaScript for disabling form submissions if there are invalid fields
   (function () {
@@ -153,7 +161,7 @@
 
             request.Amount = Math.floor((((obj.Price + obj.ShipFee) / obj.Margin / obj.ImportTax) * obj.Vat * obj.Exchange) + obj.OtherFee);
             console.log(request)
-            $.post('/AqDetails/AddOrEdit', {
+            $.post('/Quotations/AddOrEditAqDetail', {
               __RequestVerificationToken: request.__RequestVerificationToken,
               request
             }).done(res => {
@@ -172,16 +180,70 @@
         }, false);
       });
 
-      $('.select2').select2();
-      $('.integer').inputmask();
-      $('.currency').inputmask();
-
     }, false);
   })();
 
-  function getVal() {
-    var selectedVal = document.getElementById("ProductId").value;
-    console.log(selectedVal)
+  function saveAqDetail() {
+    var request = $('#aqDetail-form').serializeJSON();
+    request.Margin = request.Margin.replaceAll("%", "");
+    request.Discount = request.Discount.replaceAll("%", "");
+    request.Vat = request.Vat.replaceAll("%", "");
+    request.ImportTax = request.ImportTax.replaceAll("%", "");
+
+    var obj = $('#aqDetail-form').serializeJSON();
+    obj.Price = obj.Price.replaceAll(",", "");
+    if (obj.Price.substr(obj.Price.length - 1) == ".")
+      obj.Price = obj.Price.replaceAll(".", "");
+    obj.ShipFee = obj.ShipFee.replaceAll(",", "");
+    if (obj.ShipFee.substr(obj.ShipFee.length - 1) == ".")
+      obj.ShipFee = obj.ShipFee.replaceAll(".", "");
+    obj.Exchange = obj.Exchange.replaceAll(",", "");
+    if (obj.Exchange.substr(obj.Exchange.length - 1) == ".")
+      obj.Exchange = obj.Exchange.replaceAll(".", "");
+    obj.OtherFee = obj.OtherFee.replaceAll(",", "");
+    if (obj.OtherFee.substr(obj.OtherFee.length - 1) == ".")
+      obj.OtherFee = obj.OtherFee.replaceAll(".", "");
+
+    obj.Price = parseFloat(obj.Price);
+    obj.ShipFee = parseFloat(obj.ShipFee);
+    obj.Margin = parseFloat(obj.Margin) == 0 ? 1 : parseFloat(obj.Margin) / 100;
+    obj.Discount = parseFloat(obj.Discount) == 0 ? 1 : parseFloat(obj.Discount) / 100;
+    obj.Vat = parseFloat(obj.Vat) == 0 ? 1 : parseFloat(obj.Vat) / 100;
+    obj.ImportTax = parseFloat(obj.ImportTax) == 0 ? 1 : parseFloat(obj.ImportTax) / 100;
+    obj.OtherFee = parseFloat(obj.OtherFee);
+    obj.Exchange = parseFloat(obj.Exchange);
+
+    request.Amount = Math.floor((((obj.Price + obj.ShipFee) / obj.Margin / obj.ImportTax) * obj.Vat * obj.Exchange) + obj.OtherFee);
+    $.post('/Quotations/AddOrEditAqDetail', {
+      __RequestVerificationToken: request.__RequestVerificationToken,
+      request
+    }).done(res => {
+      console.log(res);
+      if (res.success) {
+        $('#aqDetail-modal').modal('toggle');
+        reloadAqDetail();
+        toastr.success("Saved successfully");
+      }
+      else {
+        //$.messager.alert('Error', res.err)
+      }
+    });
+  }
+
+  function selectProduct() {
+    var productId = document.getElementById("ProductId").value;
+    $.ajax({
+      url: '@Url.Action("GetById", "Products")',
+      type: 'GET',
+      cache: false,
+      data: { id: productId }
+    }).done(function (res) {
+      var result = JSON.parse(res.result);
+      console.log(result)
+      $("#PartNo").val(result.Model);
+      $("#ItemName").val(result.Name);
+      $("#Price").val(result.UnitPrice);
+    });
   };
   //Added records
   function appendProduct() {

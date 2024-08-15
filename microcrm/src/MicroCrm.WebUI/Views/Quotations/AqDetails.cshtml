@@ -120,8 +120,8 @@
       </div>
       <div class="modal-body">
         <div class="panel-container show">
-          <div class="panel-content">
-            <partial name="AddOrEditAqDetail" />
+          <div class="panel-content" id="panel-aq-detail">
+            
           </div>
         </div>
       </div>
@@ -239,6 +239,18 @@
         }
       ]],
       columns: [[
+        {    /*ProductId*/
+          field: 'ProductId',
+          title: '@Html.DisplayNameFor(model => model.ProductId)',
+          width: 120,
+          hidden: true,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.ProductId)', required: true, validType: 'length[0,50]' }
+          },
+          sortable: true,
+          resizable: true
+        },
         {    /*PartNo*/
           field: 'PartNo',
           title: '@Html.DisplayNameFor(model => model.PartNo)',
@@ -624,7 +636,14 @@
 
   function openAqDetailDetailWindow(data) {
     $('#aqDetail-modal').modal('toggle');
-    $('#aqDetail-form').jsonToForm(data)
+        $.ajax({
+          url: '@Url.Action("AddOrEditAqDetail", "Quotations")',
+          type: 'GET',
+          cache: false,
+          data: { id: data.Id, aqId: $aqId }
+        }).done(function (result) {
+          $('#panel-aq-detail').html(result);
+        });
 
   }
 </script>

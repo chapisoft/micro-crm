@@ -19,6 +19,7 @@ namespace MicroCrm.WebUI.Data.Models
     public string PartNo { get; set; }
     public string ItemName { get; set; }
     public int Qty { get; set; }
+    public string Unit { get; set; }
     public decimal Price { get; set; }
     public decimal ShipFee { get; set; }
     public decimal Margin { get; set; }
