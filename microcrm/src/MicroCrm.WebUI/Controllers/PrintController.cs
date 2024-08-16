@@ -41,7 +41,7 @@ namespace MicroCrm.WebUI.Controllers
         model.Tenant = await _dbContext.Tenants.FindAsync(int.Parse(ViewBag.TenantId.ToString()));
         model.Info = await _quotationService.FindAsync(id);
         model.Company = await _companyService.FindAsync(model.Info.CompanyId);
-        var aqs = _aqDetailService.Queryable().Where(e => e.QaId.Equals(id)).ToList();
+        var aqs = _aqDetailService.Queryable().Where(e => e.QaId.Equals(id) && !e.Subsidiary).ToList();
         List<QuotationItem> list = new List<QuotationItem>();
         QuotationItem item = new QuotationItem();
         foreach(var aq in aqs)
@@ -66,6 +66,35 @@ namespace MicroCrm.WebUI.Controllers
           list.Add(item);
         }
         model.Details = list;
+
+        aqs = _aqDetailService.Queryable().Where(e => e.QaId.Equals(id) && e.Subsidiary).ToList();
+        if (aqs.Any())
+        {
+          list = new List<QuotationItem>();
+          item = new QuotationItem();
+          foreach (var aq in aqs)
+          {
+            item = new QuotationItem();
+            item.PartNo = aq.PartNo;
+            item.ItemName = aq.ItemName;
+            item.Qty = aq.Qty;
+            item.Price = aq.Price;
+            item.ShipFee = aq.ShipFee;
+            item.Margin = aq.Margin;
+            item.Discount = aq.Discount;
+            item.Vat = aq.Vat;
+            item.ImportTax = aq.ImportTax;
+            item.OtherFee = aq.OtherFee;
+            item.Exchange = aq.Exchange;
+            item.Amount = aq.Amount;
+            var pro = _productService.Queryable().FirstOrDefault(e => e.Id.Equals(aq.ProductId));
+            item.Description = pro.Description;
+            item.Image = pro.ImagePath;
+            item.Unit = pro.Unit;
+            list.Add(item);
+          }
+          model.Subsidiary = list;
+        }
       }
       catch (Exception ex)
       {

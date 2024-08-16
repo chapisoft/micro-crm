@@ -170,6 +170,7 @@
     var $aqId = 0;
     var $dgWidth = $('#panel-quotations .datagrid-view').width();
     var EDITINLINE = false;
+    var EDITABLE = true;
     var MODELSTATE = null;
     var item = null;
     var editIndex = undefined;
@@ -320,7 +321,7 @@
               sortable: false,
               resizable: true,
               formatter: function showdetailsformatter(value, row, index) {
-                if (!row.editing) {
+                if (!row.editing && row.Status != 4) {
                   return `<div class="btn-group">\
                             <button onclick="showDetailsWindow('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
                             <button onclick="print('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Print" ><i class="fal fa-print"></i> </button>\
@@ -754,56 +755,59 @@
       }
 
       //Enable Edit Status
-      function onClickCell(index, field) {
+    function onClickCell(index, field) {
 
-        showAqDetail(index);
+      item = $dg.datagrid('getRows')[index];
+      if (item.Status == 4)
+        EDITABLE = false;
 
-        item = $dg.datagrid('getRows')[index];
-        const _actions = ['action', 'ck'];
-        if (!EDITINLINE || $.inArray(field, _actions) >= 0) {
-          return;
-        }
+      showAqDetail(index);
 
-        if (editIndex !== index) {
-          if (endEditing()) {
-            $dg.datagrid('selectRow', index)
-              .datagrid('beginEdit', index);
-            hook = true;
-            editIndex = index;
-            const ed = $dg.datagrid('getEditor', { index: index, field: field });
-            if (ed) {
-              ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
-            }
-          } else {
-            $dg.datagrid('selectRow', editIndex);
+      const _actions = ['action', 'ck'];
+      if (!EDITINLINE || $.inArray(field, _actions) >= 0) {
+        return;
+      }
+
+      if (editIndex !== index) {
+        if (endEditing()) {
+          $dg.datagrid('selectRow', index)
+            .datagrid('beginEdit', index);
+          hook = true;
+          editIndex = index;
+          const ed = $dg.datagrid('getEditor', { index: index, field: field });
+          if (ed) {
+            ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
           }
+        } else {
+          $dg.datagrid('selectRow', editIndex);
         }
       }
+    }
 
-      function rejectChanges() {
-        $dg.datagrid('rejectChanges');
-        editIndex = undefined;
-        hook = false;
-      }
+    function rejectChanges() {
+      $dg.datagrid('rejectChanges');
+      editIndex = undefined;
+      hook = false;
+    }
 
-      function openDetailWindow(data) {
-        $('#quotation-modal').modal('toggle');
-        $id = data.Id;
-        //$('#quotation-form').jsonToForm(data)
-        $.ajax({
-          url: '@Url.Action("AddOrEdit", "Quotations")',
-          type: 'GET',
-          cache: false,
-          data: { id: data.Id }
-        }).done(function (result) {
-          $('#panel-quotation-detail').html(result);
-        });
-      }
+    function openDetailWindow(data) {
+      $('#quotation-modal').modal('toggle');
+      $id = data.Id;
+      //$('#quotation-form').jsonToForm(data)
+      $.ajax({
+        url: '@Url.Action("AddOrEdit", "Quotations")',
+        type: 'GET',
+        cache: false,
+        data: { id: data.Id }
+      }).done(function (result) {
+        $('#panel-quotation-detail').html(result);
+      });
+    }
 
-      function openAqDetailWindow(data) {
-        $aqId = (data.Id || 0);
-        showAqDetails();
-      }
+    function openAqDetailWindow(data) {
+      $aqId = (data.Id || 0);
+      showAqDetails();
+    }
 
     function closeAqDetail() {
       $('#panel-aqDetail').hide();

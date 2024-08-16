@@ -63,24 +63,29 @@
                 <td class="text-right">@(item.Amount.ToString("N0"))</td>
                 <td class="text-right">@((item.Qty*item.Amount).ToString("N0"))</td>
               </tr>
-              @*<tr>
-                  <td class="text-center"></td>
-                  <td class="text-center"></td>
-                  <td class="text-center"></td>
-                  <td class="text-left">@Html.Raw(item.Description)</td>
-                  <td class="text-left">
-                    <br /><image src='@item.Image' style="width: 120px;"></image>
-                  </td>
-                </tr>
+            }
+
+            @if (Model.Subsidiary.Any())
+            {
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-left"><span class="bold">HẠNG MỤC - SẢN PHẨM PHỤ TRỢ</span></td>
+                <td></td>
+                <td class="text-right"></td>
+              </tr>
+              @foreach (var item in Model.Subsidiary)
+              {
                 <tr>
-                  <td class="text-center border-tr"></td>
-                  <td class="text-center border-tr"></td>
-                  <td class="text-center border-tr"></td>
-                  <td class="text-right border-tr" style="padding-right: 30px !important;">
-                    <span class="bold">TỔNG BÁO GIÁ ĐẾN NƠI SỬ DỤNG @(item.Vat > 0 ? "(ĐÃ GỒM VAT)" : "(CHƯA GỒM VAT)")</span>
-                  </td>
-                  <td class="text-right border-tr"><span class="bold">@((item.Qty*item.Amount).ToString("N0"))</span></td>
-                </tr>*@
+                  <td class="text-center">@(Model.Subsidiary.IndexOf(item) + 1)</td>
+                  <td class="text-center">@item.Qty.ToString("N0")</td>
+                  <td class="text-center">@item.Unit</td>
+                  <td class="text-left">[@item.PartNo]  @item.ItemName</td>
+                  <td class="text-right">@(item.Amount.ToString("N0"))</td>
+                  <td class="text-right">@((item.Qty * item.Amount).ToString("N0"))</td>
+                </tr>
+              }
             }
             <tr class="border-top">
               <td colspan="5" class="text-right"><span class="bold">TOTAL AMOUNT</span></td>
@@ -171,9 +176,9 @@
     {
       <div class="row row-head">
         <label class="col-sm-2 text-right bold">Tên sản phẩm</label>
-        <div class="col-sm-4 bold">@item.ItemName</div>
+        <div class="col-sm-6 bold">@item.ItemName</div>
         <label class="col-sm-2 text-right bold">Mã sản phẩm</label>
-        <div class="col-sm-4 bold">@item.PartNo</div>
+        <div class="col-sm-2 bold">@item.PartNo</div>
       </div>
       <div class="row row-head">
         <div class="col-sm-2">
@@ -181,6 +186,26 @@
         </div>
         <div class="col-sm-9">@Html.Raw(item.Description)</div>
       </div>
+    }
+
+    @if (Model.Subsidiary.Any())
+    {
+      <h1 class="m-0 text-center" style="margin: 30px !important;">HẠNG MỤC - SẢN PHẨM PHỤ TRỢ</h1>
+      @foreach (var item in Model.Subsidiary)
+      {
+        <div class="row row-head">
+          <label class="col-sm-2 text-right bold">Tên sản phẩm</label>
+          <div class="col-sm-6 bold">@item.ItemName</div>
+          <label class="col-sm-2 text-right bold">Mã sản phẩm</label>
+          <div class="col-sm-2 bold">@item.PartNo</div>
+        </div>
+        <div class="row row-head">
+          <div class="col-sm-2">
+            <image src='@item.Image' style="width: 120px;"></image>
+          </div>
+          <div class="col-sm-9">@Html.Raw(item.Description)</div>
+        </div>
+      }
     }
     <div style="margin: 50px;">
       <div class="col-sm-12">

@@ -10,12 +10,22 @@
     <input type="hidden" asp-for="QaId" />
     <div class="form-row">
       <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="ProductId">  </label>
         @Html.DropDownList("ProductId", (IEnumerable<SelectListItem>)ViewBag.Products, (Model != null && Model.ProductId != null ? Model.ProductId.ToString() : ""), new { @class = "select2 form-control", @onchange = "selectProduct()", required = "required" })
         <div class="invalid-feedback" asp-validation-for="ProductId">
         </div>
       </div>
-      <div class="col-md-6 mb-3">
+      <div class="col-md-1 mb-3">
+        <label class="form-label" asp-for="ProductId">  </label>
         <button class="form-control btn btn-info btn-sm btn-icon waves-effect waves-themed" onclick="appendProduct()" type="button" style="min-width: 40px;" title="Add Product"><i class="fal fa-folder-plus"></i> </button>
+      </div>
+      <div class="col-md-1 mb-1 pl-1 ">
+        <label class="form-label" asp-for="Subsidiary">  </label>
+        @Html.DropDownList("Subsidiary", (IEnumerable<SelectListItem>)ViewBag.Subsidiary, new { @class = "form-control", required = "required" })
+        <div class="invalid-feedback" asp-validation-for="Private">
+        </div>
+      </div>
+      <div class="col-md-4 mb-1 pl-1 ">
       </div>
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="PartNo">  </label>
@@ -100,7 +110,7 @@
 
   </div>
   <div class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row align-items-center p-2">
-    <button class="btn btn-primary ml-auto"  type="button" onclick="saveAqDetail()">Submit</button>
+    <button class="btn btn-primary ml-auto" type="button" onclick="saveAqDetail()">Submit</button>
   </div>
 </form>
 

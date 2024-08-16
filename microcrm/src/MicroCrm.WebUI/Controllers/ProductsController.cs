@@ -103,21 +103,37 @@ namespace MicroCrm.WebUI.Controllers
           _productService.Insert(product);
           var result = await _unitOfWork.SaveChangesAsync();
 
-          //var selectlist = new List<SelectListItem>();
-          //var filters1 = PredicateBuilder.FromFilter<Product>("");
-          //var datalist1 = (await _productService.Query(filters1)
-          //                     .OrderBy(n => n.OrderBy($"{"Id"}  {"desc"}"))
-          //                     .SelectAsync())
-          //                     .Select(n => new
-          //                     {
-          //                       Id = n.Id,
-          //                       Name = n.Name
-          //                     }).ToList();
-          //foreach (var item in datalist1)
-          //{
-          //  selectlist.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString() });
-          //}
-          //ViewBag.Products = selectlist;
+          return Json(new { success = true, result = result });
+        }
+        catch (Exception e)
+        {
+          return Json(new { success = false, err = e.GetBaseException().Message });
+        }
+
+        //DisplaySuccessMessage("Has update a Work record");
+        //return RedirectToAction("Index");
+      }
+      else
+      {
+        var modelStateErrors = string.Join(",", this.ModelState.Keys.SelectMany(key => this.ModelState[key].Errors.Select(n => n.ErrorMessage)));
+        return Json(new { success = false, err = modelStateErrors });
+        //DisplayErrorMessage(modelStateErrors);
+      }
+      //return View(work);
+    }
+    //新建
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+
+    public async Task<JsonResult> Clone([Bind("Name,Model,Unit,UnitPrice,Description")] Product product)
+    {
+      if (ModelState.IsValid)
+      {
+        try
+        {
+          product.Id = 0;
+          _productService.Insert(product);
+          var result = await _unitOfWork.SaveChangesAsync();
 
           return Json(new { success = true, result = result });
         }

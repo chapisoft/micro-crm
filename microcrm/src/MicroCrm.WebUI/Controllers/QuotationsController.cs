@@ -211,6 +211,11 @@ namespace MicroCrm.WebUI.Controllers
       }
       ViewBag.Products = selectlist;
 
+      selectlist = new List<SelectListItem>();
+      selectlist.Add(new SelectListItem() { Text = "No", Value = false.ToString() });
+      selectlist.Add(new SelectListItem() { Text = "Yes", Value = true.ToString() });
+      ViewBag.Subsidiary = selectlist;
+
       var role = (string)ViewBag.Role;
       selectlist = new List<SelectListItem>();
       selectlist.Add(new SelectListItem() { Text = "Pending", Value = "0" });

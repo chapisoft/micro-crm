@@ -97,6 +97,9 @@ namespace MicroCrm.Domain.Models
     [Display(Name = "Type", Description = "Type")]
     public virtual int Type { get; set; }
 
+    [Display(Name = "Subsidiary", Description = "Subsidiary")]
+    public virtual bool Subsidiary { get; set; }
+
     ////关联OrderId表头
     //[ForeignKey("OrderId")]
     //[Display(Name = "OrderNo", Description = "OrderNo")]

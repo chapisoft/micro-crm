@@ -121,7 +121,7 @@
       <div class="modal-body">
         <div class="panel-container show">
           <div class="panel-content" id="panel-aq-detail">
-            
+
           </div>
         </div>
       </div>
@@ -227,7 +227,7 @@
           sortable: false,
           resizable: true,
           formatter: function showdetailsformatter(value, row, index) {
-            if (!row.editing) {
+            if (!row.editing && EDITABLE) {
               return `<div class="btn-group">\
                                                          <button onclick="showDetailsWindowAqDetail('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
                                                          <button onclick="deleteRowsAqDetail(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
@@ -408,6 +408,16 @@
           sortable: true,
           resizable: true,
 
+        },
+        {
+          field: 'Subsidiary',
+          title: '<span class="required">@Html.DisplayNameFor(model => model.Subsidiary)</span>',
+          width: 80,
+          align: 'center',
+          hidden: false,
+          formatter: checkboxformatter,
+          sortable: true,
+          resizable: true
         }
       ]]
     })

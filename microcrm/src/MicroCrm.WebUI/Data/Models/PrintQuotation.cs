@@ -12,6 +12,7 @@ namespace MicroCrm.WebUI.Data.Models
     public Company Company { get; set; }
     public Quotation Info { get; set; }
     public List<QuotationItem> Details { get; set; }
+    public List<QuotationItem> Subsidiary { get; set; }
   }
 
   public class QuotationItem
@@ -31,5 +32,6 @@ namespace MicroCrm.WebUI.Data.Models
     public decimal Amount { get; set; }
     public string Description { get; set; }
     public string Image { get; set; }
+    public bool Subsidiary { get; set; }
   }
 }
