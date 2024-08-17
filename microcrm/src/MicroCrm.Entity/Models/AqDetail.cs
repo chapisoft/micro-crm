@@ -33,7 +33,7 @@ namespace MicroCrm.Domain.Models
     [DefaultValue(1)]
     [DisplayFormat(DataFormatString = "{0:#,##0.00}")]
     [Display(Name = "Qty", Description = "Requirement Qty")]
-    public virtual int Qty { get; set; }
+    public virtual int Qty { get; set; } = 1;
 
     [Required(ErrorMessage = "Required")]
     [DisplayFormat(DataFormatString = "{0:#,##0.00}")]
@@ -81,7 +81,7 @@ namespace MicroCrm.Domain.Models
     [DisplayFormat(DataFormatString = "{0:#,##0.00}")]
     [Display(Name = "Exchange", Description = "Exchange")]
     [Column(TypeName = "decimal(18, 2)")]
-    public decimal Exchange { get; set; }
+    public decimal Exchange { get; set; } = 1;
 
     [Required(ErrorMessage = "Required")]
     [DisplayFormat(DataFormatString = "{0:#,##0.00}")]
@@ -98,7 +98,7 @@ namespace MicroCrm.Domain.Models
     public virtual int Type { get; set; }
 
     [Display(Name = "Subsidiary", Description = "Subsidiary")]
-    public virtual bool Subsidiary { get; set; }
+    public virtual bool Subsidiary { get; set; } = false;
 
     ////关联OrderId表头
     //[ForeignKey("OrderId")]

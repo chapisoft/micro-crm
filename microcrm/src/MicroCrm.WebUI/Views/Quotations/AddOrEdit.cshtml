@@ -3,7 +3,7 @@
   Layout = null;
 }
 
-<form id="quotation-form" class="needs-validation" asp-action="AddOrEdit" novalidate>
+<form id="quotation-form" class="easyui-form needs-validation" asp-action="AddOrEdit" novalidate>
   <div class="panel-content">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="Id" />
@@ -69,7 +69,7 @@
       </div>
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="Amount">  </label>
-        <input type="text" class="form-control" asp-for="Amount" maxlength="20">
+        <input type="text" class="form-control" asp-for="Amount" disabled>
         <div class="invalid-feedback" asp-validation-for="Amount">
         </div>
       </div>
@@ -86,15 +86,33 @@
         </div>
       </div>
 
-      <div class="col-md-3 mb-3">
+      <div class="col-md-2 mb-3">
         <label class="form-label" asp-for="StartDate">  </label>
-        <input type="text" class="easyui-datebox" asp-for="StartDate" maxlength="20">
+        <input type="text" class="easyui-datebox" asp-for="StartDate">
         <div class="invalid-feedback" asp-validation-for="StartDate">
         </div>
       </div>
-      <div class="col-md-3 mb-3">
+      <div class="col-md-2 mb-3">
         <label class="form-label" asp-for="EndDate">  </label>
-        <input type="text" class="easyui-datebox" asp-for="EndDate" maxlength="20">
+        <input type="text" class="easyui-datebox" asp-for="EndDate">
+        <div class="invalid-feedback" asp-validation-for="EndDate">
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="LeadTimeToShip">  </label>
+        <input type="text" class="form-control" asp-for="LeadTimeToShip">
+        <div class="invalid-feedback" asp-validation-for="LeadTimeToShip">
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="ExpireTime">  </label>
+        <input type="text" class="form-control" asp-for="ExpireTime">
+        <div class="invalid-feedback" asp-validation-for="ExpireTime">
+        </div>
+      </div>
+      <div class="col-md-2 mb-3">
+        <label class="form-label" asp-for="IncludedVat">  </label>
+        @Html.DropDownList("IncludedVat", (IEnumerable<SelectListItem>)ViewBag.IncludedVat, new { @class = "form-control", required = "required" })
         <div class="invalid-feedback" asp-validation-for="EndDate">
         </div>
       </div>
@@ -112,6 +130,9 @@
     <button class="btn btn-primary ml-auto" type="button" onclick="saveQuotation()">Submit</button>
   </div>
 </form>
+
+<script src="~/js/easyui/jquery.easyui.min.js" asp-append-version="true"></script>
+
 <script>
 
   $(document).ready(function () {

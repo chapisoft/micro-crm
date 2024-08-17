@@ -170,6 +170,11 @@ namespace MicroCrm.WebUI.Controllers
         selectlist.Add(new SelectListItem() { Text = "SOLD", Value = "4" });
       ViewBag.ProjectStatus = selectlist;
 
+      selectlist = new List<SelectListItem>();
+      selectlist.Add(new SelectListItem() { Text = "No", Value = false.ToString() });
+      selectlist.Add(new SelectListItem() { Text = "Yes", Value = true.ToString() });
+      ViewBag.IncludedVat = selectlist;
+
       if (contactId > 0)
       {
         var contact = _contactService.Queryable().FirstOrDefault(e => e.Id.Equals(contactId));

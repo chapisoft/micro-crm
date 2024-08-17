@@ -50,6 +50,18 @@ namespace MicroCrm.Domain.Models
     [Display(Name = "Expired Date", Description = "Expired Date", Order = 9)]
     public virtual DateTime EndDate { get; set; } = DateTime.Now;
 
+    [Display(Name = "Lead Time To Ship", Description = "Lead Time To Ship", Order = 11)]
+    [MaxLength(250)]
+    public virtual string LeadTimeToShip { get; set; } = "10 - 12 tuần";
+
+    [Display(Name = "Expire Time", Description = "Expire Time", Order = 11)]
+    [MaxLength(250)]
+    public virtual string ExpireTime { get; set; } = "12 tháng";
+
+    [Display(Name = "Included Vat", Description = "Included Vat", Order = 11)]
+    [MaxLength(250)]
+    public virtual bool IncludedVat { get; set; } = false;
+
     [Display(Name = "Amount", Description = "Amount", Order = 10)]
     [DefaultValue(0)]
     public virtual decimal Amount { get; set; } = 0;

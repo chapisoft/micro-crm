@@ -104,7 +104,7 @@
           <tbody>
             <tr>
               <td>1</td>
-              <td>Giá báo tại Hà Nội bằng Đồng Việt nam @(Model.Details.Count(e=>e.Vat == 0) > 0 ? "chưa bao gồm" : "đã bao gồm") VAT</td>
+              <td>Giá báo tại Hà Nội bằng Đồng Việt nam @(Model.Info.IncludedVat ? "đã bao gồm" : "chưa bao gồm") VAT</td>
             </tr>
             <tr>
               <td>2</td>
@@ -121,7 +121,7 @@
             <tr>
               <td>4</td>
               <td>
-                Thời gian giao hàng: 10-12 tuần
+                Thời gian giao hàng: @Model.Info.LeadTimeToShip
               </td>
             </tr>
             <tr>
@@ -151,7 +151,7 @@
             <tr>
               <td>8</td>
               <td>
-                Giá trị của bản báo giá: 12 tháng kể từ ngày ký.
+                Giá trị của bản báo giá: @Model.Info.ExpireTime kể từ ngày ký.
               </td>
             </tr>
             <tr>
