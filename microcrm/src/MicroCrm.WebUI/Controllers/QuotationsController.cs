@@ -171,8 +171,8 @@ namespace MicroCrm.WebUI.Controllers
       ViewBag.ProjectStatus = selectlist;
 
       selectlist = new List<SelectListItem>();
-      selectlist.Add(new SelectListItem() { Text = "No", Value = false.ToString() });
-      selectlist.Add(new SelectListItem() { Text = "Yes", Value = true.ToString() });
+      selectlist.Add(new SelectListItem() { Text = "No", Value = "0" });
+      selectlist.Add(new SelectListItem() { Text = "Yes", Value = "1" });
       ViewBag.IncludedVat = selectlist;
 
       if (contactId > 0)
@@ -217,8 +217,8 @@ namespace MicroCrm.WebUI.Controllers
       ViewBag.Products = selectlist;
 
       selectlist = new List<SelectListItem>();
-      selectlist.Add(new SelectListItem() { Text = "No", Value = false.ToString() });
-      selectlist.Add(new SelectListItem() { Text = "Yes", Value = true.ToString() });
+      selectlist.Add(new SelectListItem() { Text = "No", Value = "0" });
+      selectlist.Add(new SelectListItem() { Text = "Yes", Value = "1" });
       ViewBag.Subsidiary = selectlist;
 
       var role = (string)ViewBag.Role;

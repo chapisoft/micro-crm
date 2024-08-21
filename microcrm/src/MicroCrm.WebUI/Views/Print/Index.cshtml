@@ -88,8 +88,22 @@
               }
             }
             <tr class="border-top">
+              <td colspan="5" class="text-right"><span>AMOUNT</span></td>
+              <td class="text-right">
+                <span>@((Model.Info.Amount).ToString("N0"))</span>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="5" class="text-right"><span>DISCOUNT</span></td>
+              <td class="text-right">
+                <span>@((Model.Info.Discount).ToString("N0"))</span>
+              </td>
+            </tr>
+            <tr>
               <td colspan="5" class="text-right"><span class="bold">TOTAL AMOUNT</span></td>
-              <td class="text-right"><span class="bold">@((Model.Details.Sum(e=> e.Qty * e.Amount)).ToString("N0"))</span></td>
+              <td class="text-right">
+                <span class="bold">@((Model.Info.TotalAmount).ToString("N0"))</span>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -104,7 +118,7 @@
           <tbody>
             <tr>
               <td>1</td>
-              <td>Giá báo tại Hà Nội bằng Đồng Việt nam @(Model.Info.IncludedVat ? "đã bao gồm" : "chưa bao gồm") VAT</td>
+              <td>Giá báo tại Hà Nội bằng Đồng Việt nam @(Model.Info.IncludedVat == 1 ? "đã bao gồm" : "chưa bao gồm") VAT</td>
             </tr>
             <tr>
               <td>2</td>

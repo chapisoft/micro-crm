@@ -6,6 +6,7 @@
   ViewData["Category1"] = "CRM";
   ViewData["PageDescription"] = "";
   var role = (string)ViewBag.Role;
+  string username = (string)ViewBag.User;
 }
 <style>
   .datagrid-body .datagrid-cell, .datagrid-footer .datagrid-cell {
@@ -515,9 +516,16 @@
               title: '@Html.DisplayNameFor(model => model.Company.PhoneNumber)',
               width: 120,
               hidden: false,
-              editor: {
+              @*editor: {
                 type: 'textbox',
                 options: { prompt: '@Html.DescriptionFor(model => model.Company.PhoneNumber)', required: false, validType: 'length[0,20]' }
+              },*@
+              formatter: function showdetailsformatter(value, row, index) {
+                if ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()') {
+                  return row.PhoneNumber;
+                } else {
+                  return (row.PhoneNumber !== undefined && row.PhoneNumber.length > 4) ? row.PhoneNumber.substring(4) + "xxx" : "";
+                }
               },
               sortable: true,
               resizable: true
@@ -527,9 +535,16 @@
               title: '@Html.DisplayNameFor(model => model.Company.PostCode)',
               width: 120,
               hidden: false,
-              editor: {
+              @*editor: {
                 type: 'textbox',
                 options: { prompt: '@Html.DescriptionFor(model => model.Company.PostCode)', required: false, validType: 'length[0,250]' }
+              },*@
+              formatter: function showdetailsformatter(value, row, index) {
+                if ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()') {
+                  return row.PostCode;
+                } else {
+                  return "xxx";
+                }
               },
               sortable: true,
               resizable: true

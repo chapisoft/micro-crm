@@ -1,10 +1,12 @@
 ﻿@model MicroCrm.Domain.Models.Quotation
 @{
-  ViewData["Title"] = "Quotation Manage";
-  ViewData["PageName"] = "quotations_index";
-  ViewData["Heading"] = "<i class='fal fa-window text-primary'></i> Quotation Manage";
-  ViewData["Category1"] = "CRM";
-  ViewData["PageDescription"] = "";
+    ViewData["Title"] = "Quotation Manage";
+    ViewData["PageName"] = "quotations_index";
+    ViewData["Heading"] = "<i class='fal fa-window text-primary'></i> Quotation Manage";
+    ViewData["Category1"] = "CRM";
+    ViewData["PageDescription"] = "";
+    var role = (string)ViewBag.Role;
+    string username = (string)ViewBag.User;
 }
 <style>
   .datagrid-body .datagrid-cell, .datagrid-footer .datagrid-cell {
@@ -254,9 +256,7 @@
           height: 400,
           pageSize: 10,
           pageList: [10, 20, 50],
-          //filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }],
-          //filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }],
-          filterRules: [],
+          filterRules: (('@role.ToLower()' == 'admin' || '@role.ToLower()' == 'manager') ? [] : [{ "field": "CreatedBy", "op": "equal", "value": "@username.ToLower()" }]),
           onBeforeLoad: () => {
             $('.enable-loader').removeClass('enable-loader')
           },
@@ -476,6 +476,36 @@
               editor: {
                 type: 'textbox',
                 options: { prompt: '@Html.DescriptionFor(model => model.Amount)', required: false }
+              },
+              formatter: numberformatter,
+              sortable: true,
+              resizable: true,
+
+            },
+            {    /*Discount*/
+              field: 'Discount',
+              title: '@Html.DisplayNameFor(model => model.Discount)',
+              width: 150,
+              align: 'right',
+              hidden: false,
+              editor: {
+                type: 'textbox',
+                options: { prompt: '@Html.DescriptionFor(model => model.Discount)', required: false }
+              },
+              formatter: numberformatter,
+              sortable: true,
+              resizable: true,
+
+            },
+            {    /*TotalAmount*/
+              field: 'TotalAmount',
+              title: '@Html.DisplayNameFor(model => model.TotalAmount)',
+              width: 150,
+              align: 'right',
+              hidden: false,
+              editor: {
+                type: 'textbox',
+                options: { prompt: '@Html.DescriptionFor(model => model.TotalAmount)', required: false }
               },
               formatter: numberformatter,
               sortable: true,

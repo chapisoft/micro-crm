@@ -59,12 +59,19 @@ namespace MicroCrm.Domain.Models
     public virtual string ExpireTime { get; set; } = "12 tháng";
 
     [Display(Name = "Included Vat", Description = "Included Vat", Order = 11)]
-    [MaxLength(250)]
-    public virtual bool IncludedVat { get; set; } = false;
+    public virtual int IncludedVat { get; set; }
 
     [Display(Name = "Amount", Description = "Amount", Order = 10)]
     [DefaultValue(0)]
     public virtual decimal Amount { get; set; } = 0;
+
+    [Display(Name = "Discount", Description = "Discount", Order = 10)]
+    [DefaultValue(0)]
+    public virtual decimal Discount { get; set; } = 0;
+
+    [Display(Name = "TotalAmount", Description = "TotalAmount", Order = 10)]
+    [DefaultValue(0)]
+    public virtual decimal TotalAmount { get; set; } = 0;
 
     [Display(Name = "Note", Description = "Note", Order = 11)]
     [MaxLength(250)]

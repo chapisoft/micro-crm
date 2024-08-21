@@ -24,8 +24,10 @@ namespace MicroCrm.Application.Quotations.Commands
     public DateTime EndDate { get; set; }
     public string LeadTimeToShip { get; set; }
     public string ExpireTime { get; set; }
-    public bool IncludedVat { get; set; }
-    public decimal Amount { get; set; } 
+    public int IncludedVat { get; set; }
+    public decimal Amount { get; set; }
+    public decimal Discount { get; set; }
+    public decimal TotalAmount { get; set; }
     public string Note { get; set; }
     public int Status { get; set; }
     public string ApprovedBy { get; set; }

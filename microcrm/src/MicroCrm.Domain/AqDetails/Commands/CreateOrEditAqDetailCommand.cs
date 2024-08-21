@@ -27,6 +27,6 @@ namespace MicroCrm.Application.AqDetails.Commands
     public decimal Amount { get; set; }
     public string Remark { get; set; }
     public int Type { get; set; }
-    public bool Subsidiary { get; set; }
+    public int Subsidiary { get; set; }
   }
 }

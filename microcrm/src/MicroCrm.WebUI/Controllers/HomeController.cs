@@ -1,15 +1,18 @@
 ﻿using System;
-using DotNetCore.CAP;
-using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using MicroCrm.WebUI.Data.Models;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using MicroCrm.Dto;
 using URF.Core.Abstractions;
 using MicroCrm.WebUI.Data;
-using MicroCrm.WebUI.Data.Models;
 using StoredProcedureEFCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using DotNetCore.CAP;
 //using MicroCrm.Service.Implementation;
 
 namespace MicroCrm.WebUI.Controllers
@@ -17,19 +20,21 @@ namespace MicroCrm.WebUI.Controllers
   [Authorize]
   public class HomeController : Controller
   {
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly ICapPublisher _eventBus;
     //private readonly IDashboardService _dashboardService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ApplicationDbContext _dbContext;
     private readonly ILogger<HomeController> logger;
 
-    public HomeController(
+    public HomeController(UserManager<ApplicationUser> userManager,
       ICapPublisher eventBus,
         //IDashboardService dashboardService,
         IUnitOfWork unitOfWork,
       ApplicationDbContext dbContext,
         ILogger<HomeController> logger)
     {
+      _userManager = userManager;
       _eventBus = eventBus;
       //_dashboardService = dashboardService;
       _unitOfWork = unitOfWork;
@@ -55,6 +60,18 @@ namespace MicroCrm.WebUI.Controllers
       });
       BaseRequest request = new BaseRequest();
       request.TenantId = 1;
+
+      var selectlist = new List<SelectListItem>();
+      string filterRules = "";
+      var filters = PredicateBuilder.FromFilter<ApplicationUser>(filterRules);
+      var users = this._userManager.Users.Where(filters).OrderBy($"{"Id"}  {"desc"}");
+      var datalist = users.Select(n => new { GivenName = n.GivenName, UserName = n.UserName }).ToList();
+      foreach (var item in datalist)
+      {
+        if (!item.UserName.ToLower().Equals("sa"))
+          selectlist.Add(new SelectListItem() { Text = item.GivenName, Value = item.UserName });
+      }
+      ViewBag.Users = selectlist;
 
       return View();
     }
@@ -85,6 +102,13 @@ namespace MicroCrm.WebUI.Controllers
         .AddParam("Role", role)
         .Exec(r => rank = r.ToList<StatisticRank>());
         result.StatisticRank = rank;
+
+        List<StatisticActivity> activity = null;
+        _dbContext.LoadStoredProc("dbo.Proc_Dashboard_Get_ActivityBySaler")
+        .AddParam("User", username)
+        .AddParam("Role", role)
+        .Exec(r => activity = r.ToList<StatisticActivity>());
+        result.StatisticActivity = activity;
         return Json(new { success = true, result });
       }
       catch (Exception e)

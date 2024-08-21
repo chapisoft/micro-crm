@@ -21,8 +21,8 @@
       </div>
       <div class="col-md-1 mb-1 pl-1 ">
         <label class="form-label" asp-for="Subsidiary">  </label>
-        @Html.DropDownList("Subsidiary", (IEnumerable<SelectListItem>)ViewBag.Subsidiary, new { @class = "form-control", required = "required" })
-        <div class="invalid-feedback" asp-validation-for="Private">
+        @Html.DropDownList("Subsidiary", new SelectList((IEnumerable<SelectListItem>)ViewBag.Subsidiary, "Value", "Text", Model.Subsidiary), new { @class = "form-control", required = "required" })
+        <div class="invalid-feedback" asp-validation-for="Subsidiary">
         </div>
       </div>
       <div class="col-md-4 mb-1 pl-1 ">
@@ -67,7 +67,7 @@
       </div>
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="Discount">  </label>
-        <input type="text" placeholder="" data-inputmask="'alias': 'percentage'" onchange="calculatePrice()" class="form-control currency" asp-for="Discount">
+        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" onchange="calculatePrice()" class="form-control currency" asp-for="Discount">
         <div class="invalid-feedback" asp-validation-for="Discount">
         </div>
       </div>
@@ -159,17 +159,20 @@
             obj.OtherFee = obj.OtherFee.replaceAll(",", "");
             if (obj.OtherFee.substr(obj.OtherFee.length - 1) == ".")
               obj.OtherFee = obj.OtherFee.replaceAll(".", "");
+            if (obj.Discount.substr(obj.Discount.length - 1) == ".")
+              obj.Discount = obj.Discount.replaceAll(".", "");
 
             obj.Price = parseFloat(obj.Price);
             obj.ShipFee = parseFloat(obj.ShipFee);
-            obj.Margin = parseFloat(obj.Margin) == 0 ? 1 : parseFloat(obj.Margin) / 100;
-            obj.Discount = parseFloat(obj.Discount) == 0 ? 1 : parseFloat(obj.Discount) / 100;
-            obj.Vat = parseFloat(obj.Vat) == 0 ? 1 : parseFloat(obj.Vat) / 100;
-            obj.ImportTax = parseFloat(obj.ImportTax) == 0 ? 1 : parseFloat(obj.ImportTax) / 100;
+            obj.Margin = parseFloat(obj.Margin) / 100;
+            obj.Discount = parseFloat(obj.Discount);
+            obj.Vat = parseFloat(obj.Vat) / 100;
+            obj.ImportTax = parseFloat(obj.ImportTax) / 100;
             obj.OtherFee = parseFloat(obj.OtherFee);
             obj.Exchange = parseFloat(obj.Exchange);
 
-            request.Amount = Math.floor((((obj.Price + obj.ShipFee) / obj.Margin / obj.ImportTax) * obj.Vat * obj.Exchange) + obj.OtherFee);
+            //request.Amount = Math.floor((((obj.Price + obj.ShipFee) / obj.Margin / obj.ImportTax) * obj.Vat * obj.Exchange) + obj.OtherFee);
+            request.Amount = Math.floor(((((obj.Price - obj.Discount + obj.ShipFee) / (1 - obj.Margin) * (1 + obj.ImportTax) * (1 + obj.Vat)) * obj.Exchange) + obj.OtherFee) / 1000) * 1000;
             console.log(request)
             $.post('/Quotations/AddOrEditAqDetail', {
               __RequestVerificationToken: request.__RequestVerificationToken,
@@ -178,6 +181,7 @@
               if (res.success) {
                 $('#aqDetail-modal').modal('toggle');
                 reloadAqDetail();
+                reload();
                 toastr.success("Saved successfully");
               }
               else {
@@ -213,17 +217,20 @@
     obj.OtherFee = obj.OtherFee.replaceAll(",", "");
     if (obj.OtherFee.substr(obj.OtherFee.length - 1) == ".")
       obj.OtherFee = obj.OtherFee.replaceAll(".", "");
+    if (obj.Discount.substr(obj.Discount.length - 1) == ".")
+      obj.Discount = obj.Discount.replaceAll(".", "");
 
     obj.Price = parseFloat(obj.Price);
     obj.ShipFee = parseFloat(obj.ShipFee);
-    obj.Margin = parseFloat(obj.Margin) == 0 ? 1 : parseFloat(obj.Margin) / 100;
-    obj.Discount = parseFloat(obj.Discount) == 0 ? 1 : parseFloat(obj.Discount) / 100;
-    obj.Vat = parseFloat(obj.Vat) == 0 ? 1 : parseFloat(obj.Vat) / 100;
-    obj.ImportTax = parseFloat(obj.ImportTax) == 0 ? 1 : parseFloat(obj.ImportTax) / 100;
+    obj.Margin = parseFloat(obj.Margin) / 100;
+    obj.Discount = parseFloat(obj.Discount);
+    obj.Vat = parseFloat(obj.Vat) / 100;
+    obj.ImportTax = parseFloat(obj.ImportTax) / 100;
     obj.OtherFee = parseFloat(obj.OtherFee);
     obj.Exchange = parseFloat(obj.Exchange);
 
-    request.Amount = Math.floor((((obj.Price + obj.ShipFee) / obj.Margin / obj.ImportTax) * obj.Vat * obj.Exchange) + obj.OtherFee);
+    //request.Amount = Math.floor((((obj.Price + obj.ShipFee) / obj.Margin / obj.ImportTax) * obj.Vat * obj.Exchange) + obj.OtherFee);
+    request.Amount = Math.floor(((((obj.Price - obj.Discount + obj.ShipFee) / (1 - obj.Margin) * (1 + obj.ImportTax) * (1 + obj.Vat)) * obj.Exchange) + obj.OtherFee) / 1000) * 1000;
     $.post('/Quotations/AddOrEditAqDetail', {
       __RequestVerificationToken: request.__RequestVerificationToken,
       request
@@ -232,6 +239,7 @@
       if (res.success) {
         $('#aqDetail-modal').modal('toggle');
         reloadAqDetail();
+        reload();
         toastr.success("Saved successfully");
       }
       else {
@@ -283,18 +291,21 @@
     obj.OtherFee = obj.OtherFee.replaceAll(",", "");
     if (obj.OtherFee.substr(obj.OtherFee.length - 1) == ".")
       obj.OtherFee = obj.OtherFee.replaceAll(".", "");
+    if (obj.Discount.substr(obj.Discount.length - 1) == ".")
+      obj.Discount = obj.Discount.replaceAll(".", "");
 
     obj.Price = parseFloat(obj.Price);
     obj.ShipFee = parseFloat(obj.ShipFee);
-    obj.Margin = parseFloat(obj.Margin) == 0 ? 1 : parseFloat(obj.Margin) / 100;
-    obj.Discount = parseFloat(obj.Discount) == 0 ? 1 : parseFloat(obj.Discount) / 100;
-    obj.Vat = parseFloat(obj.Vat) == 0 ? 1 : parseFloat(obj.Vat) / 100;
-    obj.ImportTax = parseFloat(obj.ImportTax) == 0 ? 1 : parseFloat(obj.ImportTax) / 100;
+    obj.Margin = parseFloat(obj.Margin) / 100;
+    obj.Discount = parseFloat(obj.Discount);
+    obj.Vat = parseFloat(obj.Vat) / 100;
+    obj.ImportTax = parseFloat(obj.ImportTax) / 100;
     obj.OtherFee = parseFloat(obj.OtherFee);
     obj.Exchange = parseFloat(obj.Exchange);
     obj.Amount = parseFloat(obj.Amount);
 
-    obj.Amount = Math.floor((((obj.Price + obj.ShipFee) / obj.Margin / obj.ImportTax) * obj.Vat * obj.Exchange) + obj.OtherFee);
+    //obj.Amount = Math.floor((((obj.Price + obj.ShipFee) / obj.Margin / obj.ImportTax) * obj.Vat * obj.Exchange) + obj.OtherFee);
+    obj.Amount = Math.floor(((((obj.Price - obj.Discount + obj.ShipFee) / (1 - obj.Margin) * (1 + obj.ImportTax) * (1 + obj.Vat)) * obj.Exchange) + obj.OtherFee) / 1000) * 1000;
     $("#Amount").val(obj.Amount);
   }
 </script>

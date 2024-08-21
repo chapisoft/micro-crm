@@ -41,7 +41,15 @@ namespace MicroCrm.WebUI.Controllers
     }
 
     // GET: Products
-    public IActionResult Index() => View();
+    public IActionResult Index()
+    {
+      var selectlist = new List<SelectListItem>();
+      selectlist.Add(new SelectListItem() { Text = "No", Value = "0" });
+      selectlist.Add(new SelectListItem() { Text = "Yes", Value = "1" });
+      ViewBag.IsPrivate = selectlist;
+
+      return View();
+    }
     //data source
     public async Task<JsonResult> GetData(int page = 1, int rows = 10, string sort = "Id", string order = "asc", string filterRules = "")
     {

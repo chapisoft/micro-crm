@@ -98,7 +98,7 @@ namespace MicroCrm.Domain.Models
     public virtual int Type { get; set; }
 
     [Display(Name = "Subsidiary", Description = "Subsidiary")]
-    public virtual bool Subsidiary { get; set; } = false;
+    public virtual int Subsidiary { get; set; }
 
     ////关联OrderId表头
     //[ForeignKey("OrderId")]

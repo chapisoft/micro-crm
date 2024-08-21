@@ -41,7 +41,7 @@ namespace MicroCrm.WebUI.Controllers
         model.Tenant = await _dbContext.Tenants.FindAsync(int.Parse(ViewBag.TenantId.ToString()));
         model.Info = await _quotationService.FindAsync(id);
         model.Company = await _companyService.FindAsync(model.Info.CompanyId);
-        var aqs = _aqDetailService.Queryable().Where(e => e.QaId.Equals(id) && !e.Subsidiary).ToList();
+        var aqs = _aqDetailService.Queryable().Where(e => e.QaId.Equals(id) && e.Subsidiary == 0).ToList();
         List<QuotationItem> list = new List<QuotationItem>();
         QuotationItem item = new QuotationItem();
         foreach(var aq in aqs)
@@ -67,7 +67,7 @@ namespace MicroCrm.WebUI.Controllers
         }
         model.Details = list;
 
-        aqs = _aqDetailService.Queryable().Where(e => e.QaId.Equals(id) && e.Subsidiary).ToList();
+        aqs = _aqDetailService.Queryable().Where(e => e.QaId.Equals(id) && e.Subsidiary == 1).ToList();
         if (aqs.Any())
         {
           list = new List<QuotationItem>();

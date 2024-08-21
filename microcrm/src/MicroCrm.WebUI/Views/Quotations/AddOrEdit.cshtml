@@ -69,8 +69,20 @@
       </div>
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="Amount">  </label>
-        <input type="text" class="form-control" asp-for="Amount" disabled>
+        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" class="form-control currency" asp-for="Amount">
         <div class="invalid-feedback" asp-validation-for="Amount">
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="Discount">  </label>
+        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" class="form-control currency" onchange="calculateAmount()" asp-for="Discount">
+        <div class="invalid-feedback" asp-validation-for="Discount">
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="TotalAmount">  </label>
+        <input type="text" placeholder="" data-inputmask="'alias': 'currency'" class="form-control currency" asp-for="TotalAmount">
+        <div class="invalid-feedback" asp-validation-for="TotalAmount">
         </div>
       </div>
       <div class="col-md-3 mb-3">
@@ -86,13 +98,13 @@
         </div>
       </div>
 
-      <div class="col-md-2 mb-3">
+      <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="StartDate">  </label>
         <input type="text" class="easyui-datebox" asp-for="StartDate">
         <div class="invalid-feedback" asp-validation-for="StartDate">
         </div>
       </div>
-      <div class="col-md-2 mb-3">
+      <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="EndDate">  </label>
         <input type="text" class="easyui-datebox" asp-for="EndDate">
         <div class="invalid-feedback" asp-validation-for="EndDate">
@@ -112,8 +124,8 @@
       </div>
       <div class="col-md-2 mb-3">
         <label class="form-label" asp-for="IncludedVat">  </label>
-        @Html.DropDownList("IncludedVat", (IEnumerable<SelectListItem>)ViewBag.IncludedVat, new { @class = "form-control", required = "required" })
-        <div class="invalid-feedback" asp-validation-for="EndDate">
+        @Html.DropDownList("IncludedVat", new SelectList((IEnumerable<SelectListItem>)ViewBag.IncludedVat, "Value", "Text", Model.IncludedVat), new { @class = "form-control", required = "required" })
+        <div class="invalid-feedback" asp-validation-for="IncludedVat">
         </div>
       </div>
 
@@ -138,7 +150,10 @@
   $(document).ready(function () {
     $(function () {
       $('.select2').select2();
+      //$('.integer').inputmask();
+      $('.currency').inputmask();
     });
+
   });
 
   // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -158,7 +173,20 @@
             event.preventDefault();
             event.stopPropagation();
             var request = $('#quotation-form').serializeJSON();
-            console.log(request)
+            request.Discount = request.Discount.replaceAll(",", "");
+            if (request.Discount.substr(request.Discount.length - 1) == ".")
+              request.Discount = request.Discount.replaceAll(".", "");
+            request.Amount = request.Amount.replaceAll(",", "");
+            if (request.Amount.substr(request.Amount.length - 1) == ".")
+              request.Amount = request.Amount.replaceAll(".", "");
+            request.TotalAmount = request.TotalAmount.replaceAll(",", "");
+            if (request.TotalAmount.substr(request.TotalAmount.length - 1) == ".")
+              request.TotalAmount = request.TotalAmount.replaceAll(".", "");
+
+            request.Discount = parseFloat(request.Discount);
+            request.Amount = parseFloat(request.Amount);
+            request.TotalAmount = request.Amount - request.Discount;
+            console.log('TotalAmount: ' + request.TotalAmount);
             $.post('/Quotations/AddOrEdit', {
               __RequestVerificationToken: request.__RequestVerificationToken,
               request
@@ -183,7 +211,20 @@
 
   function saveQuotation() {
     var request = $('#quotation-form').serializeJSON();
-    console.log(request)
+    request.Discount = request.Discount.replaceAll(",", "");
+    if (request.Discount.substr(request.Discount.length - 1) == ".")
+      request.Discount = request.Discount.replaceAll(".", "");
+    request.Amount = request.Amount.replaceAll(",", "");
+    if (request.Amount.substr(request.Amount.length - 1) == ".")
+      request.Amount = request.Amount.replaceAll(".", "");
+    request.TotalAmount = request.TotalAmount.replaceAll(",", "");
+    if (request.TotalAmount.substr(request.TotalAmount.length - 1) == ".")
+      request.TotalAmount = request.TotalAmount.replaceAll(".", "");
+
+    request.Discount = parseFloat(request.Discount);
+    request.Amount = parseFloat(request.Amount);
+    request.TotalAmount = request.Amount - request.Discount;
+    console.log('TotalAmount: ' + request.TotalAmount);
     $.post('/Quotations/AddOrEdit', {
       __RequestVerificationToken: request.__RequestVerificationToken,
       request
@@ -224,6 +265,25 @@
       $('#panel-quotation-detail').html(result);
     });
   };
+
+  function calculateAmount() {
+    var request = $('#quotation-form').serializeJSON();
+    request.Discount = request.Discount.replaceAll(",", "");
+    if (request.Discount.substr(request.Discount.length - 1) == ".")
+      request.Discount = request.Discount.replaceAll(".", "");
+    request.Amount = request.Amount.replaceAll(",", "");
+    if (request.Amount.substr(request.Amount.length - 1) == ".")
+      request.Amount = request.Amount.replaceAll(".", "");
+    request.TotalAmount = request.TotalAmount.replaceAll(",", "");
+    if (request.TotalAmount.substr(request.TotalAmount.length - 1) == ".")
+      request.TotalAmount = request.TotalAmount.replaceAll(".", "");
+
+    request.Discount = parseFloat(request.Discount);
+    request.Amount = parseFloat(request.Amount);
+    request.TotalAmount = request.Amount - request.Discount;
+    console.log('TotalAmount: ' + request.TotalAmount);
+    $('#TotalAmount').val(request.TotalAmount);
+  }
 
 </script>
 

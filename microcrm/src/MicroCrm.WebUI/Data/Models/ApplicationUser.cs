@@ -60,6 +60,7 @@ namespace MicroCrm.WebUI.Data.Models
     public List<StatisticYear> StatisticYear { get; set; }
     public List<StatisticStatus> StatisticStatus { get; set; }
     public List<StatisticRank> StatisticRank { get; set; }
+    public List<StatisticActivity> StatisticActivity { get; set; }
   }
 
   [Keyless]
@@ -89,4 +90,14 @@ namespace MicroCrm.WebUI.Data.Models
     public decimal Qty { get; set; }
     public decimal Per { get; set; }
   }
+
+  [Keyless]
+  public partial class StatisticActivity
+  {
+    public string Company { get; set; }
+    public string Contact { get; set; }
+    public string Channel { get; set; }
+    public DateTime ActivityDate { get; set; }
+    public string Content { get; set; }
+}
 }

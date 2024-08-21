@@ -88,6 +88,44 @@
       </div>
     </div>
   </div>
+  <div class="col-lg-12">
+    <div id="panel-1" class="panel">
+      <div class="panel-hdr">
+        <h2>
+          Activity by Saler <span class="fw-300"><i>of Week</i></span>
+        </h2>
+        @*<div class="panel-toolbar">
+            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+            <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+          </div>*@
+      </div>
+      <div class="panel-container show">
+        <div class="panel-content">
+          <div class="panel-tag">
+            <label class="form-label">User</label>
+            @Html.DropDownList("Asignee", (IEnumerable<SelectListItem>)ViewBag.Users, new { @class = "form-control" })
+          </div>
+          <div class="frame-wrap">
+            <table class="table m-0">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Company</th>
+                  <th>Contact</th>
+                  <th>Channel</th>
+                  <th>ActivityDate</th>
+                  <th>Content</th>
+                </tr>
+              </thead>
+              <tbody id="activity-detail-body">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 @section ScriptsBlock {
   <script type="text/javascript">
@@ -210,8 +248,18 @@
             });
             $("#rank-body").append(strRank);
 
-
-
+            var strActivity = '';
+            $.each($dashboardData.StatisticActivity, function (i, item) {
+                strActivity += '<tr>'
+                  + ' <th scope="row">' + item.Company + '</th>'
+                  + ' <td>' + item.Contact + '</td>'
+                  + ' <td>' + item.Channel + '</td>'
+                  + ' <td>' + item.ActivityDate + '</td>'
+                  + ' <td>' + item.Content + '</td>'
+                  + '</tr>';
+            });
+            $("#activity-detail-body").append(strActivity);
+            
             var dataMonth = new Array();
             var dataTotal = new Array();
             var dataTopMan = new Array();

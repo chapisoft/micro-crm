@@ -26,5 +26,8 @@ namespace MicroCrm.Domain.Models
     public virtual string ImagePath { get; set; }
     [Display(Name = "Description", Description = "Description", Prompt = "Description")]
     public virtual string Description { get; set; }
-  }
+
+    [Display(Name = "Private", Description = "Private", Prompt = "Private")]
+    public virtual int Private { get; set; }
+}
 }
