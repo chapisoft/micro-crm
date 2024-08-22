@@ -68,9 +68,9 @@ namespace MicroCrm.WebUI.Controllers
         model.Details = list;
 
         aqs = _aqDetailService.Queryable().Where(e => e.QaId.Equals(id) && e.Subsidiary == 1).ToList();
+        list = new List<QuotationItem>();
         if (aqs.Any())
         {
-          list = new List<QuotationItem>();
           item = new QuotationItem();
           foreach (var aq in aqs)
           {
@@ -93,8 +93,8 @@ namespace MicroCrm.WebUI.Controllers
             item.Unit = pro.Unit;
             list.Add(item);
           }
-          model.Subsidiary = list;
         }
+        model.Subsidiary = list;
       }
       catch (Exception ex)
       {

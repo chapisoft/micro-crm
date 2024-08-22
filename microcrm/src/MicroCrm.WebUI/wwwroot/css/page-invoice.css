@@ -1,10 +1,17 @@
 ﻿@media print {
   html,
   body {
-    width: 210mm;
-    height: 297mm; }
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /*width: 210mm;*/
+    height: 297mm;
+  }
   .invoice-page {
-    -webkit-print-color-adjust: exact; }
+    margin: 0 auto;
+    width: 100%;
+    -webkit-print-color-adjust: exact;
+  }
   .col-sm-1,
   .col-sm-2,
   .col-sm-3,
@@ -17,7 +24,7 @@
   .col-sm-10,
   .col-sm-11,
   .col-sm-12 {
-    float: left;
+    /*float: left;*/
     padding: 0; }
   .col-sm-12 {
     width: 100%; }
