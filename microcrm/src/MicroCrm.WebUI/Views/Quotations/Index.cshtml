@@ -256,7 +256,7 @@
           height: 400,
           pageSize: 10,
           pageList: [10, 20, 50],
-          filterRules: (('@role.ToLower()' == 'admin' || '@role.ToLower()' == 'manager') ? [] : [{ "field": "CreatedBy", "op": "equal", "value": "@username.ToLower()" }]),
+          filterRules: (('@role.ToLower()' == 'admin' || '@role.ToLower()' == 'manager') ? [] : [{ "field": "CreatedBy", "op": "equal", "value": "@username" }]),
           onBeforeLoad: () => {
             $('.enable-loader').removeClass('enable-loader')
           },

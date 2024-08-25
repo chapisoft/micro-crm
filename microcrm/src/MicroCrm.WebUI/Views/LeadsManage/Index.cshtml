@@ -260,6 +260,7 @@
     var $contactId = 0;
     var $aqId = 0;
     var $role = 0;
+    var $showDetail = 0;
     //Full Screen Event
     document.addEventListener('panel.onfullscreen', () => {
       $dgActivity.treegrid('resize');
@@ -441,7 +442,7 @@
               sortable: false,
               resizable: true,
               formatter: (value, row, index) => {
-                if (!row.editing && (!row.Private || '@role.ToLower()' == 'admin' || '@role.ToLower()' == 'manager')) {
+                if (!row.editing && (!row.Private || '@role.ToLower()' == 'admin' || '@role.ToLower()' == 'manager' || row.CreatedBy == '@username')) {
                   return `<div class="btn-group">\
                               <button name="actionbutton" data-cmd="edit"  data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Edit Details" ><i class="fal fa-edit"></i> </button>\
                               <button name="actionbutton" data-cmd="delete" data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
@@ -521,7 +522,7 @@
                 options: { prompt: '@Html.DescriptionFor(model => model.Company.PhoneNumber)', required: false, validType: 'length[0,20]' }
               },*@
               formatter: function showdetailsformatter(value, row, index) {
-                if ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()') {
+                if ($role == 1 || row.CreatedBy == '@username') {
                   return row.PhoneNumber;
                 } else {
                   return (row.PhoneNumber !== undefined && row.PhoneNumber.length > 4) ? row.PhoneNumber.substring(4) + "xxx" : "";
@@ -540,7 +541,7 @@
                 options: { prompt: '@Html.DescriptionFor(model => model.Company.PostCode)', required: false, validType: 'length[0,250]' }
               },*@
               formatter: function showdetailsformatter(value, row, index) {
-                if ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()') {
+                if ($role == 1 || row.CreatedBy == '@username') {
                   return row.PostCode;
                 } else {
                   return "xxx";
@@ -582,6 +583,19 @@
                 options: { prompt: '@Html.DescriptionFor(model => model.Company.RegisterDate)', required: true }
               },
               formatter: dateformatter,
+              sortable: true,
+              resizable: true
+            },
+            {
+              field: 'CreatedBy',
+              title: '<span class="required">@Html.DisplayNameFor(model => model.Company.CreatedBy)</span>',
+              width: 140,
+              align: 'right',
+              hidden: false,
+              editor: {
+                type: 'textbox',
+                options: { prompt: '@Html.DescriptionFor(model => model.Company.CreatedBy)', required: true }
+              },
               sortable: true,
               resizable: true
             }
@@ -871,6 +885,11 @@
         const url = '/LeadsManage/SetCompany?companyId=' + $comId;
         $.get(url).done(res => {
           if (res.success) {
+            if ($role == 1 || data.CreatedBy == '@username')
+              $showDetail = 1;
+            else
+              $showDetail = 0;
+
             // Contact
             showContacts();
 

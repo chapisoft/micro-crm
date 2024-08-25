@@ -133,7 +133,7 @@
       pageSize: 10,
       pageList: [10, 20, 50],
       //filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }],
-      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + ($showDetail == 1 ? $comId : 0) + "" }],
       onBeforeloadActivity: function () {
         $('.enable-loader').removeClass('enable-loader')
       },
@@ -198,7 +198,7 @@
           sortable: false,
           resizable: true,
           formatter: function showdetailsformatter(value, row, index) {
-            if (!row.editing && ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()')) {
+            if (!row.editing && ($role == 1 || row.Asignee == '@username' || row.CreatedBy == '@username')) {
               return `<div class="btn-group">\
                             <button onclick="showDetailsWindowActivity('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
                             <button onclick="deleteRowsActivity(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\

@@ -3,133 +3,149 @@
   Layout = null;
 }
 
-      <form id="aqDetail-form" class="needs-validation" asp-action="AddOrEdit" novalidate>
-        <div class="panel-content">
-          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-          <input type="hidden" asp-for="Id" />
-          <input type="hidden" asp-for="QaId" />
-          <div class="form-row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="PartNo">  </label>
-              <input type="text" class="form-control" asp-for="PartNo" required maxlength="50">
-              <div class="invalid-feedback" asp-validation-for="PartNo">
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="ItemName">  </label>
-              <input type="text" class="form-control" asp-for="ItemName" maxlength="128">
-              <div class="invalid-feedback" asp-validation-for="ItemName">
-              </div>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="Qty">  </label>
-              <input type="text" class="form-control" asp-for="Qty" maxlength="10">
-              <div class="invalid-feedback" asp-validation-for="Qty">
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="Price">  </label>
-              <input type="text" class="form-control" asp-for="Price" maxlength="12">
-              <div class="invalid-feedback" asp-validation-for="Price">
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="ShipFee">  </label>
-              <input type="text" class="form-control" asp-for="ShipFee" maxlength="12">
-              <div class="invalid-feedback" asp-validation-for="ShipFee">
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="Margin">  </label>
-              <input type="text" class="form-control" asp-for="Margin" maxlength="12">
-              <div class="invalid-feedback" asp-validation-for="Margin">
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="Discount">  </label>
-              <input type="text" class="form-control" asp-for="Discount" maxlength="12">
-              <div class="invalid-feedback" asp-validation-for="Discount">
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="Vat">  </label>
-              <input type="text" class="form-control" asp-for="Vat" maxlength="12">
-              <div class="invalid-feedback" asp-validation-for="Vat">
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="ImportTax">  </label>
-              <input type="text" class="form-control" asp-for="ImportTax" maxlength="12">
-              <div class="invalid-feedback" asp-validation-for="ImportTax">
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="OtherFee">  </label>
-              <input type="text" class="form-control" asp-for="OtherFee" maxlength="12">
-              <div class="invalid-feedback" asp-validation-for="OtherFee">
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="Exchange">  </label>
-              <input type="text" class="form-control" asp-for="Exchange" maxlength="12">
-              <div class="invalid-feedback" asp-validation-for="OtherFee">
-              </div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label" asp-for="Amount">  </label>
-              <input type="text" class="form-control" asp-for="Amount" maxlength="12" disabled>
-              <div class="invalid-feedback" asp-validation-for="Amount">
-              </div>
-            </div>
-          </div>
+<form id="aqDetail-form" class="needs-validation" asp-action="AddOrEdit" novalidate>
+  <div class="panel-content">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="QaId" />
+    <div class="form-row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="PartNo">  </label>
+        <input type="text" class="form-control" asp-for="PartNo" required maxlength="50">
+        <div class="invalid-feedback" asp-validation-for="PartNo">
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="ItemName">  </label>
+        <input type="text" class="form-control" asp-for="ItemName" maxlength="128">
+        <div class="invalid-feedback" asp-validation-for="ItemName">
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="Qty">  </label>
+        <input type="text" class="form-control" asp-for="Qty" maxlength="10">
+        <div class="invalid-feedback" asp-validation-for="Qty">
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="Price">  </label>
+        <input type="text" class="form-control" asp-for="Price" maxlength="12">
+        <div class="invalid-feedback" asp-validation-for="Price">
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="ShipFee">  </label>
+        <input type="text" class="form-control" asp-for="ShipFee" maxlength="12">
+        <div class="invalid-feedback" asp-validation-for="ShipFee">
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="Margin">  </label>
+        <input type="text" class="form-control" asp-for="Margin" maxlength="12">
+        <div class="invalid-feedback" asp-validation-for="Margin">
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="Discount">  </label>
+        <input type="text" class="form-control" asp-for="Discount" maxlength="12">
+        <div class="invalid-feedback" asp-validation-for="Discount">
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="Vat">  </label>
+        <input type="text" class="form-control" asp-for="Vat" maxlength="12">
+        <div class="invalid-feedback" asp-validation-for="Vat">
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="ImportTax">  </label>
+        <input type="text" class="form-control" asp-for="ImportTax" maxlength="12">
+        <div class="invalid-feedback" asp-validation-for="ImportTax">
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="OtherFee">  </label>
+        <input type="text" class="form-control" asp-for="OtherFee" maxlength="12">
+        <div class="invalid-feedback" asp-validation-for="OtherFee">
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="Exchange">  </label>
+        <input type="text" class="form-control" asp-for="Exchange" maxlength="12">
+        <div class="invalid-feedback" asp-validation-for="OtherFee">
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="Amount">  </label>
+        <input type="text" class="form-control" asp-for="Amount" maxlength="12" disabled>
+        <div class="invalid-feedback" asp-validation-for="Amount">
+        </div>
+      </div>
+    </div>
 
 
-        </div>
-        <div class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row align-items-center p-2" >
-          <button class="btn btn-primary ml-auto" type="submit">Submit</button>
-        </div>
-      </form>
-      <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-          'use strict';
-          window.addEventListener('load', function () {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = $('#aqDetail-form');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function (form) {
-              form.addEventListener('submit', function (event) {
-                if (form.checkValidity() === false) {
-                  event.preventDefault();
-                  event.stopPropagation();
-                } else {
-                  event.preventDefault();
-                  event.stopPropagation();
-                  var request = $('#aqDetail-form').serializeJSON();
-                  console.log(request)
-                  $.post('/AqDetails/AddOrEdit', {
-                    __RequestVerificationToken: request.__RequestVerificationToken,
-                    request
-                  }).done(res => {
-                    if (res.success) {
-                      $('#aqDetail-modal').modal('toggle');
-                      reloadAqDetail();
-                      toastr.success("Saved successfully");
-                    }
-                    else {
-                      //$.messager.alert('Error', res.err)
-                    }
-                  });
-                  
-                }
-                form.classList.add('was-validated');
-              }, false);
+  </div>
+  <div class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row align-items-center p-2">
+    <button class="btn btn-primary ml-auto" type="submit">Submit</button>
+  </div>
+</form>
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function () {
+    'use strict';
+    window.addEventListener('load', function () {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = $('#aqDetail-form');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          } else {
+            event.preventDefault();
+            event.stopPropagation();
+            var request = $('#aqDetail-form').serializeJSON();
+            console.log(request)
+            $.post('/AqDetails/AddOrEdit', {
+              __RequestVerificationToken: request.__RequestVerificationToken,
+              request
+            }).done(res => {
+              if (res.success) {
+                $('#aqDetail-modal').modal('toggle');
+                reloadAqDetail();
+                toastr.success("Saved successfully");
+              }
+              else {
+                //$.messager.alert('Error', res.err)
+              }
             });
-          }, false);
-        })();
 
-      </script>
-   
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
 
+  function save() {
+    var request = $('#project-form').serializeJSON();
+    console.log(request)
+    $.post('/Projects/AddOrEdit', {
+      __RequestVerificationToken: request.__RequestVerificationToken,
+      request
+    }).done(res => {
+      if (res.success) {
+        $('#project-modal').modal('toggle');
+        reloadProject();
+        toastr.success("Saved successfully");
+      }
+      else {
+        //$.messager.alert('Error', res.err)
+      }
+    });
+  }
+
+</script>

@@ -13,7 +13,7 @@
   <partial name="_PageHeading" />
 </div>
 <div class="row">
-  <div class="col-lg-12">
+  <div class="col-lg-6">
     <div id="panel-5" class="panel">
       <div class="panel-hdr">
         <h2>Activity of last 12 month</h2>
@@ -25,8 +25,6 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row">
   <div class="col-lg-6">
     <div id="panel-6" class="panel">
       <div class="panel-hdr">
@@ -53,6 +51,8 @@
       </div>
     </div>
   </div>
+</div>
+<div class="row">
   <div class="col-lg-6">
     <div id="panel-1" class="panel">
       <div class="panel-hdr">
@@ -88,7 +88,7 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-12">
+  <div class="col-lg-6">
     <div id="panel-1" class="panel">
       <div class="panel-hdr">
         <h2>
@@ -102,15 +102,16 @@
       </div>
       <div class="panel-container show">
         <div class="panel-content">
-          <div class="panel-tag">
+          <div class="panel-tag @(role == "Saler" ? "d-none" : "")">
             <label class="form-label">User</label>
-            @Html.DropDownList("Asignee", (IEnumerable<SelectListItem>)ViewBag.Users, new { @class = "form-control" })
+            @Html.DropDownList("Asignee", (IEnumerable<SelectListItem>)ViewBag.Users, new { @class = "form-control", @onchange = "changeSaler()" })
           </div>
           <div class="frame-wrap">
             <table class="table m-0">
               <thead>
                 <tr>
                   <th>#</th>
+                  <th>CreatedBy</th>
                   <th>Company</th>
                   <th>Contact</th>
                   <th>Channel</th>
@@ -248,18 +249,6 @@
             });
             $("#rank-body").append(strRank);
 
-            var strActivity = '';
-            $.each($dashboardData.StatisticActivity, function (i, item) {
-                strActivity += '<tr>'
-                  + ' <th scope="row">' + item.Company + '</th>'
-                  + ' <td>' + item.Contact + '</td>'
-                  + ' <td>' + item.Channel + '</td>'
-                  + ' <td>' + item.ActivityDate + '</td>'
-                  + ' <td>' + item.Content + '</td>'
-                  + '</tr>';
-            });
-            $("#activity-detail-body").append(strActivity);
-            
             var dataMonth = new Array();
             var dataTotal = new Array();
             var dataTopMan = new Array();
@@ -322,6 +311,21 @@
               }
             });
 
+            var strActivity = '';
+            console.log($dashboardData.StatisticActivity);
+            $.each($dashboardData.StatisticActivity, function (i, item) {
+              strActivity += '<tr>'
+                + ' <td scope="row">' + (i + 1) + '</td>'
+                + ' <td>' + item.CreatedBy + '</td>'
+                + ' <td>' + item.Company + '</td>'
+                + ' <td>' + item.Contact + '</td>'
+                + ' <td>' + item.Channel + '</td>'
+                + ' <td>' + item.ActivityDate + '</td>'
+                + ' <td>' + item.Content + '</td>'
+                + '</tr>';
+            });
+            $("#activity-detail-body").append(strActivity);
+
           } else {
             $.messager.alert("Error", response.err, "error");
           }
@@ -331,5 +335,30 @@
         });
 
     });
+
+    function changeSaler() {
+      var asignee = $("#Asignee").val();
+      $.ajax({
+        url: '@Url.Action("GetStatisticActivity", "Home")',
+        type: 'GET',
+        cache: false,
+        data: { username: asignee }
+      }).done(function (result) {
+        var strActivity = '';
+        console.log(result);
+        $.each(result.activity, function (i, item) {
+          strActivity += '<tr>'
+            + ' <td scope="row">' + (i + 1) + '</td>'
+            + ' <td>' + item.CreatedBy + '</td>'
+            + ' <td>' + item.Company + '</td>'
+            + ' <td>' + item.Contact + '</td>'
+            + ' <td>' + item.Channel + '</td>'
+            + ' <td>' + item.ActivityDate + '</td>'
+            + ' <td>' + item.Content + '</td>'
+            + '</tr>';
+        });
+        $("#activity-detail-body").html(strActivity);
+      });
+    };
   </script>
 }

@@ -99,5 +99,6 @@ namespace MicroCrm.WebUI.Data.Models
     public string Channel { get; set; }
     public DateTime ActivityDate { get; set; }
     public string Content { get; set; }
-}
+    public string CreatedBy { get; set; }
+  }
 }

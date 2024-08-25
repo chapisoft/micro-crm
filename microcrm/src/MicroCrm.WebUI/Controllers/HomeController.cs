@@ -66,6 +66,8 @@ namespace MicroCrm.WebUI.Controllers
       var filters = PredicateBuilder.FromFilter<ApplicationUser>(filterRules);
       var users = this._userManager.Users.Where(filters).OrderBy($"{"Id"}  {"desc"}");
       var datalist = users.Select(n => new { GivenName = n.GivenName, UserName = n.UserName }).ToList();
+
+      selectlist.Add(new SelectListItem() { Text = "All", Value = "All" });
       foreach (var item in datalist)
       {
         if (!item.UserName.ToLower().Equals("sa"))
@@ -104,12 +106,42 @@ namespace MicroCrm.WebUI.Controllers
         result.StatisticRank = rank;
 
         List<StatisticActivity> activity = null;
+        if (role.Equals("Saler"))
+        {
+          _dbContext.LoadStoredProc("dbo.Proc_Dashboard_Get_ActivityBySaler")
+          .AddParam("User", username)
+          .AddParam("Role", role)
+          .Exec(r => activity = r.ToList<StatisticActivity>());
+        }
+        else
+        {
+          _dbContext.LoadStoredProc("dbo.Proc_Dashboard_Get_ActivityBySaler")
+          .AddParam("Role", role)
+          .Exec(r => activity = r.ToList<StatisticActivity>());
+        }
+        result.StatisticActivity = activity;
+        return Json(new { success = true, result });
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.Message });
+      }
+    }
+    public JsonResult GetStatisticActivity(string username)
+    {
+      try
+      {
+        string role = ViewBag.Role;
+
+        List<StatisticActivity> activity = null;
+        if (role.Equals("Saler"))
+          username = ViewBag.User;
         _dbContext.LoadStoredProc("dbo.Proc_Dashboard_Get_ActivityBySaler")
         .AddParam("User", username)
         .AddParam("Role", role)
         .Exec(r => activity = r.ToList<StatisticActivity>());
-        result.StatisticActivity = activity;
-        return Json(new { success = true, result });
+
+        return Json(new { success = true, activity });
       }
       catch (Exception e)
       {

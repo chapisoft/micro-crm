@@ -84,7 +84,7 @@
 
   </div>
   <div class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row align-items-center p-2">
-    <button class="btn btn-primary ml-auto" type="submit">Submit</button>
+    <button class="btn btn-primary ml-auto" type="button" onclick="save()">Submit</button>
   </div>
 </form>
 
@@ -129,6 +129,23 @@
     }, false);
   })();
 
+  function save() {
+    var request = $('#project-form').serializeJSON();
+    console.log(request)
+    $.post('/Projects/AddOrEdit', {
+      __RequestVerificationToken: request.__RequestVerificationToken,
+      request
+    }).done(res => {
+      if (res.success) {
+        $('#project-modal').modal('toggle');
+        reloadProject();
+        toastr.success("Saved successfully");
+      }
+      else {
+        //$.messager.alert('Error', res.err)
+      }
+    });
+  }
 </script>
 
 

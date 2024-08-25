@@ -134,7 +134,7 @@
       height: 400,
       pageSize: 10,
       pageList: [10, 20, 50],
-      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + ($showDetail == 1 ? $comId : 0) + "" }],
       onBeforeloadContact: function () {
         $('.enable-loader').removeClass('enable-loader')
       },
@@ -199,7 +199,7 @@
           sortable: false,
           resizable: true,
           formatter: function showdetailsformatter(value, row, index) {
-            if (!row.editing && ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()')) {
+            if (!row.editing && ($role == 1 || row.Asignee == '@username' || row.CreatedBy == '@username')) {
               return `<div class="btn-group">\
                                                          <button onclick="showDetailsWindowContact('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
                                                          <button onclick="deleteRowsContact(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
@@ -309,7 +309,7 @@
             options: { prompt: '@Html.DescriptionFor(model => model.BusinessPhone)', required: false, validType: 'length[0,50]' }
           },*@
           formatter: function showdetailsformatter(value, row, index) {
-            if ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()') {
+            if ($role == 1 || row.Asignee == '@username' || row.CreatedBy == '@username') {
               return row.BusinessPhone;
             } else {
               return (row.BusinessPhone !== undefined && row.BusinessPhone.length > 4) ? row.BusinessPhone.substring(4) + "xxx" : "";
@@ -329,7 +329,7 @@
             options: { prompt: '@Html.DescriptionFor(model => model.Ext)', required: false, validType: 'length[0,20]' }
           },*@
           formatter: function showdetailsformatter(value, row, index) {
-            if ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()') {
+            if ($role == 1 || row.Asignee == '@username' || row.CreatedBy == '@username') {
               return row.Ext;
             } else {
               return "xxx";
@@ -349,7 +349,7 @@
             options: { prompt: '@Html.DescriptionFor(model => model.Email)', required: false, validType: 'length[0,50]' }
           },*@
           formatter: function showdetailsformatter(value, row, index) {
-            if ($role == 1 || row.Asignee == '@username.ToLower()' || row.CreatedBy == '@username.ToLower()') {
+            if ($role == 1 || row.Asignee == '@username' || row.CreatedBy == '@username') {
               return row.Email;
             } else {
               return (row.Email !== undefined && row.Email.length > 6) ? row.Email.substring(6) + "xxx" : "";

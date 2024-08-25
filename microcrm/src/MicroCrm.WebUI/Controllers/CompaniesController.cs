@@ -62,7 +62,8 @@ namespace MicroCrm.WebUI.Controllers
                              PostCode = n.PostCode,
                              Note = n.Note,
                              RegisterDate = n.RegisterDate.ToString("yyyy-MM-dd HH:mm:ss"),
-                             Private = n.Private
+                             Private = n.Private,
+                             CreatedBy = n.CreatedBy
                            }).ToList();
         var pagelist = new { total = total, rows = pagerows };
         return Json(pagelist);
