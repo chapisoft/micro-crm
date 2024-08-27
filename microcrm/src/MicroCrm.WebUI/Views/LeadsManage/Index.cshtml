@@ -442,7 +442,7 @@
               sortable: false,
               resizable: true,
               formatter: (value, row, index) => {
-                if (!row.editing && (!row.Private || '@role.ToLower()' == 'admin' || '@role.ToLower()' == 'manager' || row.CreatedBy == '@username')) {
+                if (!row.editing && ('@role.ToLower()' == 'admin' || '@role.ToLower()' == 'manager' || row.CreatedBy == '@username')) {
                   return `<div class="btn-group">\
                               <button name="actionbutton" data-cmd="edit"  data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Edit Details" ><i class="fal fa-edit"></i> </button>\
                               <button name="actionbutton" data-cmd="delete" data-index="${index}" data-id="${row.Id}" class="btn btn-primary btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
@@ -774,7 +774,7 @@
       onClickCell(index, field) {
         this.item = this.$dg.datagrid('getRows')[index];
 
-        $role = (!this.item.Private || '@role.ToLower()' == 'admin' || '@role.ToLower()' == 'manager');
+        $role = ('@role.ToLower()' == 'admin' || '@role.ToLower()' == 'manager');
 
         this.showDetailCompany(this.item);
 

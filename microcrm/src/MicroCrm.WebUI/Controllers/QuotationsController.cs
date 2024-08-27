@@ -76,7 +76,7 @@ namespace MicroCrm.WebUI.Controllers
                            }).ToList();
       foreach (var item in datalist)
       {
-          selectlist.Add(new SelectListItem() { Text = item.FullName, Value = item.Id.ToString() });
+        selectlist.Add(new SelectListItem() { Text = item.FullName, Value = item.Id.ToString() });
       }
       ViewBag.Companies = selectlist;
 
@@ -137,26 +137,22 @@ namespace MicroCrm.WebUI.Controllers
       }
       ViewBag.Companies = selectlist;
 
-      selectlist = new List<SelectListItem>();
-      if (companyId > 0)
+      if (companyId == 0)
       {
-        var datalist1 = _contactService.Queryable().Where(e => e.CompanyId.Equals(companyId))
-                           .OrderBy(n => n.Name)
-                           .Select(n => new { Id = n.Id, Name = n.Name, Title = n.Title, Department = n.Department }).ToList();
-        foreach (var item in datalist1)
-        {
-          selectlist.Add(new SelectListItem() { Text = item.Name + " (" + item.Title + "-" + item.Department + ")", Value = item.Id.ToString() });
-        }
+        if (model.CompanyId > 0)
+          companyId = model.CompanyId;
+        else
+          companyId = datalist.FirstOrDefault().Id;
       }
-      else if (model.CompanyId > 0)
+
+      selectlist = new List<SelectListItem>();
+
+      var datalist1 = _contactService.Queryable().Where(e => e.CompanyId.Equals(companyId))
+                         .OrderBy(n => n.Name)
+                         .Select(n => new { Id = n.Id, Name = n.Name, Title = n.Title, Department = n.Department }).ToList();
+      foreach (var item in datalist1)
       {
-        var datalist1 = _contactService.Queryable().Where(e => e.CompanyId.Equals(model.CompanyId))
-                           .OrderBy(n => n.Name)
-                           .Select(n => new { Id = n.Id, Name = n.Name, Title = n.Title, Department = n.Department }).ToList();
-        foreach (var item in datalist1)
-        {
-          selectlist.Add(new SelectListItem() { Text = item.Name + " (" + item.Title + "-" + item.Department + ")", Value = item.Id.ToString() });
-        }
+        selectlist.Add(new SelectListItem() { Text = item.Name + " (" + item.Title + "-" + item.Department + ")", Value = item.Id.ToString() });
       }
       ViewBag.Contacts = selectlist;
 
@@ -178,7 +174,7 @@ namespace MicroCrm.WebUI.Controllers
       if (contactId > 0)
       {
         var contact = _contactService.Queryable().FirstOrDefault(e => e.Id.Equals(contactId));
-        if(contact != null)
+        if (contact != null)
         {
           model.Department = contact.Department;
           model.BusinessPhone = contact.BusinessPhone;
@@ -188,7 +184,7 @@ namespace MicroCrm.WebUI.Controllers
         }
       }
 
-        return PartialView(model);
+      return PartialView(model);
     }
 
     public async Task<IActionResult> AddOrEditAqDetail(int id = 0, int aqId = 0)
@@ -200,8 +196,12 @@ namespace MicroCrm.WebUI.Controllers
       else if (aqId > 0)
         model.QaId = aqId;
 
+      string role = ViewBag.Role;
+      string filterRules = "";
+      if (role.Equals("Saler"))
+        filterRules = "[{ \"field\": \"Private\", \"op\": \"equal\", \"value\": \"0\" }]";
       var selectlist = new List<SelectListItem>();
-      var filters1 = PredicateBuilder.FromFilter<Product>("");
+      var filters1 = PredicateBuilder.FromFilter<Product>(filterRules);
       var datalist1 = (await _productService.Query(filters1)
                            .OrderBy(n => n.OrderBy($"{"Id"}  {"desc"}"))
                            .SelectAsync())
@@ -221,7 +221,6 @@ namespace MicroCrm.WebUI.Controllers
       selectlist.Add(new SelectListItem() { Text = "Yes", Value = "1" });
       ViewBag.Subsidiary = selectlist;
 
-      var role = (string)ViewBag.Role;
       selectlist = new List<SelectListItem>();
       selectlist.Add(new SelectListItem() { Text = "Pending", Value = "0" });
       selectlist.Add(new SelectListItem() { Text = "On - going", Value = "1" });
