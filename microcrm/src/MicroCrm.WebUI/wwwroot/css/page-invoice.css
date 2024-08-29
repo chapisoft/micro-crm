@@ -59,7 +59,7 @@
   .subheader {
     display: none; }
   *:not(.keep-print-font) {
-    font-family: Arial, Helvetica, sans-serif !important;
+    font-family: 'Times New Roman', Times, serif;
     font-size: 11pt !important; }
   table {
     font-size: 100% !important; } }
@@ -139,7 +139,7 @@ div[data-size="A4"] {
   }
 
 h1, h2, h3, h4 {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Times New Roman', Times, serif;
   text-transform: uppercase;
   font-weight: bold;
 }
