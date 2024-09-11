@@ -540,7 +540,8 @@
   function deleteRowsAqDetail(selected) {
     $.messager.confirm('Confirm', `Are you sure you want to delete these <span class='badge badge-icon position-relative'>${selected.length} </span> rows?`, result => {
       if (result) {
-        $.post('/AqDetails/deleteCheckedAqDetail', { id: selected })
+        console.log(selected);
+        $.post('/AqDetails/DeleteChecked', { id: selected })
           .done(response => {
             if (response.success) {
               toastr.error(`Successfully delete [${selected.length}] rows of records`);
