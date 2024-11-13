@@ -75,6 +75,11 @@ namespace MicroCrm.WebUI.Controllers
       }
       ViewBag.Users = selectlist;
 
+      selectlist = new List<SelectListItem>();
+      selectlist.Add(new SelectListItem() { Text = "This Week", Value = "0" });
+      selectlist.Add(new SelectListItem() { Text = "Last Week", Value = "1" });
+      ViewBag.Times = selectlist;
+
       return View();
     }
     public JsonResult GetData()
@@ -83,6 +88,7 @@ namespace MicroCrm.WebUI.Controllers
       {
         string username = ViewBag.User;
         string role = ViewBag.Role;
+        int times = 0;
         Dashboard result = new Dashboard();
         List<StatisticYear> year = null;
         _dbContext.LoadStoredProc("dbo.Proc_Dashboard_Get_ActivityYear")
@@ -111,12 +117,14 @@ namespace MicroCrm.WebUI.Controllers
           _dbContext.LoadStoredProc("dbo.Proc_Dashboard_Get_ActivityBySaler")
           .AddParam("User", username)
           .AddParam("Role", role)
+        .AddParam("Times", times)
           .Exec(r => activity = r.ToList<StatisticActivity>());
         }
         else
         {
           _dbContext.LoadStoredProc("dbo.Proc_Dashboard_Get_ActivityBySaler")
           .AddParam("Role", role)
+        .AddParam("Times", times)
           .Exec(r => activity = r.ToList<StatisticActivity>());
         }
         result.StatisticActivity = activity;
@@ -127,7 +135,7 @@ namespace MicroCrm.WebUI.Controllers
         return Json(new { success = false, err = e.Message });
       }
     }
-    public JsonResult GetStatisticActivity(string username)
+    public JsonResult GetStatisticActivity(string username, int times)
     {
       try
       {
@@ -139,6 +147,7 @@ namespace MicroCrm.WebUI.Controllers
         _dbContext.LoadStoredProc("dbo.Proc_Dashboard_Get_ActivityBySaler")
         .AddParam("User", username)
         .AddParam("Role", role)
+        .AddParam("Times", times)
         .Exec(r => activity = r.ToList<StatisticActivity>());
 
         return Json(new { success = true, activity });

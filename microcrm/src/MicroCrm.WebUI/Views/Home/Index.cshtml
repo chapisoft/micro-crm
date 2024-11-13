@@ -13,18 +13,53 @@
   <partial name="_PageHeading" />
 </div>
 <div class="row">
-  <div class="col-lg-6">
-    <div id="panel-5" class="panel">
+  <div class="col-lg-12">
+    <div id="panel-1" class="panel">
       <div class="panel-hdr">
-        <h2>Activity of last 12 month</h2>
+        <h2>
+          Activity by Saler <span class="fw-300"><i>of Week</i></span>
+        </h2>
+        @*<div class="panel-toolbar">
+            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+            <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
+          </div>*@
       </div>
       <div class="panel-container show">
         <div class="panel-content">
-          <div id="flotBar1" style="width: 100%; height: 300px;"></div>
+          <div class="panel-tag row @(role == "Saler" ? "d-none" : "")">
+            <div class="col-md-6">
+              <label class="form-label">User</label>
+              @Html.DropDownList("Asignee", (IEnumerable<SelectListItem>)ViewBag.Users, new { @class = "form-control", @onchange = "getStatisticActivity()" })
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Times</label>
+              @Html.DropDownList("Times", (IEnumerable<SelectListItem>)ViewBag.Times, new { @class = "form-control", @onchange = "getStatisticActivity()" })
+            </div>
+          </div>
+          <div class="frame-wrap">
+            <table class="table m-0">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>CreatedBy</th>
+                  <th>Company</th>
+                  <th>Contact</th>
+                  <th>Channel</th>
+                  <th>ActivityDate</th>
+                  <th>Content</th>
+                </tr>
+              </thead>
+              <tbody id="activity-detail-body">
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+<div class="row">
   <div class="col-lg-6">
     <div id="panel-6" class="panel">
       <div class="panel-hdr">
@@ -51,8 +86,6 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row">
   <div class="col-lg-6">
     <div id="panel-1" class="panel">
       <div class="panel-hdr">
@@ -88,41 +121,16 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-6">
-    <div id="panel-1" class="panel">
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div id="panel-5" class="panel">
       <div class="panel-hdr">
-        <h2>
-          Activity by Saler <span class="fw-300"><i>of Week</i></span>
-        </h2>
-        @*<div class="panel-toolbar">
-            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
-            <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
-            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
-          </div>*@
+        <h2>Activity of last 12 month</h2>
       </div>
       <div class="panel-container show">
         <div class="panel-content">
-          <div class="panel-tag @(role == "Saler" ? "d-none" : "")">
-            <label class="form-label">User</label>
-            @Html.DropDownList("Asignee", (IEnumerable<SelectListItem>)ViewBag.Users, new { @class = "form-control", @onchange = "changeSaler()" })
-          </div>
-          <div class="frame-wrap">
-            <table class="table m-0">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>CreatedBy</th>
-                  <th>Company</th>
-                  <th>Contact</th>
-                  <th>Channel</th>
-                  <th>ActivityDate</th>
-                  <th>Content</th>
-                </tr>
-              </thead>
-              <tbody id="activity-detail-body">
-              </tbody>
-            </table>
-          </div>
+          <div id="flotBar1" style="width: 100%; height: 300px;"></div>
         </div>
       </div>
     </div>
@@ -336,13 +344,14 @@
 
     });
 
-    function changeSaler() {
+    function getStatisticActivity() {
       var asignee = $("#Asignee").val();
+      var times = $("#Times").val();
       $.ajax({
         url: '@Url.Action("GetStatisticActivity", "Home")',
         type: 'GET',
         cache: false,
-        data: { username: asignee }
+        data: { username: asignee, times: times }
       }).done(function (result) {
         var strActivity = '';
         console.log(result);
