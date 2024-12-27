@@ -248,45 +248,49 @@
                        type="text"
                        data-options="prompt:'@Html.DescriptionFor(model => model.Name)', required:true, validType: 'length[0,128]'" />
               </div>
-              <label class="col-md-2 pr-1 form-label text-right ">@Html.DisplayNameFor(model => model.Model)</label>
+              <label class="col-md-2 pr-1 form-label text-right"> @Html.DisplayNameFor(model => model.NameEn)</label>
               <div class="col-md-4 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.NameEn)"
+                       name="@Html.NameFor(model => model.NameEn)"
+                       value="@Html.ValueFor(model => model.NameEn)"
+                       tabindex="1"
+                       class="easyui-textbox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.NameEn)', validType: 'length[0,128]'" />
+              </div>
+              <label class="col-md-2 pr-1 form-label text-right ">@Html.DisplayNameFor(model => model.Model)</label>
+              <div class="col-md-2 mb-1 pl-1">
                 <input id="@Html.IdFor(model => model.Model)"
                        name="@Html.NameFor(model => model.Model)"
                        value="@Html.ValueFor(model => model.Model)"
-                       tabindex="1" required
+                       tabindex="2" required
                        class="easyui-textbox"
                        style="width:100%"
                        type="text"
                        data-options="prompt:'@Html.DescriptionFor(model => model.Model)', required:true,validType: 'length[0,60]'" />
               </div>
-              <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Unit)</label>
-              <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.Unit)"
-                       name="@Html.NameFor(model => model.Unit)"
-                       value="@Html.ValueFor(model => model.Unit)"
-                       tabindex="2"
+              <label class="col-md-2 pr-1 form-label text-right ">@Html.DisplayNameFor(model => model.Brand)</label>
+              <div class="col-md-3 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.Brand)"
+                       name="@Html.NameFor(model => model.Brand)"
+                       value="@Html.ValueFor(model => model.Brand)"
+                       tabindex="3" required
                        class="easyui-textbox"
                        style="width:100%"
                        type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.Unit)', required:false, validType: 'length[0,10]'" />
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Brand)', required:true,validType: 'length[0,120]'" />
               </div>
-              <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.UnitPrice)</label>
-              <div class="col-md-4 mb-1 pl-1">
-                <input id="@Html.IdFor(model => model.UnitPrice)"
-                       name="@Html.NameFor(model => model.UnitPrice)"
-                       value="@Html.ValueFor(model => model.UnitPrice)"
-                       tabindex="3"
-                       class="easyui-numberbox"
-                       style="width:100%"
-                       type="text"
-                       data-options="prompt:'@Html.DescriptionFor(model => model.UnitPrice)', required:true, formatter:numberformatter,parser:parsernumber" />
+              <label class="col-md-1 pr-1 form-label text-right">Private</label>
+              <div class="col-md-2 mb-1 pl-1 ">
+                @Html.DropDownList("Private", (IEnumerable<SelectListItem>)ViewBag.IsPrivate, new { @class = "form-control", required = "required" })
               </div>
               <label class="col-md-2 pr-1 form-label text-right">Image</label>
-              <div class="col-md-4 mb-1 pl-1">
+              <div class="col-md-3 mb-1 pl-1">
                 <input id="@Html.IdFor(model => model.ImagePath)"
                        name="@Html.NameFor(model => model.ImagePath)"
                        value="@Html.ValueFor(model => model.ImagePath)"
-                       tabindex="0"
+                       tabindex="4"
                        class="easyui-textbox"
                        type="text" />
                 <image id="imgProduct" src='' style="width: 80px;"></image>
@@ -308,13 +312,35 @@
                   </div>
                 </div>
               </div>
-              <label class="col-md-2 pr-1 form-label text-right">Private</label>
-              <div class="col-md-4 mb-1 pl-1 ">
-                @Html.DropDownList("Private", (IEnumerable<SelectListItem>)ViewBag.IsPrivate, new { @class = "form-control", required = "required" })
+              <label class="col-md-1 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Unit)</label>
+              <div class="col-md-3 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.Unit)"
+                       name="@Html.NameFor(model => model.Unit)"
+                       value="@Html.ValueFor(model => model.Unit)"
+                       tabindex="5"
+                       class="easyui-textbox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.Unit)', required:false, validType: 'length[0,10]'" />
+              </div>
+              <label class="col-md-1 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.UnitPrice)</label>
+              <div class="col-md-2 mb-1 pl-1">
+                <input id="@Html.IdFor(model => model.UnitPrice)"
+                       name="@Html.NameFor(model => model.UnitPrice)"
+                       value="@Html.ValueFor(model => model.UnitPrice)"
+                       tabindex="6"
+                       class="easyui-numberbox"
+                       style="width:100%"
+                       type="text"
+                       data-options="prompt:'@Html.DescriptionFor(model => model.UnitPrice)', required:true, formatter:numberformatter,parser:parsernumber" />
               </div>
               <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.Description)</label>
               <div class="col-md-10 mb-1 pl-1">
                 <div class="js-summernote" id="txtDescription"></div>
+              </div>
+              <label class="col-md-2 pr-1 form-label text-right">@Html.DisplayNameFor(model => model.DescriptionEn)</label>
+              <div class="col-md-10 mb-1 pl-1">
+                <div class="js-summernote" id="txtDescriptionEn"></div>
               </div>
             </div>
           </fieldset>
@@ -723,6 +749,18 @@
             sortable: true,
             resizable: true
           },
+          {    /*Brand*/
+            field: 'Brand',
+            title: '@Html.DisplayNameFor(model => model.Brand)',
+            width: 120,
+            hidden: false,
+            editor: {
+              type: 'textbox',
+              options: { prompt: '@Html.DescriptionFor(model => model.Brand)', required: true, validType: 'length[0,250]' }
+            },
+            sortable: true,
+            resizable: true
+          },
           {    /*Model*/
             field: 'Model',
             title: '@Html.DisplayNameFor(model => model.Model)',
@@ -826,7 +864,8 @@
           $("#productdetailwindow").window("open");
           $('#product_form').form('reset');
           $('#product_form').form('load', data);
-          $('.js-summernote').summernote("code", data.Description);
+          $('#txtDescription').summernote("code", data.Description);
+          $('#txtDescriptionEn').summernote("code", data.DescriptionEn);
 
           if (MODELSTATE === 'Added') {
             $('button[name*=\'saveAsItembutton\']').hide();
@@ -859,7 +898,8 @@
       const $productform = $('#product_form');
       if ($productform.form('enableValidation').form('validate')) {
         let product = $productform.serializeJSON();
-        product.Description = $('.js-summernote').summernote("code");
+        product.Description = $('#txtDescription').summernote("code");
+        product.DescriptionEn = $('#txtDescriptionEn').summernote("code");
         let url = '/Products/Clone';
         var token = $('input[name="__RequestVerificationToken"]', $productform).val();
         //$.messager.progress({ title: 'Please wait', msg: 'Accepting data...', interval: 200 });
@@ -896,7 +936,8 @@
       const $productform = $('#product_form');
       if ($productform.form('enableValidation').form('validate')) {
         let product = $productform.serializeJSON();
-        product.Description = $('.js-summernote').summernote("code");
+        product.Description = $('#txtDescription').summernote("code");
+        product.DescriptionEn = $('#txtDescriptionEn').summernote("code");
         let url = '/Products/Edit';
         //Determine whether it is added or modified method
         if (MODELSTATE === 'Added') {

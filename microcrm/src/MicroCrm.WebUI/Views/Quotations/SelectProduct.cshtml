@@ -1,0 +1,5 @@
+﻿@{
+  Layout = null;
+}
+
+@Html.DropDownList("ProductId", (IEnumerable<SelectListItem>)ViewBag.Products, (Model != null && Model.ProductId != null ? Model.ProductId.ToString() : ""), new { @class = "select2 form-control", @onchange = "selectProduct()", required = "required" })

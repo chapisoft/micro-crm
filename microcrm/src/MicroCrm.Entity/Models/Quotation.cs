@@ -73,6 +73,16 @@ namespace MicroCrm.Domain.Models
     [DefaultValue(0)]
     public virtual decimal TotalAmount { get; set; } = 0;
 
+    [Required(ErrorMessage = "Required")]
+    [DisplayFormat(DataFormatString = "{0:#,##0.00}")]
+    [Display(Name = "Exchange", Description = "Exchange")]
+    public decimal Exchange { get; set; } = 1;
+
+    [Display(Name = "Money", Description = "Money")]
+    [MaxLength(30)]
+    [StringLength(20)]
+    public virtual string Money { get; set; }
+
     [Display(Name = "Note", Description = "Note", Order = 11)]
     [MaxLength(250)]
     public virtual string Note { get; set; }

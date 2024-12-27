@@ -9,9 +9,13 @@
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="QaId" />
     <div class="form-row">
+      <div class="col-md-4 mb-3">
+        <label class="form-label">Brand</label>
+        <input type="text" id="txtBrand" class="form-control" required maxlength="250" onchange="searchProduct()">
+      </div>
       <div class="col-md-6 mb-3">
         <label class="form-label" asp-for="ProductId">  </label>
-        @Html.DropDownList("ProductId", (IEnumerable<SelectListItem>)ViewBag.Products, (Model != null && Model.ProductId != null ? Model.ProductId.ToString() : ""), new { @class = "select2 form-control", @onchange = "selectProduct()", required = "required" })
+        <partial name="SelectProduct" />
         <div class="invalid-feedback" asp-validation-for="ProductId">
         </div>
       </div>
@@ -25,18 +29,22 @@
         <div class="invalid-feedback" asp-validation-for="Subsidiary">
         </div>
       </div>
-      <div class="col-md-4 mb-1 pl-1 ">
-      </div>
-      <div class="col-md-3 mb-3">
+      <div class="col-md-2 mb-3">
         <label class="form-label" asp-for="PartNo">  </label>
         <input type="text" class="form-control" asp-for="PartNo" required maxlength="50">
         <div class="invalid-feedback" asp-validation-for="PartNo">
         </div>
       </div>
-      <div class="col-md-9 mb-3">
+      <div class="col-md-5 mb-3">
         <label class="form-label" asp-for="ItemName">  </label>
         <input type="text" class="form-control" asp-for="ItemName" maxlength="128">
         <div class="invalid-feedback" asp-validation-for="ItemName">
+        </div>
+      </div>
+      <div class="col-md-5 mb-3">
+        <label class="form-label" asp-for="NameEn">  </label>
+        <input type="text" class="form-control" asp-for="NameEn" maxlength="128">
+        <div class="invalid-feedback" asp-validation-for="NameEn">
         </div>
       </div>
     </div>
@@ -92,7 +100,7 @@
       <div class="col-md-3 mb-3">
         <label class="form-label" asp-for="Exchange">  </label>
         <input type="text" placeholder="" data-inputmask="'alias': 'currency'" onchange="calculatePrice()" class="form-control currency" asp-for="Exchange">
-        <div class="invalid-feedback" asp-validation-for="OtherFee">
+        <div class="invalid-feedback" asp-validation-for="Exchange">
         </div>
       </div>
       <div class="col-md-3 mb-3">
@@ -257,10 +265,11 @@
       data: { id: productId }
     }).done(function (res) {
       var result = JSON.parse(res.result);
-      console.log(result)
       $("#PartNo").val(result.Model);
       $("#ItemName").val(result.Name);
+      $("#NameEn").val(result.NameEn);
       $("#Price").val(result.UnitPrice);
+      calculatePrice();
     });
   };
   //Added records
@@ -279,6 +288,7 @@
 
   function calculatePrice() {
     var obj = $('#aqDetail-form').serializeJSON();
+    console.log(obj);
     obj.Price = obj.Price.replaceAll(",", "");
     if (obj.Price.substr(obj.Price.length - 1) == ".")
       obj.Price = obj.Price.replaceAll(".", "");
@@ -307,6 +317,45 @@
     //obj.Amount = Math.floor((((obj.Price + obj.ShipFee) / obj.Margin / obj.ImportTax) * obj.Vat * obj.Exchange) + obj.OtherFee);
     obj.Amount = Math.floor(((((obj.Price - obj.Discount + obj.ShipFee) / (1 - obj.Margin) * (1 + obj.ImportTax) * (1 + obj.Vat)) * obj.Exchange) + obj.OtherFee) / 1000) * 1000;
     $("#Amount").val(obj.Amount);
+  }
+
+  function searchProduct() {
+    var brand = document.getElementById("txtBrand").value;
+    $.ajax({
+      url: '@Url.Action("SelectProduct", "Quotations")',
+      type: 'GET',
+      cache: false,
+      data: { brand: brand }
+    }).done(function (res) {
+      //var result = JSON.parse(res.result);
+      //console.log(result);
+    });
+
+    $.ajax({
+      url: '@Url.Action("SelectProduct", "Quotations")',
+      type: 'GET',
+      data: { brand: brand },
+      success: function (res) {
+        var result = JSON.parse(res.result);
+        // Clear and populate the DropDownList
+        var $dropdown = $('#ProductId'); //ProductId
+        $dropdown.empty();
+
+        if (result.length > 0) {
+          $.each(result, function (index, item) {
+            $dropdown.append($('<option>', {
+              value: item.Value,
+              text: item.Text
+            }));
+          });
+        } else {
+          $dropdown.append($('<option>', { value: '', text: 'No products found' }));
+        }
+      },
+      error: function () {
+        alert('An error occurred while fetching products.');
+      }
+    });
   }
 </script>
 

@@ -33,9 +33,10 @@ namespace MicroCrm.WebUI.Controllers
       _dbContext = dbContext;
       _logger = logger;
     }
-    public async Task<IActionResult> Index(int id)
+    public async Task<IActionResult> Index(int id, string lang)
     {
       PrintQuotation model = new PrintQuotation();
+      model.Lang = lang;
       try
       {
         model.Tenant = await _dbContext.Tenants.FindAsync(int.Parse(ViewBag.TenantId.ToString()));
@@ -63,6 +64,8 @@ namespace MicroCrm.WebUI.Controllers
           item.Description = pro.Description;
           item.Image = pro.ImagePath;
           item.Unit = pro.Unit;
+          item.NameEn = pro.NameEn;
+          item.DescriptionEn = pro.DescriptionEn;
           list.Add(item);
         }
         model.Details = list;
@@ -91,6 +94,8 @@ namespace MicroCrm.WebUI.Controllers
             item.Description = pro.Description;
             item.Image = pro.ImagePath;
             item.Unit = pro.Unit;
+            item.NameEn = pro.NameEn;
+            item.DescriptionEn = pro.DescriptionEn;
             list.Add(item);
           }
         }

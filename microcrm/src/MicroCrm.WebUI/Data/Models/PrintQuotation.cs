@@ -10,6 +10,7 @@ namespace MicroCrm.WebUI.Data.Models
   {
     public Tenant Tenant { get; set; }
     public Company Company { get; set; }
+    public String Lang { get; set; }
     public Quotation Info { get; set; }
     public List<QuotationItem> Details { get; set; }
     public List<QuotationItem> Subsidiary { get; set; }
@@ -33,5 +34,7 @@ namespace MicroCrm.WebUI.Data.Models
     public string Description { get; set; }
     public string Image { get; set; }
     public bool Subsidiary { get; set; }
+    public virtual string NameEn { get; set; }
+    public virtual string DescriptionEn { get; set; }
   }
 }

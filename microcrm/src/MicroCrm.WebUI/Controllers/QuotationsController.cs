@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using MicroCrm.WebUI.Data.Models;
 using MicroCrm.WebUI.Data;
 using MicroCrm.Application.AqDetails.Commands;
+using Newtonsoft.Json;
 
 namespace MicroCrm.WebUI.Controllers
 {
@@ -194,7 +195,11 @@ namespace MicroCrm.WebUI.Controllers
       if (id > 0)
         model = _aqDetailService.Queryable().FirstOrDefault(e => e.Id.Equals(id));
       else if (aqId > 0)
+      {
         model.QaId = aqId;
+        Quotation quotation = _quotationService.Queryable().FirstOrDefault(e => e.Id.Equals(aqId));
+        model.Exchange = quotation.Exchange;
+      }  
 
       string role = ViewBag.Role;
       string filterRules = "";
@@ -231,6 +236,31 @@ namespace MicroCrm.WebUI.Controllers
       ViewBag.ProjectStatus = selectlist;
 
       return PartialView(model);
+    }
+
+    public async Task<JsonResult> SelectProduct(string brand)
+    {
+      string role = ViewBag.Role;
+      string filterRules = "";
+      if (role.Equals("Saler"))
+        filterRules = "[{ \"field\": \"Private\", \"op\": \"equal\", \"value\": \"0\" }]";
+      filterRules = "[{ \"field\": \"Brand\", \"op\": \"contains\", \"value\": \"" + brand + "\" }]";
+      var selectlist = new List<SelectListItem>();
+      var filters1 = PredicateBuilder.FromFilter<Product>(filterRules);
+      var datalist1 = (await _productService.Query(filters1)
+                           .OrderBy(n => n.OrderBy($"{"Id"}  {"desc"}"))
+                           .SelectAsync())
+                           .Select(n => new
+                           {
+                             Id = n.Id,
+                             Name = n.Name
+                           }).ToList();
+      foreach (var item in datalist1)
+      {
+        selectlist.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString() });
+      }
+
+      return Json(new { success = true, result = JsonConvert.SerializeObject(selectlist) });
     }
 
     [HttpPost]
@@ -273,6 +303,46 @@ namespace MicroCrm.WebUI.Controllers
       try
       {
         await this.mediator.Send(request);
+        return Json(new { success = true });
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.Message });
+      }
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Clone(CreateOrEditQuotationCommand request)
+    {
+      try
+      {
+        var listDetail = _aqDetailService.Queryable().Where(e => e.QaId == request.Id).ToList();
+        request.Id = 0;
+        var newObj = await this.mediator.Send(request);
+        foreach(var item in listDetail)
+        {
+          CreateOrEditAqDetailCommand detail = new CreateOrEditAqDetailCommand();
+          detail.QaId = newObj.Id;
+          detail.ProductId = item.ProductId;
+          detail.PartNo = item.PartNo;
+          detail.ItemName = item.ItemName;
+          detail.Qty = item.Qty;
+          detail.Price = item.Price;
+          detail.ShipFee = item.ShipFee;
+          detail.Margin = item.Margin;
+          detail.Discount = item.Discount;
+          detail.Vat = item.Vat;
+          detail.ImportTax = item.ImportTax;
+          detail.OtherFee = item.OtherFee;
+          detail.Exchange = item.Exchange;
+          detail.Amount = item.Amount;
+          detail.Remark = item.Remark;
+          detail.Type = item.Type;
+          detail.Subsidiary = item.Subsidiary;
+
+          await this.mediator.Send(detail);
+        }
         return Json(new { success = true });
       }
       catch (Exception e)

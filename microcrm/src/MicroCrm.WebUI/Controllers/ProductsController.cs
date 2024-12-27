@@ -105,7 +105,7 @@ namespace MicroCrm.WebUI.Controllers
     [HttpPost]
     [ValidateAntiForgeryToken]
 
-    public async Task<JsonResult> Create([Bind("Name,Model,Unit,UnitPrice,Description")] Product product)
+    public async Task<JsonResult> Create([Bind("Name,Model,Unit,UnitPrice,Description,NameEn,DescriptionEn,Brand")] Product product)
     {
       if (ModelState.IsValid)
       {
@@ -136,7 +136,7 @@ namespace MicroCrm.WebUI.Controllers
     [HttpPost]
     [ValidateAntiForgeryToken]
 
-    public async Task<JsonResult> Clone([Bind("Name,Model,Unit,UnitPrice,Description")] Product product)
+    public async Task<JsonResult> Clone([Bind("Name,Model,Unit,UnitPrice,Description,NameEn,DescriptionEn,Brand")] Product product)
     {
       if (ModelState.IsValid)
       {

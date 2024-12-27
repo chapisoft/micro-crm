@@ -28,5 +28,7 @@ namespace MicroCrm.Application.AqDetails.Commands
     public string Remark { get; set; }
     public int Type { get; set; }
     public int Subsidiary { get; set; }
+    public string NameEn { get; set; }
+    public string DescriptionEn { get; set; }
   }
 }

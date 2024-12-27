@@ -99,6 +99,10 @@ namespace MicroCrm.Domain.Models
 
     [Display(Name = "Subsidiary", Description = "Subsidiary")]
     public virtual int Subsidiary { get; set; }
+    [Display(Name = "Name En", Description = "Name En", Prompt = "Name En")]
+    public virtual string NameEn { get; set; }
+    [Display(Name = "Description En", Description = "Description En", Prompt = "Description En")]
+    public virtual string DescriptionEn { get; set; }
 
     ////关联OrderId表头
     //[ForeignKey("OrderId")]
