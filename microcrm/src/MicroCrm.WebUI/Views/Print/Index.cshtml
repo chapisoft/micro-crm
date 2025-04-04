@@ -6,7 +6,15 @@
 <style>
   .page-content {
     color: #000000;
-  }
+	}
+
+  .container {
+	  font-size: 16px;
+	}
+
+	.privacy td {
+		font-size: 16px;
+	}
 </style>
 @if (Model.Lang.IsNullOrEmpty())
 {
@@ -41,7 +49,7 @@
         </tbody>
       </table>
       <div>
-        <h4 class="text-center">BÁO GIÁ</h4>
+        <h1 class="text-center">BÁO GIÁ</h1>
         <p class="text-left bold">Kính gửi:Quý khách hàng</p>
         <p class="text-left bold">Công ty TNHH Thiết bị KHKT An Dương xin trân trọng gửi tới tơí quý công ty bản chào hàng cho thiết bị sau:</p>
         <p class="text-right bold">QVAD-@Model.Info.Id/@Model.Info.StartDate.Year</p>
@@ -119,7 +127,7 @@
       </div>
       <div>
         <div class="col-sm-12">
-          <p class="bold" style="text-decoration: underline; font-style:italic; font-size: 12px; margin: 20px; padding: 0 !important;">
+          <p class="bold" style="text-decoration: underline; font-style:italic; font-size: 14px; margin: 20px; padding: 0 !important;">
             Điều kiện thương mại
           </p>
           <table class="table table-clean table-sm align-self-end row privacy">
@@ -282,7 +290,7 @@ else
         </tbody>
       </table>
       <div>
-        <h4 class="text-center">QUOTATION</h4>
+        <h1 class="text-center">QUOTATION</h1>
         <p class="text-left bold">Dear: Customers</p>
         <p class="text-left bold">An Duong Science and Technology Equipment Company Limited would like to respectfully send to your company the quotation for the following equipment:</p>
         <p class="text-right bold">QVAD-@Model.Info.Id/@Model.Info.StartDate.Year</p>
@@ -360,7 +368,7 @@ else
       </div>
       <div>
         <div class="col-sm-12">
-          <p class="bold" style="text-decoration: underline; font-style:italic; font-size: 12px; margin: 20px; padding: 0 !important;">
+          <p class="bold" style="text-decoration: underline; font-style:italic; font-size: 14px; margin: 20px; padding: 0 !important;">
             Terms of trade
           </p>
           <table class="table table-clean table-sm align-self-end row privacy">

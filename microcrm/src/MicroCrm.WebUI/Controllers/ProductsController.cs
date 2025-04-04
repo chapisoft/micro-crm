@@ -57,7 +57,10 @@ namespace MicroCrm.WebUI.Controllers
       {
         string role = ViewBag.Role;
         if (role.Equals("Saler"))
-          filterRules = "[{ \"field\": \"Private\", \"op\": \"equal\", \"value\": \"0\" }]";
+          if (filterRules.IsNullOrEmpty() || filterRules.Equals("[]"))
+            filterRules = "[{ \"field\": \"Private\", \"op\": \"equal\", \"value\": \"0\" }]";
+          else
+            filterRules = filterRules.Replace("]", ",{ \"field\": \"Private\", \"op\": \"equal\", \"value\": \"0\" }]");
         var filters = PredicateBuilder.FromFilter<Product>(filterRules);
         var total = await _productService
                              .Query(filters).CountAsync();
