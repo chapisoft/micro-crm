@@ -19,8 +19,8 @@ namespace MicroCrm.Domain.Models
     //public Product Product { get; set; }
 
     [Display(Name = "PartNo", Description = "PartNo")]
-    [MaxLength(20)]
-    [StringLength(20)]
+    [MaxLength(250)]
+    [StringLength(250)]
     public virtual string PartNo { get; set; }
 
     [Display(Name = "Item Name", Description = "Item Name")]
