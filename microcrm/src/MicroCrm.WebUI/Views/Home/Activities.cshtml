@@ -1,0 +1,543 @@
+﻿@model MicroCrm.Domain.Models.ContactActivity
+@{
+    Layout = null;
+    var role = (string)ViewBag.Role;
+    string username = (string)ViewBag.User;
+}
+<div class="row">
+  <div class="col-lg-12 col-xl-12">
+    <div id="panel-activity" class="panel">
+      <div class="panel-container enable-loader show">
+        <div class="loader"><i class="fal fa-spinner-third fa-spin-4x fs-xxl"></i></div>
+        <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade ">
+          <div class="row no-gutters align-items-center">
+            <div class="col">
+              <div class="btn-group btn-group-sm">
+                <button onclick="appendActivity()" class="btn btn-default">
+                  <span class="fal fa-plus mr-1"></span> Add
+                </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button name="deletebutton" disabled onclick="removeActivity()" class="btn btn-default">
+                  <span class="fal fa-times mr-1"></span> Delete
+                </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button name="savebutton" disabled onclick="acceptChangesActivity()" class="btn btn-default">
+                  <span class="fal fa-save mr-1"></span> Save
+                </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button name="cancelbutton" disabled onclick="rejectChangesActivity()" class="btn btn-default">
+                  <span class="fal fa-ban mr-1"></span> Cancel
+                </button>
+              </div>
+              <div class="btn-group btn-group-sm">
+                <button onclick="reloadActivity()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Search </button>
+                <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-animated">
+                  <a class="dropdown-item js-waves-on" href="javascript:void()"> My Records </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item js-waves-on" href="javascript:void()"> Customize Search </a>
+                </div>
+              </div>
+              @*<div class="btn-group btn-group-sm hidden-xs">
+                <button type="button" onclick="importExcel.upload()" class="btn btn-default"><span class="fal fa-cloud-upload mr-1"></span> Import </button>
+                <button type="button" class="btn btn-default  dropdown-toggle dropdown-toggle-split waves-effect waves-themed" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-animated">
+                  <a class="dropdown-item js-waves-on" href="javascript:importExcel.downloadtemplate()">
+                    <span class="fal fa-download"></span> Download the template
+                  </a>
+                </div>
+              </div>*@
+              <div class="btn-group btn-group-sm hidden-xs">
+                <button onclick="exportExcelActivity()" class="btn btn-default">
+                  <span class="fal fa-file-export mr-1"></span>  Export
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-content">
+          <div class="table-responsive">
+            <table id="activities_datagrid">
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Activity Edit Modal -->
+<div class="modal fade" id="activity-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          Activity Information
+          <small class="m-0 text-muted">
+
+          </small>
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"><i class="fal fa-times"></i></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="panel-container show">
+          <div class="panel-content" id="panel-activity-detail">
+            @*<partial name="AddOrEditActivity" />*@
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+@await Component.InvokeAsync("ImportExcel", new ImportExcelOptions
+{
+  entity = "ContactActivity",
+  folder = "ContactActivity",
+  url = "/ContactActivities",
+  tpl = "Activity.xlsx"
+})
+
+<script>
+
+  function showActivities() {
+
+    $dgActivity.datagrid({
+      rownumbers: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'desc',
+      remoteFilter: true,
+      singleSelect: true,
+      method: 'post',
+      onClickCellActivity: onClickCellActivity,
+      clientPaging: false,
+      pagination: true,
+      striped: true,
+      //width: 1000,
+      height: 400,
+      pageSize: 10,
+      pageList: [10, 20, 50],
+      //filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + ($showDetail == 1 ? $comId : 0) + "" }],
+      onBeforeloadActivity: function () {
+        $('.enable-loader').removeClass('enable-loader')
+      },
+      onLoadSuccess: function (data) {
+        editIndexActivity = undefined;
+        $("button[name*='deletebutton']").prop('disabled', true);
+        $("button[name*='savebutton']").prop('disabled', true);
+        $("button[name*='cancelbutton']").prop('disabled', true);
+      },
+      onCheckAll: function (rows) {
+        if (rows.length > 0) {
+          $("button[name*='deletebutton']").prop('disabled', false);
+        }
+      },
+      onUncheckAll: function () {
+        $("button[name*='deletebutton']").prop('disabled', true);
+      },
+      onCheck: function () {
+        $("button[name*='deletebutton']").prop('disabled', false);
+      },
+      onUncheck: function () {
+        const checked = $(this).datagrid('getChecked').length > 0;
+        $("button[name*='deletebutton']").prop('disabled', !checked);
+      },
+      onSelect: function (index, row) {
+        activity = row;
+      },
+      onBeginEdit: function (index, row) {
+        //const editors = $(this).datagrid('getEditors', index);
+
+      },
+      onEndEdit: function (index, row) {
+        editIndexActivity = undefined;
+      },
+      onBeforeEdit: function (index, row) {
+        editIndexActivity = index;
+        row.editing = true;
+        $("button[name*='deletebutton']").prop('disabled', false);
+        $("button[name*='cancelbutton']").prop('disabled', false);
+        $("button[name*='savebutton']").prop('disabled', false);
+        $(this).datagrid('refreshRow', index);
+      },
+      onAfterEdit: function (index, row) {
+        row.editing = false;
+        editIndexActivity = undefined;
+        $(this).datagrid('refreshRow', index);
+      },
+      onCancelEdit: function (index, row) {
+        row.editing = false;
+        editIndexActivity = undefined;
+        $("button[name*='deletebutton']").prop('disabled', true);
+        $("button[name*='savebutton']").prop('disabled', true);
+        $("button[name*='cancelbutton']").prop('disabled', true);
+        $(this).datagrid('refreshRow', index);
+      },
+      columns: [[
+        { field: 'ck', checkbox: true },
+        {
+          field: 'action',
+          title: 'Operate',
+          width: 85,
+          sortable: false,
+          resizable: true,
+          formatter: function showdetailsformatter(value, row, index) {
+            if (!row.editing && ($role == 1 || row.Asignee == '@username' || row.CreatedBy == '@username')) {
+              return `<div class="btn-group">\
+                            <button onclick="showDetailsWindowActivity('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
+                            <button onclick="deleteRowsActivity(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
+                      </div>`;
+            } else {
+              return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
+            }
+          }
+        },
+        {    /*ContactId*/
+          field: 'ContactId',
+          title: '@Html.DisplayNameFor(model => model.ContactId)',
+          width: 80,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.ContactId)', required: true }
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*Name*/
+          field: 'Name',
+          title: '@Html.DisplayNameFor(model => model.Name)',
+          width: 200,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Name)', required: true, validType: 'length[0,128]' }
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*Title*/
+          field: 'Title',
+          title: '@Html.DisplayNameFor(model => model.Title)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Title)', required: true }
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*Channel*/
+          field: 'Channel',
+          title: '@Html.DisplayNameFor(model => model.Channel)',
+          width: 80,
+          hidden: false,
+          @*editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Channel)', required: false, validType: 'length[0,20]' }
+          },*@
+          sortable: true,
+          resizable: true,
+          formatter: function (value, row, index) {
+            if (row.Channel == 0) {
+              return "Mobile"
+            }
+            else if (row.Channel == 1) {
+              return "Chat"
+            }
+            else if (row.Channel == 2) {
+              return "Mail"
+            }
+            else if (row.Channel == 3) {
+              return "Meet"
+            }
+            else {
+              return "Other"
+            }
+          }
+        },
+        {    /*ActivityDate*/
+          field: 'ActivityDate',
+          title: '@Html.DisplayNameFor(model => model.ActivityDate)',
+          width: 200,
+          align: 'right',
+          hidden: false,
+          editor: {
+            type: 'datebox',
+            options: { prompt: '@Html.DescriptionFor(model => model.ActivityDate)', required: false }
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*Content*/
+          field: 'Content',
+          title: '@Html.DisplayNameFor(model => model.Content)',
+          width: 250,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Content)', required: false, validType: 'length[0,250]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        }
+      ]]
+    })
+      .datagrid('enableFilter', [
+      ])
+      .datagrid('load', '/ContactActivities/GetData');
+
+    $('#panel-activity .datagrid').css('width', '100%');
+    $('#panel-activity .datagrid-wrap').css('width', '100%');
+    $('#panel-activity .datagrid-view').css('width', '100%');
+    $('#panel-activity .datagrid-view').css('height', '400px');
+    $('#panel-activity .datagrid-view1').css('width', '155px');
+    $('#panel-activity .datagrid-view2').css('width', $dgWidth);
+
+    closeAqDetail()
+  }
+  //Download ExcelImport Template
+
+  //Execute Export to download Excel
+  function exportExcelActivity() {
+    const filterRules = JSON.stringify($dgActivity.datagrid('options').filterRules);
+    console.log(filterRules);
+    $.messager.progress({ title: 'Please wait', msg: 'Export in progress...' });
+    let formData = new FormData();
+    formData.append('filterRules', filterRules);
+    formData.append('sort', 'Id');
+    formData.append('order', 'asc');
+    $.postDownload('/ContactActivities/exportExcel', formData).then(res => {
+      $.messager.progress('close');
+      toastr.success('Export successful!');
+    }).catch(err => {
+      //console.log(err);
+      $.messager.progress('close');
+      $.messager.alert('Export failed', err.statusText, 'error');
+    });
+
+  }
+  //Pop-up details Message
+  function showDetailsWindowActivity(id, index) {
+    const activity = $dgActivity.datagrid('getRows')[index];
+    openActivityDetailWindow(activity, 'Modified');
+  }
+  function reloadActivity() {
+    $dgActivity.datagrid('uncheckAll');
+    $dgActivity.datagrid('reload');
+  }
+  //Added records
+  function appendActivity() {
+    if ($contact != null) {
+      activity = {
+        Id: null,
+        Name: $contact.Name,
+        Title: $contact.Title,
+        Department: $contact.Department,
+        BusinessPhone: $contact.BusinessPhone,
+        Ext: $contact.Ext,
+        Email: $contact.Email,
+      };
+    }
+    else {
+      activity = {
+        Id: null,
+        Name: '',
+        Title: '',
+        Department: '',
+        BusinessPhone: '',
+        Ext: '',
+        Email: '',
+      };
+    }
+    if (!EDITINLINEActivity) {
+      //The Added window pops up
+      openActivityDetailWindow(activity, 'Added');
+    } else {
+      if (endEditingActivity()) {
+        //Initialize the default value for the Required field
+        $dgActivity.datagrid('insertRow',
+          {
+            index: 0,
+            row: activity
+          });
+        editIndexActivity = 0;
+        $dgActivity.datagrid('selectRow', editIndexActivity)
+          .datagrid('beginEdit', editIndexActivity);
+        hook = true;
+      }
+    }
+  }
+  //Delete Edit Row
+  function removeActivity() {
+    if (this.$dgActivity.datagrid('getChecked').length <= 0 && EDITINLINEActivity) {
+      if (editIndexActivity !== undefined) {
+        const delindex = editIndexActivity;
+        $dgActivity.datagrid('cancelEdit', delindex)
+          .datagrid('deleteRow', delindex);
+        hook = true;
+        $("button[name*='savebutton']").prop('disabled', false);
+        $("button[name*='cancelbutton']").prop('disabled', false);
+      } else {
+        const rows = $dgActivity.datagrid('getChecked');
+        rows.slice().reverse().forEach(row => {
+          const rowindex = $dgActivity.datagrid('getRowIndex', row);
+          $dgActivity.datagrid('deleteRow', rowindex);
+          hook = true;
+        });
+      }
+    } else {
+      deleteCheckedActivity();
+    }
+  }
+  //Delete the selected row
+  function deleteCheckedActivity() {
+    const checked = $dgActivity.datagrid('getChecked').filter(item => item.Id != null && item.Id > 0).map(item => {
+      return item.Id;
+    });;
+    if (checked.length > 0) {
+      deleteRowsActivity(checked);
+    } else {
+      $.messager.alert('Success', 'Please select the record to be deleted first!', 'question');
+    }
+  }
+  //Execute Delete
+  function deleteRowsActivity(selected) {
+    $.messager.confirm('Confirm', `Are you sure you want to delete these <span class='badge badge-icon position-relative'>${selected.length} </span> rows?`, result => {
+      if (result) {
+        $.post('/ContactActivities/deleteChecked', { id: selected })
+          .done(response => {
+            if (response.success) {
+              toastr.error(`Successfully delete [${selected.length}] rows of records`);
+              reloadActivity();
+            } else {
+              $.messager.alert('Error', response.err, 'error');
+            }
+          })
+          .fail((jqXHR, textStatus, errorThrown) => {
+            $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+          });
+      }
+    });
+  }
+  //CloseEditStatus
+  function endEditingActivity() {
+
+    if (editIndexActivity === undefined) {
+      return true;
+    }
+    if (this.$dgActivity.datagrid('validateRow', editIndexActivity)) {
+      $dgActivity.datagrid('endEdit', editIndexActivity);
+      return true;
+    } else {
+      const invalidinput = $('input.validatebox-invalid', $dgActivity.datagrid('getPanel'));
+      const fieldnames = invalidinput.map((index, item) => {
+        return $(item).attr('placeholder') || $(item).attr('id');
+      });
+      $.messager.alert('Success', `${Array.from(fieldnames)} The input is incorrect.`, 'error');
+      return false;
+    }
+  }
+  //Submit Accept backend database
+  function acceptChangesActivity() {
+    if (endEditingActivity()) {
+      if ($dgActivity.datagrid('getChanges').length > 0) {
+        const inserted = $dgActivity.datagrid('getChanges', 'inserted').map(item => {
+          item.TrackingState = 1;
+          return item;
+        });
+        const updated = $dgActivity.datagrid('getChanges', 'updated').map(item => {
+          item.TrackingState = 2
+          return item;
+        });
+        const deleted = $dgActivity.datagrid('getChanges', 'deleted').map(item => {
+          item.TrackingState = 3
+          return item;
+        });
+        //Filter Deleted Duplicates
+        const changed = inserted.concat(updated.filter(item => {
+          return !deleted.includes(item);
+        })).concat(deleted);
+        //$.messager.progress({ title: 'Please wait', msg: 'Accepting data...', interval: 200 });
+        $.post('/ContactActivities/acceptChanges', { activities: changed })
+          .done(response => {
+            //$.messager.progress('close');
+            //console.log(response);
+            if (response.success) {
+              toastr.success('Saved successfully');
+              $dgActivity.datagrid('acceptChanges');
+              reloadActivity();
+              hook = false;
+            } else {
+              $.messager.alert('Error', response.err, 'error');
+            }
+          })
+          .fail((jqXHR, textStatus, errorThrown) => {
+            //$.messager.progress('close');
+            $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+          });
+      }
+    }
+  }
+  //Enable Edit Status
+  function onClickCellActivity(index, field) {
+
+    activity = $dgActivity.datagrid('getRows')[index];
+    const _actions = ['action', 'ck'];
+    if (!EDITINLINEActivity || $.inArray(field, _actions) >= 0) {
+      return;
+    }
+
+    if (editIndexActivity !== index) {
+      if (endEditingActivity()) {
+        $dgActivity.datagrid('selectRow', index)
+          .datagrid('beginEdit', index);
+        hook = true;
+        editIndexActivity = index;
+        const ed = $dgActivity.datagrid('getEditor', { index: index, field: field });
+        if (ed) {
+          ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+        }
+      } else {
+        $dgActivity.datagrid('selectRow', editIndexActivity);
+      }
+    }
+  }
+  function rejectChangesActivity() {
+    $dgActivity.datagrid('rejectChanges');
+    editIndexActivity = undefined;
+    hook = false;
+  }
+
+  function openActivityDetailWindow(data) {
+    $('#activity-modal').modal('toggle');
+    //$('#activity-form').jsonToForm(data)
+    $.ajax({
+      url: '@Url.Action("AddOrEditActivity", "LeadsManage")',
+      type: 'GET',
+      cache: false,
+      data: { id: data.Id }
+    }).done(function (result) {
+      $('#panel-activity-detail').html(result);
+    });
+
+  }
+</script>

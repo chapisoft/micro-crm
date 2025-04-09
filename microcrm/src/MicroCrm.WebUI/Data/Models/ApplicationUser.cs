@@ -94,6 +94,7 @@ namespace MicroCrm.WebUI.Data.Models
   [Keyless]
   public partial class StatisticActivity
   {
+    public int CompanyId { get; set; }
     public string Company { get; set; }
     public string Contact { get; set; }
     public string Channel { get; set; }

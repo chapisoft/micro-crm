@@ -1,0 +1,521 @@
+﻿@model MicroCrm.Domain.Models.Contact
+@{
+  Layout = null;
+  var role = (string)ViewBag.Role;
+  string username = (string)ViewBag.User;
+}
+<div class="row">
+  <div class="col-lg-12 col-xl-12">
+    <div id="panel-contact" class="panel">
+      <div class="panel-container enable-loader show">
+        <div class="loader"><i class="fal fa-spinner-third fa-spin-4x fs-xxl"></i></div>
+        <div class="panel-content">
+          <div class="table-responsive">
+            <table id="contacts_datagrid">
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+@await Component.InvokeAsync("ImportExcel", new ImportExcelOptions
+{
+  entity = "Contact",
+  folder = "Contacts",
+  url = "/Contacts",
+  tpl = "Contact.xlsx"
+})
+
+<script>
+
+  function showContacts() {
+
+    $dgContact.datagrid({
+      rownumbers: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'desc',
+      remoteFilter: true,
+      singleSelect: true,
+      method: 'post',
+      onClickCell: (index, field) => {
+        onClickCellContact(index, field);
+      },
+      clientPaging: false,
+      pagination: true,
+      striped: true,
+      //width: 1000,
+      height: 400,
+      pageSize: 10,
+      pageList: [10, 20, 50],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + ($showDetail == 1 ? $comId : 0) + "" }],
+      onBeforeloadContact: function () {
+        $('.enable-loader').removeClass('enable-loader')
+      },
+      onLoadSuccess: function (data) {
+        editIndexContact = undefined;
+        $("button[name*='deletebutton']").prop('disabled', true);
+        $("button[name*='savebutton']").prop('disabled', true);
+        $("button[name*='cancelbutton']").prop('disabled', true);
+      },
+      onCheckAll: function (rows) {
+        if (rows.length > 0) {
+          $("button[name*='deletebutton']").prop('disabled', false);
+        }
+      },
+      onUncheckAll: function () {
+        $("button[name*='deletebutton']").prop('disabled', true);
+      },
+      onCheck: function () {
+        $("button[name*='deletebutton']").prop('disabled', false);
+      },
+      onUncheck: function () {
+        const checked = $(this).datagrid('getChecked').length > 0;
+        $("button[name*='deletebutton']").prop('disabled', !checked);
+      },
+      onSelect: function (index, row) {
+        contact = row;
+      },
+      onBeginEdit: function (index, row) {
+        //const editors = $(this).datagrid('getEditors', index);
+
+      },
+      onEndEdit: function (index, row) {
+        editIndexContact = undefined;
+      },
+      onBeforeEdit: function (index, row) {
+        editIndexContact = index;
+        row.editing = true;
+        $("button[name*='deletebutton']").prop('disabled', false);
+        $("button[name*='cancelbutton']").prop('disabled', false);
+        $("button[name*='savebutton']").prop('disabled', false);
+        $(this).datagrid('refreshRow', index);
+      },
+      onAfterEdit: function (index, row) {
+        row.editing = false;
+        editIndexContact = undefined;
+        $(this).datagrid('refreshRow', index);
+      },
+      onCancelEdit: function (index, row) {
+        row.editing = false;
+        editIndexContact = undefined;
+        $("button[name*='deletebutton']").prop('disabled', true);
+        $("button[name*='savebutton']").prop('disabled', true);
+        $("button[name*='cancelbutton']").prop('disabled', true);
+        $(this).datagrid('refreshRow', index);
+      },
+      columns: [[
+        { field: 'ck', checkbox: true },
+        {
+          field: 'action',
+          title: 'Operate',
+          width: 85,
+          sortable: false,
+          resizable: true,
+          formatter: function showdetailsformatter(value, row, index) {
+            return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
+          }
+        },
+        {    /*Id*/
+          field: 'Id',
+          title: 'Code',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Id)', required: true}
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*Name*/
+          field: 'Name',
+          title: '@Html.DisplayNameFor(model => model.Name)',
+          width: 200,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Name)', required: true}
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*Title*/
+          field: 'Title',
+          title: '@Html.DisplayNameFor(model => model.Title)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Title)', required: true }
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*Department*/
+          field: 'Department',
+          title: '@Html.DisplayNameFor(model => model.Department)',
+          width: 200,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Department)', required: false, validType: 'length[0,50]' }
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*Asignee*/
+          field: 'Asignee',
+          title: '@Html.DisplayNameFor(model => model.Asignee)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Asignee)', required: false, validType: 'length[0,50]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Source*/
+          field: 'Source',
+          title: '@Html.DisplayNameFor(model => model.Source)',
+          width: 80,
+          hidden: false,
+          @*editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Source)', required: false, validType: 'length[0,20]' }
+          },*@
+          sortable: true,
+          resizable: true,
+          formatter: function (value, row, index) {
+            if (row.Source == 0) {
+              return "Email"
+            }
+            else if (row.Source == 1) {
+              return "Exhibition"
+            }
+            else if (row.Source == 2) {
+              return "Incoming phone"
+            }
+            else if (row.Source == 3) {
+              return "Website"
+            }
+            else if (row.Source == 4) {
+              return "Transfer"
+            }
+          }
+        },
+        {    /*BusinessPhone*/
+          field: 'BusinessPhone',
+          title: '@Html.DisplayNameFor(model => model.BusinessPhone)',
+          width: 120,
+          hidden: false,
+          @*editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.BusinessPhone)', required: false, validType: 'length[0,50]' }
+          },*@
+          formatter: function showdetailsformatter(value, row, index) {
+            if ($role == 1 || row.Asignee == '@username' || row.CreatedBy == '@username') {
+              return row.BusinessPhone;
+            } else {
+              return (row.BusinessPhone !== undefined && row.BusinessPhone.length > 4) ? row.BusinessPhone.substring(4) + "xxx" : "";
+            }
+          },
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Ext*/
+          field: 'Ext',
+          title: '@Html.DisplayNameFor(model => model.Ext)',
+          width: 120,
+          hidden: false,
+          @*editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Ext)', required: false, validType: 'length[0,20]' }
+          },*@
+          formatter: function showdetailsformatter(value, row, index) {
+            if ($role == 1 || row.Asignee == '@username' || row.CreatedBy == '@username') {
+              return row.Ext;
+            } else {
+              return "xxx";
+            }
+          },
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Email*/
+          field: 'Email',
+          title: '@Html.DisplayNameFor(model => model.Email)',
+          width: 120,
+          hidden: false,
+          @*editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Email)', required: false, validType: 'length[0,50]' }
+          },*@
+          formatter: function showdetailsformatter(value, row, index) {
+            if ($role == 1 || row.Asignee == '@username' || row.CreatedBy == '@username') {
+              return row.Email;
+            } else {
+              return (row.Email !== undefined && row.Email.length > 6) ? row.Email.substring(6) + "xxx" : "";
+            }
+          },
+          sortable: true,
+          resizable: true,
+        }
+      ]]
+    })
+      .datagrid('enableFilter', [
+      ])
+      .datagrid('load', '/Contacts/GetData');
+
+    $('#panel-contact .datagrid').css('width', '100%');
+    $('#panel-contact .datagrid-wrap').css('width', '100%');
+    $('#panel-contact .datagrid-view').css('width', '100%');
+    $('#panel-contact .datagrid-view').css('height', '400px');
+    $('#panel-contact .datagrid-view1').css('width', '155px');
+    $('#panel-contact .datagrid-view2').css('width', $dgWidth);
+  }
+  //Download ExcelImport Template
+
+  //Execute Export to download Excel
+  function exportExcelContact() {
+    const filterRules = JSON.stringify($dgContact.datagrid('options').filterRules);
+    console.log(filterRules);
+    $.messager.progress({ title: 'Please wait', msg: 'Export in progress...' });
+    let formData = new FormData();
+    formData.append('filterRules', filterRules);
+    formData.append('sort', 'Id');
+    formData.append('order', 'asc');
+    $.postDownload('/Contacts/exportExcel', formData).then(res => {
+      $.messager.progress('close');
+      toastr.success('Export successful!');
+    }).catch(err => {
+      //console.log(err);
+      $.messager.progress('close');
+      $.messager.alert('Export failed', err.statusText, 'error');
+    });
+
+  }
+  //Pop-up details Message
+  function showDetailsWindowContact(id, index) {
+    const contact = $dgContact.datagrid('getRows')[index];
+    openContactDetailWindow(contact, 'Modified');
+  }
+  function reloadContact() {
+    $dgContact.datagrid('uncheckAll');
+    $dgContact.datagrid('reload');
+  }
+  //Added records
+  function appendContact() {
+    contact = {
+      Id: null,
+      CompanyId: $comId,
+      Name: '',
+      Title: '',
+      Department: '',
+      BusinessPhone: '',
+      Ext: '',
+      Phone: '',
+      Email: '',
+      Address: '',
+      Asignee: '',
+      Source: '',
+    };
+    if (!EDITINLINEContact) {
+      //The Added window pops up
+      openContactDetailWindow(contact, 'Added');
+    } else {
+      if (endEditingContact()) {
+        //Initialize the default value for the Required field
+        $dgContact.datagrid('insertRow',
+          {
+            index: 0,
+            row: contact
+          });
+        editIndexContact = 0;
+        $dgContact.datagrid('selectRow', editIndexContact)
+          .datagrid('beginEdit', editIndexContact);
+        hook = true;
+      }
+    }
+  }
+  //Delete Edit Row
+  function removeContact() {
+    if (this.$dgContact.datagrid('getChecked').length <= 0 && EDITINLINEContact) {
+      if (editIndexContact !== undefined) {
+        const delindex = editIndexContact;
+        $dgContact.datagrid('cancelEdit', delindex)
+          .datagrid('deleteRow', delindex);
+        hook = true;
+        $("button[name*='savebutton']").prop('disabled', false);
+        $("button[name*='cancelbutton']").prop('disabled', false);
+      } else {
+        const rows = $dgContact.datagrid('getChecked');
+        rows.slice().reverse().forEach(row => {
+          const rowindex = $dgContact.datagrid('getRowIndex', row);
+          $dgContact.datagrid('deleteRow', rowindex);
+          hook = true;
+        });
+      }
+    } else {
+      deleteCheckedContact();
+    }
+  }
+  //Delete the selected row
+  function deleteCheckedContact() {
+    const checked = $dgContact.datagrid('getChecked').filter(item => item.Id != null && item.Id > 0).map(item => {
+      return item.Id;
+    });;
+    if (checked.length > 0) {
+      deleteRowsContact(checked);
+    } else {
+      $.messager.alert('Success', 'Please select the record to be deleted first!', 'question');
+    }
+  }
+  //Execute Delete
+  function deleteRowsContact(selected) {
+    $.messager.confirm('Confirm', `Are you sure you want to delete these <span class='badge badge-icon position-relative'>${selected.length} </span> rows?`, result => {
+      if (result) {
+        $.post('/Contacts/deleteChecked', { id: selected })
+          .done(response => {
+            if (response.success) {
+              toastr.error(`Successfully delete [${selected.length}] rows of records`);
+              reloadContact();
+            } else {
+              $.messager.alert('Error', response.err, 'error');
+            }
+          })
+          .fail((jqXHR, textStatus, errorThrown) => {
+            $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+          });
+      }
+    });
+  }
+  //CloseEditStatus
+  function endEditingContact() {
+
+    if (editIndexContact === undefined) {
+      return true;
+    }
+    if (this.$dgContact.datagrid('validateRow', editIndexContact)) {
+      $dgContact.datagrid('endEdit', editIndexContact);
+      return true;
+    } else {
+      const invalidinput = $('input.validatebox-invalid', $dgContact.datagrid('getPanel'));
+      const fieldnames = invalidinput.map((index, item) => {
+        return $(item).attr('placeholder') || $(item).attr('id');
+      });
+      $.messager.alert('Success', `${Array.from(fieldnames)} The input is incorrect.`, 'error');
+      return false;
+    }
+  }
+  //Submit Accept backend database
+  function acceptChangesContact() {
+    if (endEditingContact()) {
+      if ($dgContact.datagrid('getChanges').length > 0) {
+        const inserted = $dgContact.datagrid('getChanges', 'inserted').map(item => {
+          item.TrackingState = 1;
+          return item;
+        });
+        const updated = $dgContact.datagrid('getChanges', 'updated').map(item => {
+          item.TrackingState = 2
+          return item;
+        });
+        const deleted = $dgContact.datagrid('getChanges', 'deleted').map(item => {
+          item.TrackingState = 3
+          return item;
+        });
+        //Filter Deleted Duplicates
+        const changed = inserted.concat(updated.filter(item => {
+          return !deleted.includes(item);
+        })).concat(deleted);
+        //$.messager.progress({ title: 'Please wait', msg: 'Accepting data...', interval: 200 });
+        $.post('/Contacts/acceptChangess', { contacts: changed })
+          .done(response => {
+            //$.messager.progress('close');
+            //console.log(response);
+            if (response.success) {
+              toastr.success('Saved successfully');
+              $dgContact.datagrid('acceptChanges');
+              reloadContact();
+              hook = false;
+            } else {
+              $.messager.alert('Error', response.err, 'error');
+            }
+          })
+          .fail((jqXHR, textStatus, errorThrown) => {
+            //$.messager.progress('close');
+            $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+          });
+      }
+    }
+  }
+  //Enable Edit Status
+  function onClickCellContact(index, field) {
+
+    contact = $dgContact.datagrid('getRows')[index];
+    $contactId = contact.Id;
+    $contact = contact;
+    //const url = '/LeadsManage/SetContact?contactId=' + $contactId;
+    //$.get(url).done(res => {
+    //  if (res.success) {
+
+    //  } else {
+    //    $.messager.alert("Error", res.err, "error");
+    //  }
+    //});
+
+    // Project
+    showProjects();
+
+    // Activity
+    showActivities();
+
+    // Quotation
+    showQuotations();
+
+    // Sale
+    showSales();
+    const _actions = ['action', 'ck'];
+    if (!EDITINLINEContact || $.inArray(field, _actions) >= 0) {
+      return;
+    }
+
+    if (editIndexContact !== index) {
+      if (endEditingContact()) {
+        $dgContact.datagrid('selectRow', index)
+          .datagrid('beginEdit', index);
+        hook = true;
+        editIndexContact = index;
+        const ed = $dgContact.datagrid('getEditor', { index: index, field: field });
+        if (ed) {
+          ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+        }
+      } else {
+        $dgContact.datagrid('selectRow', editIndexContact);
+      }
+    }
+  }
+  function rejectChangesContact() {
+    $dgContact.datagrid('rejectChanges');
+    editIndexContact = undefined;
+    hook = false;
+  }
+
+  function openContactDetailWindow(data) {
+    const contactid = (data.Id || 0);
+    console.log(data);
+    $('#contact-modal').modal('toggle');
+    $('#contact-form').jsonToForm(data)
+
+  }
+</script>

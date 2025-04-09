@@ -11,6 +11,7 @@ using MicroCrm.Service;
 using MicroCrm.WebUI.Extensions;
 using URF.Core.Abstractions;
 using System.Linq.Dynamic.Core;
+using Newtonsoft.Json;
 
 namespace MicroCrm.WebUI.Controllers
 {
@@ -71,6 +72,21 @@ namespace MicroCrm.WebUI.Controllers
       catch(Exception e) {
         throw e;
         }
+
+    }
+    //data source
+    public async Task<JsonResult> GetById(int id)
+    {
+      try
+      {
+        var result = companyService.Queryable().FirstOrDefault(e => e.Id.Equals(id));
+
+        return Json(new { success = true, result = JsonConvert.SerializeObject(result) });
+      }
+      catch (Exception e)
+      {
+        return Json(new { success = false, err = e.Message });
+      }
 
     }
     //Edit 

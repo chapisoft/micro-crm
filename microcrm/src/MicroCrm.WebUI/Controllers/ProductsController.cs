@@ -146,6 +146,10 @@ namespace MicroCrm.WebUI.Controllers
         try
         {
           product.Id = 0;
+          product.CreatedDate = DateTime.Now;
+          product.CreatedBy = ViewBag.User;
+          product.LastModifiedDate = DateTime.Now;
+          product.LastModifiedBy = ViewBag.User;
           _productService.Insert(product);
           var result = await _unitOfWork.SaveChangesAsync();
 

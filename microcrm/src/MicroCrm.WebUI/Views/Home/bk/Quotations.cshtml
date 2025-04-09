@@ -1,0 +1,510 @@
+﻿@model MicroCrm.Domain.Models.Quotation
+@{
+    Layout = null;
+    var role = (string)ViewBag.Role;
+    string username = (string)ViewBag.User;
+}
+<div class="row">
+  <div class="col-lg-12 col-xl-12">
+    <div id="panel-quotation" class="panel">
+      <div class="panel-container enable-loader show">
+        <div class="loader"><i class="fal fa-spinner-third fa-spin-4x fs-xxl"></i></div>
+        <div class="panel-content">
+          <div class="table-responsive">
+            <table id="quotations_datagrid">
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<partial name="AqDetails" />
+
+
+@await Component.InvokeAsync("ImportExcel", new ImportExcelOptions
+{
+  entity = "Quotation",
+  folder = "Quotations",
+  url = "/Quotations",
+  tpl = "Quotation.xlsx"
+})
+
+<script>
+
+  function showQuotations(id) {
+    $comId = id;
+    $dgQuotation.datagrid({
+      rownumbers: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'desc',
+      remoteFilter: true,
+      singleSelect: true,
+      method: 'post',
+      onClickCell: (index, field) => {
+        onClickCellQuotation(index, field);
+      },
+      clientPaging: false,
+      pagination: true,
+      striped: true,
+      //width: 1000,
+      height: 400,
+      pageSize: 10,
+      pageList: [10, 20, 50],
+      //filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + $comId + "" }, { "field": "ContactId", "op": "equal", "value": "" + $contactId + "" }],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + ($showDetail == 1 ? $comId : 0) + "" }],
+      onBeforeload: function () {
+        $('.enable-loader').removeClass('enable-loader')
+      },
+      onLoadSuccess: function (data) {
+        editIndexQuotation = undefined;
+        $("button[name*='deletebutton']").prop('disabled', true);
+        $("button[name*='savebutton']").prop('disabled', true);
+        $("button[name*='cancelbutton']").prop('disabled', true);
+      },
+      onCheckAll: function (rows) {
+        if (rows.length > 0) {
+          $("button[name*='deletebutton']").prop('disabled', false);
+        }
+      },
+      onUncheckAll: function () {
+        $("button[name*='deletebutton']").prop('disabled', true);
+      },
+      onCheck: function () {
+        $("button[name*='deletebutton']").prop('disabled', false);
+      },
+      onUncheck: function () {
+        const checked = $(this).datagrid('getChecked').length > 0;
+        $("button[name*='deletebutton']").prop('disabled', !checked);
+      },
+      onSelect: function (index, row) {
+        quotation = row;
+      },
+      onBeginEdit: function (index, row) {
+        //const editors = $(this).datagrid('getEditors', index);
+
+      },
+      onEndEdit: function (index, row) {
+        editIndexQuotation = undefined;
+      },
+      onBeforeEdit: function (index, row) {
+        editIndexQuotation = index;
+        row.editing = true;
+        $("button[name*='deletebutton']").prop('disabled', false);
+        $("button[name*='cancelbutton']").prop('disabled', false);
+        $("button[name*='savebutton']").prop('disabled', false);
+        $(this).datagrid('refreshRow', index);
+      },
+      onAfterEdit: function (index, row) {
+        row.editing = false;
+        editIndexQuotation = undefined;
+        $(this).datagrid('refreshRow', index);
+      },
+      onCancelEdit: function (index, row) {
+        row.editing = false;
+        editIndexQuotation = undefined;
+        $("button[name*='deletebutton']").prop('disabled', true);
+        $("button[name*='savebutton']").prop('disabled', true);
+        $("button[name*='cancelbutton']").prop('disabled', true);
+        $(this).datagrid('refreshRow', index);
+      },
+      columns: [[
+        @*{ field: 'ck', checkbox: true },
+        {
+          field: 'action',
+          title: 'Operate',
+          width: 80,
+          sortable: false,
+          resizable: true,
+          formatter: function showdetailsformatter(value, row, index) {
+            if (!row.editing && ($role == 1 || row.Asignee == '@username' || row.CreatedBy == '@username')) {
+              return `<div class="btn-group">\
+                            <button onclick="showDetailsWindowQuotation('${row.Id}',  ${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="View Details" ><i class="fal fa-edit"></i> </button>\
+                            <button onclick="deleteRowsQuotation(['${row.Id}'],${index})" class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" title="Delete Record" ><i class="fal fa-times"></i> </button>\
+                      </div>`;
+            } else {
+              return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
+            }
+          }
+        },*@
+        {    /*Code*/
+          field: 'Id',
+          title: 'Code',
+          width: 100,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Id)' }
+          },
+          formatter: function showdetailsformatter(value, row, index) {
+            return "QVAD-" + row.Id;
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*Name*/
+          field: 'Name',
+          title: '@Html.DisplayNameFor(model => model.Name)',
+          width: 200,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Name)', required: true, validType: 'length[0,128]' }
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*Title*/
+          field: 'Title',
+          title: '@Html.DisplayNameFor(model => model.Title)',
+          width: 250,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Title)', required: true, validType: 'length[0,128]' }
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*StartDate*/
+          field: 'StartDate',
+          title: '@Html.DisplayNameFor(model => model.StartDate)',
+          width: 120,
+          align: 'right',
+          hidden: false,
+          editor: {
+            type: 'datebox',
+            options: { prompt: '@Html.DescriptionFor(model => model.StartDate)', required: false }
+          },
+          formatter: dateformatter,
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*EndDate*/
+          field: 'EndDate',
+          title: '@Html.DisplayNameFor(model => model.EndDate)',
+          width: 120,
+          align: 'right',
+          hidden: false,
+          editor: {
+            type: 'datebox',
+            options: { prompt: '@Html.DescriptionFor(model => model.EndDate)', required: false }
+          },
+          formatter: dateformatter,
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Amount*/
+          field: 'Amount',
+          title: '@Html.DisplayNameFor(model => model.Amount)',
+          width: 150,
+          align: 'right',
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Amount)', required: false}
+          },
+          formatter: numberformatter,
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Note*/
+          field: 'Note',
+          title: '@Html.DisplayNameFor(model => model.Note)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Note)', required: false, validType: 'length[0,250]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Status*/
+          field: 'Status',
+          title: '@Html.DisplayNameFor(model => model.Status)',
+          width: 120,
+          hidden: false,
+          @*editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Status)', required: false, validType: 'length[0,20]' }
+          },*@
+          sortable: true,
+          resizable: true,
+          formatter: function (value, row, index) {
+            if (row.Status == 0) {
+              return "Pending"
+            }
+            else if (row.Status == 1) {
+              return "On - going"
+            }
+            else if (row.Status == 2) {
+              return "LOST"
+            }
+            else if (row.Channel == 3) {
+              return "SUBMIT"
+            }
+            else {
+              return "SOLD"
+            }
+
+          }
+        },
+        {    /*ApprovedBy*/
+          field: 'ApprovedBy',
+          title: '@Html.DisplayNameFor(model => model.ApprovedBy)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.ApprovedBy)', required: false, validType: 'length[0,20]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        }
+      ]]
+    })
+      .datagrid('enableFilter', [
+      ])
+      .datagrid('load', '/Quotations/GetData');
+
+    $('#panel-quotation .datagrid').css('width', '100%');
+    $('#panel-quotation .datagrid-wrap').css('width', '100%');
+    $('#panel-quotation .datagrid-view').css('width', '100%');
+    $('#panel-quotation .datagrid-view').css('height', '400px');
+    $('#panel-quotation .datagrid-view1').css('width', '185px');
+    $('#panel-quotation .datagrid-view2').css('width', $dgWidth);
+
+    closeAqDetail()
+  }
+  //Download ExcelImport Template
+
+  //Execute Export to download Excel
+  function exportExcelQuotation() {
+    const filterRules = JSON.stringify($dgQuotation.datagrid('options').filterRules);
+    console.log(filterRules);
+    $.messager.progress({ title: 'Please wait', msg: 'Export in progress...' });
+    let formData = new FormData();
+    formData.append('filterRules', filterRules);
+    formData.append('sort', 'Id');
+    formData.append('order', 'asc');
+    $.postDownload('/Quotations/exportExcel', formData).then(res => {
+      $.messager.progress('close');
+      toastr.success('Export successful!');
+    }).catch(err => {
+      //console.log(err);
+      $.messager.progress('close');
+      $.messager.alert('Export failed', err.statusText, 'error');
+    });
+
+  }
+  //Pop-up details Message
+  function showDetailsWindowQuotation(id, index) {
+    const quotation = $dgQuotation.datagrid('getRows')[index];
+    openQuotationDetailWindow(quotation, 'Modified');
+  }
+  //Pop-up details Message
+  function showAqDetail(index) {
+    const quotation = $dgQuotation.datagrid('getRows')[index];
+    openAqDetailWindow(quotation, 'Modified');
+  }
+  function reloadQuotation() {
+    $dgQuotation.datagrid('uncheckAll');
+    $dgQuotation.datagrid('reload');
+  }
+  //Added records
+  function appendQuotation() {
+    quotation = {
+      Id: null,
+      Name: '',
+      PhoneNumber: '',
+      Quotation: '',
+      Address: '-'
+    };
+    if (!EDITINLINEQuotation) {
+      //The Added window pops up
+      openQuotationDetailWindow(quotation, 'Added');
+    } else {
+      if (endEditingQuotation()) {
+        //Initialize the default value for the Required field
+        $dgQuotation.datagrid('insertRow',
+          {
+            index: 0,
+            row: quotation
+          });
+        editIndexQuotation = 0;
+        $dgQuotation.datagrid('selectRow', editIndexQuotation)
+          .datagrid('beginEdit', editIndexQuotation);
+        hook = true;
+      }
+    }
+  }
+  //Delete Edit Row
+  function removeQuotation() {
+    if (this.$dgQuotation.datagrid('getChecked').length <= 0 && EDITINLINEQuotation) {
+      if (editIndexQuotation !== undefined) {
+        const delindex = editIndexQuotation;
+        $dgQuotation.datagrid('cancelEdit', delindex)
+          .datagrid('deleteRow', delindex);
+        hook = true;
+        $("button[name*='savebutton']").prop('disabled', false);
+        $("button[name*='cancelbutton']").prop('disabled', false);
+      } else {
+        const rows = $dgQuotation.datagrid('getChecked');
+        rows.slice().reverse().forEach(row => {
+          const rowindex = $dgQuotation.datagrid('getRowIndex', row);
+          $dgQuotation.datagrid('deleteRow', rowindex);
+          hook = true;
+        });
+      }
+    } else {
+      deleteCheckedQuotation();
+    }
+  }
+  //Delete the selected row
+  function deleteCheckedQuotation() {
+    const checked = $dgQuotation.datagrid('getChecked').filter(item => item.Id != null && item.Id > 0).map(item => {
+      return item.Id;
+    });;
+    if (checked.length > 0) {
+      deleteRowsQuotation(checked);
+    } else {
+      $.messager.alert('Success', 'Please select the record to be deleted first!', 'question');
+    }
+  }
+  //Execute Delete
+  function deleteRowsQuotation(selected) {
+    $.messager.confirm('Confirm', `Are you sure you want to delete these <span class='badge badge-icon position-relative'>${selected.length} </span> rows?`, result => {
+      if (result) {
+        $.post('/Quotations/deleteChecked', { id: selected })
+          .done(response => {
+            if (response.success) {
+              toastr.error(`Successfully delete [${selected.length}] rows of records`);
+              reloadQuotation();
+            } else {
+              $.messager.alert('Error', response.err, 'error');
+            }
+          })
+          .fail((jqXHR, textStatus, errorThrown) => {
+            $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+          });
+      }
+    });
+  }
+  //CloseEditStatus
+  function endEditingQuotation() {
+
+    if (editIndexQuotation === undefined) {
+      return true;
+    }
+    if (this.$dgQuotation.datagrid('validateRow', editIndexQuotation)) {
+      $dgQuotation.datagrid('endEdit', editIndexQuotation);
+      return true;
+    } else {
+      const invalidinput = $('input.validatebox-invalid', $dgQuotation.datagrid('getPanel'));
+      const fieldnames = invalidinput.map((index, item) => {
+        return $(item).attr('placeholder') || $(item).attr('id');
+      });
+      $.messager.alert('Success', `${Array.from(fieldnames)} The input is incorrect.`, 'error');
+      return false;
+    }
+  }
+  //Submit Accept backend database
+  function acceptChangesQuotation() {
+    if (endEditingQuotation()) {
+      if ($dgQuotation.datagrid('getChanges').length > 0) {
+        const inserted = $dgQuotation.datagrid('getChanges', 'inserted').map(item => {
+          item.TrackingState = 1;
+          return item;
+        });
+        const updated = $dgQuotation.datagrid('getChanges', 'updated').map(item => {
+          item.TrackingState = 2
+          return item;
+        });
+        const deleted = $dgQuotation.datagrid('getChanges', 'deleted').map(item => {
+          item.TrackingState = 3
+          return item;
+        });
+        //Filter Deleted Duplicates
+        const changed = inserted.concat(updated.filter(item => {
+          return !deleted.includes(item);
+        })).concat(deleted);
+        //$.messager.progress({ title: 'Please wait', msg: 'Accepting data...', interval: 200 });
+        $.post('/Quotations/acceptChanges', { quotations: changed })
+          .done(response => {
+            //$.messager.progress('close');
+            //console.log(response);
+            if (response.success) {
+              toastr.success('Saved successfully');
+              $dgQuotation.datagrid('acceptChanges');
+              reloadQuotation();
+              hook = false;
+            } else {
+              $.messager.alert('Error', response.err, 'error');
+            }
+          })
+          .fail((jqXHR, textStatus, errorThrown) => {
+            //$.messager.progress('close');
+            $.messager.alert('Error', `${jqXHR.status}: ${jqXHR.statusText} `, 'error');
+          });
+      }
+    }
+  }
+  //Enable Edit Status
+  function onClickCellQuotation(index, field) {
+
+    showAqDetail(index);
+
+    quotation = $dgQuotation.datagrid('getRows')[index];
+    const _actions = ['action', 'ck'];
+    if (!EDITINLINEQuotation || $.inArray(field, _actions) >= 0) {
+      return;
+    }
+
+    if (editIndexQuotation !== index) {
+      if (endEditingQuotation()) {
+        $dgQuotation.datagrid('selectRow', index)
+          .datagrid('beginEdit', index);
+        hook = true;
+        editIndexQuotation = index;
+        const ed = $dgQuotation.datagrid('getEditor', { index: index, field: field });
+        if (ed) {
+          ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+        }
+      } else {
+        $dgQuotation.datagrid('selectRow', editIndexQuotation);
+      }
+    }
+  }
+  function rejectChangesQuotation() {
+    $dgQuotation.datagrid('rejectChanges');
+    editIndexQuotation = undefined;
+    hook = false;
+  }
+
+  function openQuotationDetailWindow(data) {
+    $('#quotation-modal').modal('toggle');
+    //$('#quotation-form').jsonToForm(data)
+    $.ajax({
+      url: '@Url.Action("AddOrEditQuotation", "LeadsManage")',
+      type: 'GET',
+      cache: false,
+      data: { id: data.Id }
+    }).done(function (result) {
+      $('#panel-quotation-detail').html(result);
+    });
+  }
+  function openAqDetailWindow(data) {
+    $aqId = (data.Id || 0);
+    showAqDetails();
+  }
+</script>

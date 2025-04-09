@@ -30,5 +30,12 @@ namespace MicroCrm.Application.AqDetails.Commands
     public int Subsidiary { get; set; }
     public string NameEn { get; set; }
     public string DescriptionEn { get; set; }
+    public virtual string Unit { get; set; }
+    public virtual string ImagePath { get; set; }
+    public virtual string Description { get; set; }
+    public virtual DateTime? CreatedDate { get; set; }
+    public virtual string CreatedBy { get; set; }
+    public virtual DateTime? LastModifiedDate { get; set; }
+    public virtual string LastModifiedBy { get; set; }
   }
 }

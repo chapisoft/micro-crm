@@ -151,7 +151,7 @@
               <tr>
                 <td>4</td>
                 <td>
-                  Thời gian giao hàng: @Model.Info.LeadTimeToShip
+                  Thời gian giao hàng: @Model.Info.LeadTimeToShip tháng
                 </td>
               </tr>
               <tr>
@@ -317,8 +317,8 @@ else
                   <td class="text-center">@item.Qty.ToString("N0")</td>
                   <td class="text-center">@item.Unit</td>
                   <td class="text-left">[@item.PartNo]  @item.NameEn</td>
-                  <td class="text-right">@((item.Amount/ item.Exchange).ToString("N0"))</td>
-                  <td class="text-right">@((item.Qty* (item.Amount / item.Exchange)).ToString("N0"))</td>
+                  <td class="text-right">@((item.Amount/ Model.Info.Exchange).ToString("N0"))</td>
+                  <td class="text-right">@((item.Qty* (item.Amount / (Model.Info.Exchange == 0 ? 1 : Model.Info.Exchange))).ToString("N0"))</td>
                 </tr>
               }
 
@@ -339,8 +339,8 @@ else
                     <td class="text-center">@item.Qty.ToString("N0")</td>
                     <td class="text-center">@item.Unit</td>
                     <td class="text-left">[@item.PartNo]  @item.NameEn</td>
-                    <td class="text-right">@((item.Amount / item.Exchange).ToString("N0"))</td>
-                    <td class="text-right">@((item.Qty * (item.Amount / item.Exchange)).ToString("N0"))</td>
+                    <td class="text-right">@((item.Amount / Model.Info.Exchange).ToString("N0"))</td>
+                    <td class="text-right">@((item.Qty * (item.Amount / (Model.Info.Exchange == 0 ? 1 : Model.Info.Exchange))).ToString("N0"))</td>
                   </tr>
                 }
               }
@@ -392,7 +392,7 @@ else
               <tr>
                 <td>4</td>
                 <td>
-                  Delivery time: @Model.Info.LeadTimeToShip
+                  Delivery time: @Model.Info.LeadTimeToShip months
                 </td>
               </tr>
               <tr>

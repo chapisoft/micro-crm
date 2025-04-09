@@ -60,12 +60,12 @@ namespace MicroCrm.WebUI.Controllers
           item.OtherFee = aq.OtherFee;
           item.Exchange = aq.Exchange;
           item.Amount = aq.Amount;
-          var pro = _productService.Queryable().FirstOrDefault(e => e.Id.Equals(aq.ProductId));
-          item.Description = pro.Description;
-          item.Image = pro.ImagePath;
-          item.Unit = pro.Unit;
-          item.NameEn = pro.NameEn;
-          item.DescriptionEn = pro.DescriptionEn;
+          //var pro = _productService.Queryable().FirstOrDefault(e => e.Id.Equals(aq.ProductId));
+          item.Description = aq.Description;
+          item.Image = aq.ImagePath;
+          item.Unit = aq.Unit;
+          item.NameEn = aq.NameEn;
+          item.DescriptionEn = aq.DescriptionEn;
           list.Add(item);
         }
         model.Details = list;
@@ -90,12 +90,12 @@ namespace MicroCrm.WebUI.Controllers
             item.OtherFee = aq.OtherFee;
             item.Exchange = aq.Exchange;
             item.Amount = aq.Amount;
-            var pro = _productService.Queryable().FirstOrDefault(e => e.Id.Equals(aq.ProductId));
-            item.Description = pro.Description;
-            item.Image = pro.ImagePath;
-            item.Unit = pro.Unit;
-            item.NameEn = pro.NameEn;
-            item.DescriptionEn = pro.DescriptionEn;
+            //var pro = _productService.Queryable().FirstOrDefault(e => e.Id.Equals(aq.ProductId));
+            item.Description = aq.Description;
+            item.Image = aq.ImagePath;
+            item.Unit = aq.Unit;
+            item.NameEn = aq.NameEn;
+            item.DescriptionEn = aq.DescriptionEn;
             list.Add(item);
           }
         }

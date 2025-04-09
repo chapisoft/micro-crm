@@ -213,7 +213,7 @@ namespace MicroCrm.WebUI.Controllers
                            .Select(n => new
                            {
                              Id = n.Id,
-                             Name = n.Name
+                             Name = "["+ n.Model + "] " + n.Name
                            }).ToList();
       foreach (var item in datalist1)
       {
@@ -253,7 +253,7 @@ namespace MicroCrm.WebUI.Controllers
                            .Select(n => new
                            {
                              Id = n.Id,
-                             Name = n.Name
+                             Name = "[" + n.Model + "] " + n.Name
                            }).ToList();
       foreach (var item in datalist1)
       {
@@ -317,6 +317,10 @@ namespace MicroCrm.WebUI.Controllers
     {
       try
       {
+        request.CreatedDate = DateTime.Now;
+        request.CreatedBy = ViewBag.User;
+        request.LastModifiedDate = DateTime.Now;
+        request.LastModifiedBy = ViewBag.User;
         var listDetail = _aqDetailService.Queryable().Where(e => e.QaId == request.Id).ToList();
         request.Id = 0;
         var newObj = await this.mediator.Send(request);
@@ -340,6 +344,10 @@ namespace MicroCrm.WebUI.Controllers
           detail.Remark = item.Remark;
           detail.Type = item.Type;
           detail.Subsidiary = item.Subsidiary;
+          detail.CreatedDate = DateTime.Now;
+          detail.CreatedBy = ViewBag.User;
+          detail.LastModifiedDate = DateTime.Now;
+          detail.LastModifiedBy = ViewBag.User;
 
           await this.mediator.Send(detail);
         }
@@ -357,6 +365,12 @@ namespace MicroCrm.WebUI.Controllers
     {
       try
       {
+        var pro = _productService.Queryable().FirstOrDefault(e => e.Id.Equals(request.ProductId));
+        request.Description = pro.Description;
+        request.ImagePath = pro.ImagePath;
+        request.Unit = pro.Unit;
+        request.NameEn = pro.NameEn;
+        request.DescriptionEn = pro.DescriptionEn;
         await this.mediator.Send(request);
         return Json(new { success = true });
       }

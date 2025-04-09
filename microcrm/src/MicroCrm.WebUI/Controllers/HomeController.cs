@@ -61,13 +61,43 @@ namespace MicroCrm.WebUI.Controllers
       BaseRequest request = new BaseRequest();
       request.TenantId = 1;
 
+      var role = (string)ViewBag.Role;
+
       var selectlist = new List<SelectListItem>();
+      selectlist.Add(new SelectListItem() { Text = "Mobile", Value = "0" });
+      selectlist.Add(new SelectListItem() { Text = "Chat", Value = "1" });
+      selectlist.Add(new SelectListItem() { Text = "Mail", Value = "2" });
+      selectlist.Add(new SelectListItem() { Text = "Meet", Value = "3" });
+      selectlist.Add(new SelectListItem() { Text = "Other", Value = "4" });
+      ViewBag.Channel = selectlist;
+
+      selectlist = new List<SelectListItem>();
+      selectlist.Add(new SelectListItem() { Text = "Pending", Value = "0" });
+      selectlist.Add(new SelectListItem() { Text = "On - going", Value = "1" });
+      selectlist.Add(new SelectListItem() { Text = "LOST", Value = "2" });
+      selectlist.Add(new SelectListItem() { Text = "SUBMIT", Value = "3" });
+      if (role.ToLower() == "admin")
+        selectlist.Add(new SelectListItem() { Text = "SOLD", Value = "4" });
+      ViewBag.ProjectStatus = selectlist;
+
+      selectlist = new List<SelectListItem>();
+      selectlist.Add(new SelectListItem() { Text = "Public", Value = "0" });
+      selectlist.Add(new SelectListItem() { Text = "Private", Value = "1" });
+      ViewBag.Private = selectlist;
+
+      selectlist = new List<SelectListItem>();
+      selectlist.Add(new SelectListItem() { Text = "Email", Value = "0" });
+      selectlist.Add(new SelectListItem() { Text = "Exhibition", Value = "1" });
+      selectlist.Add(new SelectListItem() { Text = "Incoming phone", Value = "2" });
+      selectlist.Add(new SelectListItem() { Text = "Website", Value = "3" });
+      selectlist.Add(new SelectListItem() { Text = "Transfer", Value = "4" });
+      ViewBag.Source = selectlist;
+
+      selectlist = new List<SelectListItem>();
       string filterRules = "";
       var filters = PredicateBuilder.FromFilter<ApplicationUser>(filterRules);
       var users = this._userManager.Users.Where(filters).OrderBy($"{"Id"}  {"desc"}");
       var datalist = users.Select(n => new { GivenName = n.GivenName, UserName = n.UserName }).ToList();
-
-      selectlist.Add(new SelectListItem() { Text = "All", Value = "All" });
       foreach (var item in datalist)
       {
         if (!item.UserName.ToLower().Equals("sa"))

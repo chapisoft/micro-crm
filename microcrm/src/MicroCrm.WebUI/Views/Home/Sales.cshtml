@@ -1,0 +1,268 @@
+﻿@model MicroCrm.Domain.Models.Project
+@{
+    Layout = null;
+    var role = (string)ViewBag.Role;
+    string username = (string)ViewBag.User;
+}
+<div class="row">
+  <div class="col-lg-12 col-xl-12">
+    <div id="panel-sale" class="panel">
+      <div class="panel-container enable-loader show">
+        <div class="loader"><i class="fal fa-spinner-third fa-spin-4x fs-xxl"></i></div>
+        <div class="panel-content py-2 rounded-bottom border-faded border-left-0 border-right-0  text-muted bg-subtlelight-fade ">
+          <div class="row no-gutters align-items-center">
+            <div class="col">
+              <div class="btn-group btn-group-sm">
+                <button onclick="reloadSale()" class="btn btn-default"> <span class="fal fa-search mr-1"></span> Search </button>
+                <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-animated">
+                  <a class="dropdown-item js-waves-on" href="javascript:void()"> My Records </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item js-waves-on" href="javascript:void()"> Customize Search </a>
+                </div>
+              </div>
+              <div class="btn-group btn-group-sm hidden-xs">
+                <button onclick="exportExcelSale()" class="btn btn-default">
+                  <span class="fal fa-file-export mr-1"></span>  Export
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-content">
+          <div class="table-responsive">
+            <table id="sales_datagrid">
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  function showSales() {
+
+    $dgSale.datagrid({
+      rownumbers: true,
+      checkOnSelect: false,
+      selectOnCheck: false,
+      idField: 'Id',
+      sortName: 'Id',
+      sortOrder: 'desc',
+      remoteFilter: true,
+      singleSelect: true,
+      method: 'post',
+      clientPaging: false,
+      pagination: true,
+      striped: true,
+      //width: 1000,
+      height: 400,
+      pageSize: 10,
+      pageList: [10, 20, 50],
+      filterRules: [{ "field": "CompanyId", "op": "equal", "value": "" + ($showDetail == 1 ? $comId : 0) + "" }, { "field": "Status", "op": "equal", "value": "4" }],
+      onBeforeloadSale: function () {
+        $('.enable-loader').removeClass('enable-loader')
+      },
+      onLoadSuccess: function (data) {
+        editIndexSale = undefined;
+        $("button[name*='deletebutton']").prop('disabled', true);
+        $("button[name*='savebutton']").prop('disabled', true);
+        $("button[name*='cancelbutton']").prop('disabled', true);
+      },
+      onCheckAll: function (rows) {
+        if (rows.length > 0) {
+          $("button[name*='deletebutton']").prop('disabled', false);
+        }
+      },
+      onUncheckAll: function () {
+        $("button[name*='deletebutton']").prop('disabled', true);
+      },
+      onCheck: function () {
+        $("button[name*='deletebutton']").prop('disabled', false);
+      },
+      onUncheck: function () {
+        const checked = $(this).datagrid('getChecked').length > 0;
+        $("button[name*='deletebutton']").prop('disabled', !checked);
+      },
+      onSelect: function (index, row) {
+        sale = row;
+      },
+      columns: [[
+        { field: 'ck', checkbox: true },
+        {
+          field: 'action',
+          title: 'Operate',
+          width: 85,
+          sortable: false,
+          resizable: true,
+          formatter: function showdetailsformatter(value, row, index) {
+            if (!row.editing) {
+              return ``;
+            } else {
+              return `<button class="btn btn-primary btn-sm btn-icon waves-effect waves-themed" disabled title="View Details"  ><i class="fal fa-edit"></i> </button>`;
+            }
+          }
+        },
+        {    /*Name*/
+          field: 'Name',
+          title: '@Html.DisplayNameFor(model => model.Name)',
+          width: 200,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Name)', required: true, validType: 'length[0,128]' }
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*Title*/
+          field: 'Title',
+          title: '@Html.DisplayNameFor(model => model.Title)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Title)', required: true, validType: 'length[0,128]' }
+          },
+          sortable: true,
+          resizable: true
+        },
+        {    /*StartDate*/
+          field: 'StartDate',
+          title: '@Html.DisplayNameFor(model => model.StartDate)',
+          width: 200,
+          hidden: false,
+          editor: {
+            type: 'datebox',
+            options: { prompt: '@Html.DescriptionFor(model => model.StartDate)', required: false, validType: 'length[0,20]' }
+          },
+          formatter: dateformatter,
+          sortable: true,
+          resizable: true
+        },
+        {    /*EndDate*/
+          field: 'EndDate',
+          title: '@Html.DisplayNameFor(model => model.EndDate)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'datebox',
+            options: { prompt: '@Html.DescriptionFor(model => model.EndDate)', required: false, validType: 'length[0,20]' }
+          },
+          formatter: dateformatter,
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Competitors*/
+          field: 'Competitors',
+          title: '@Html.DisplayNameFor(model => model.Competitors)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Competitors)', required: false, validType: 'length[0,20]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*TotalVolume*/
+          field: 'TotalVolume',
+          title: '@Html.DisplayNameFor(model => model.TotalVolume)',
+          width: 150,
+          align: 'right',
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.TotalVolume)', required: false }
+          },
+          formatter: numberformatter,
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*Note*/
+          field: 'Note',
+          title: '@Html.DisplayNameFor(model => model.Note)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.Note)', required: false, validType: 'length[0,250]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        },
+        {    /*ApprovedBy*/
+          field: 'ApprovedBy',
+          title: '@Html.DisplayNameFor(model => model.ApprovedBy)',
+          width: 120,
+          hidden: false,
+          editor: {
+            type: 'textbox',
+            options: { prompt: '@Html.DescriptionFor(model => model.ApprovedBy)', required: false, validType: 'length[0,20]' }
+          },
+          sortable: true,
+          resizable: true,
+
+        }
+      ]]
+    })
+      .datagrid('enableFilter', [
+      ])
+      .datagrid('load', '/Projects/GetData');
+
+    $('#panel-sale .datagrid').css('width', '100%');
+    $('#panel-sale .datagrid-wrap').css('width', '100%');
+    $('#panel-sale .datagrid-view').css('width', '100%');
+    $('#panel-sale .datagrid-view').css('height', '400px');
+    $('#panel-sale .datagrid-view1').css('width', '155px');
+    $('#panel-sale .datagrid-view2').css('width', $dgWidth - 250);
+
+    closeAqDetail()
+  }
+  //Download ExcelImport Template
+
+  //Execute Export to download Excel
+  function exportExcelSale() {
+    const filterRules = JSON.stringify($dgSale.datagrid('options').filterRules);
+    console.log(filterRules);
+    $.messager.progress({ title: 'Please wait', msg: 'Export in progress...' });
+    let formData = new FormData();
+    formData.append('filterRules', filterRules);
+    formData.append('sort', 'Id');
+    formData.append('order', 'asc');
+    $.postDownload('/Projects/exportExcel', formData).then(res => {
+      $.messager.progress('close');
+      toastr.success('Export successful!');
+    }).catch(err => {
+      //console.log(err);
+      $.messager.progress('close');
+      $.messager.alert('Export failed', err.statusText, 'error');
+    });
+
+  }
+  //Pop-up details Message
+  function showDetailsWindowSale(id, index) {
+    const sale = $dgSale.datagrid('getRows')[index];
+    openSaleDetailWindow(sale, 'Modified');
+  }
+  function reloadSale() {
+    $dgSale.datagrid('uncheckAll');
+    $dgSale.datagrid('reload');
+  }
+
+  function openSaleDetailWindow(data) {
+    const saleid = (data.Id || 0);
+    console.log(data);
+    $('#sale-modal').modal('toggle');
+    $('#sale-form').jsonToForm(data)
+
+  }
+</script>

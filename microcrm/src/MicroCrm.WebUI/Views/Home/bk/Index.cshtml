@@ -6,16 +6,11 @@
   var role = (string)ViewBag.Role;
   string username = (string)ViewBag.User;
 }
-@*@section HeadBlock {
+@section HeadBlock {
   <link rel="stylesheet" media="screen, print" href="~/css/miscellaneous/reactions/reactions.css">
   <link rel="stylesheet" media="screen, print" href="~/css/miscellaneous/fullcalendar/fullcalendar.bundle.css">
   <link rel="stylesheet" media="screen, print" href="~/css/miscellaneous/jqvmap/jqvmap.bundle.css">
-}*@
-<style>
-  .datagrid-body .datagrid-cell, .datagrid-footer .datagrid-cell {
-    text-wrap: wrap;
-  }
-</style>
+}
 <div class="subheader">
   <partial name="_PageHeading" />
 </div>
@@ -145,7 +140,7 @@
 </div>
 
 
-<!--Lead Modal -->
+<!--Quotation Edit Modal -->
 <div class="modal fade" id="companydetailwindow" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -256,7 +251,6 @@
   <script src="~/js/dependency/moment/moment.js"></script>
   <script src="~/js/statistics/easypiechart/easypiechart.bundle.js"></script>
   <script src="~/js/statistics/flot/flot.bundle.js"></script>
-
   <script>
     var $dgWidth = 0;
     var $comId = 0;
@@ -486,6 +480,7 @@
             });
 
             var strActivity = '';
+            console.log($dashboardData.StatisticActivity);
             $.each($dashboardData.StatisticActivity, function (i, item) {
               strActivity += '<tr onClick="showDetailCompany(' + item.CompanyId + ')">'
                 + ' <td scope="row">' + (i + 1) + '</td>'
@@ -519,6 +514,7 @@
         data: { username: asignee, times: times }
       }).done(function (result) {
         var strActivity = '';
+        console.log(result);
         $.each(result.activity, function (i, item) {
           strActivity += '<tr onClick="showDetailCompany(' + item.CompanyId + ')">'
             + ' <td scope="row">' + (i + 1) + '</td>'
@@ -551,6 +547,8 @@
             else
                 $showDetail = 0;
               $showDetail = 1;
+              console.log($comId);
+              console.log($showDetail);
               // Contact
               showContacts();
 

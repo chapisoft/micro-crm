@@ -1,0 +1,150 @@
+﻿@model MicroCrm.Domain.Models.Quotation
+@{
+  Layout = null;
+}
+
+<form id="quotation-form" class="needs-validation" asp-action="AddOrEdit" novalidate>
+  <div class="panel-content">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="form-row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="ContactId">  </label>
+        @Html.DropDownList("ContactId", (IEnumerable<SelectListItem>)ViewBag.Contacts, new { @class = "form-control", required = "required" })
+        <div class="invalid-feedback" asp-validation-for="ContactId">
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="Name">  </label>
+        <input type="text" class="form-control" asp-for="Name" required maxlength="150">
+        <div class="invalid-feedback" asp-validation-for="Name">
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label" asp-for="Title">  </label>
+        <input type="text" class="form-control" asp-for="Title" maxlength="128">
+        <div class="invalid-feedback" asp-validation-for="Title">
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="Department">  </label>
+        <input type="text" class="form-control" asp-for="Department" maxlength="128">
+        <div class="invalid-feedback" asp-validation-for="Department">
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="BusinessPhone">  </label>
+        <input type="text" class="form-control" asp-for="BusinessPhone" maxlength="20">
+        <div class="invalid-feedback" asp-validation-for="BusinessPhone">
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="Ext">  </label>
+        <input type="text" class="form-control" asp-for="Ext" maxlength="5">
+        <div class="invalid-feedback" asp-validation-for="Ext">
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="Phone">  </label>
+        <input type="text" class="form-control" asp-for="Phone" maxlength="20">
+        <div class="invalid-feedback" asp-validation-for="Phone">
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="Email">  </label>
+        <input type="text" class="form-control" asp-for="Email" maxlength="120">
+        <div class="invalid-feedback" asp-validation-for="Email">
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="Amount">  </label>
+        <input type="text" class="form-control" asp-for="Amount" maxlength="20">
+        <div class="invalid-feedback" asp-validation-for="Amount">
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="Status">  </label>
+        @Html.DropDownList("Status", (IEnumerable<SelectListItem>)ViewBag.ProjectStatus, new { @class = "form-control", required = "required" })
+        <div class="invalid-feedback" asp-validation-for="Status">
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="ApprovedBy">  </label>
+        <input type="text" class="form-control" disabled asp-for="ApprovedBy">
+        <div class="invalid-feedback" asp-validation-for="ApprovedBy">
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="StartDate">  </label>
+        <input type="text" class="easyui-datebox" asp-for="StartDate" maxlength="20">
+        <div class="invalid-feedback" asp-validation-for="StartDate">
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <label class="form-label" asp-for="EndDate">  </label>
+        <input type="text" class="easyui-datebox" asp-for="EndDate" maxlength="20">
+        <div class="invalid-feedback" asp-validation-for="EndDate">
+        </div>
+      </div>
+
+      <div class="col-md-12 mb-3">
+        <label class="form-label" asp-for="Note">  </label>
+        <input type="text" class="form-control" asp-for="Note" maxlength="250">
+        <div class="invalid-feedback" asp-validation-for="Note">
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="panel-content border-faded border-left-0 border-right-0 border-bottom-0 d-flex flex-row align-items-center p-2">
+    <button class="btn btn-primary ml-auto" type="submit">Submit</button>
+  </div>
+</form>
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function () {
+    'use strict';
+    window.addEventListener('load', function () {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = $('#quotation-form');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          } else {
+            event.preventDefault();
+            event.stopPropagation();
+            var request = $('#quotation-form').serializeJSON();
+            console.log(request)
+            $.post('/Quotations/AddOrEdit', {
+              __RequestVerificationToken: request.__RequestVerificationToken,
+              request
+            }).done(res => {
+              if (res.success) {
+                $('#quotation-modal').modal('toggle');
+                reloadQuotation();
+                toastr.success("Saved successfully");
+              }
+              else {
+                //$.messager.alert('Error', res.err)
+              }
+            });
+
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+
+</script>
+
+

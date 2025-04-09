@@ -103,6 +103,13 @@ namespace MicroCrm.Domain.Models
     public virtual string NameEn { get; set; }
     [Display(Name = "Description En", Description = "Description En", Prompt = "Description En")]
     public virtual string DescriptionEn { get; set; }
+    [Display(Name = "Unit", Description = "Unit", Prompt = "Unit")]
+    [MaxLength(10)]
+    public virtual string Unit { get; set; }
+    [Display(Name = "ImagePath", Description = "ImagePath", Prompt = "ImagePath")]
+    public virtual string ImagePath { get; set; }
+    [Display(Name = "Description", Description = "Description", Prompt = "Description")]
+    public virtual string Description { get; set; }
 
     ////关联OrderId表头
     //[ForeignKey("OrderId")]
